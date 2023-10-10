@@ -7,8 +7,8 @@
 3. git clone (repository code 주소) / 예: git clone https://github.com/gamnyan/final_project.git
 4. cd final_project
 5. git branch (새 브랜치 이름) / 예: git branch yh
-6. git checkout (5번에 만든 브랜치 이름) / 예: git checkout yh
-(5+6. git checkout -b (새 브랜치 이름) / 예: git checkout -b yh)
+6. git checkout -b (5번에 만든 브랜치 이름) / 예: git checkout yh
+   (5+6. git checkout -b (새 브랜치 이름) / 예: git checkout -b yh)
 7. code .
 
 작업 후
