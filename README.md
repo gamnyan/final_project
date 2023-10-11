@@ -18,9 +18,32 @@ git checkout -b xx
 code .
 ```
 
+### 작업 전&중(작업중인 소스 업데이트 필요)
+
+* ***Git Bash***에 밑에 코드 입력(경로는 /final_project)
+```
+git add .
+```
+> 👇 xx = 코맨트
+```
+git commit -m "xx"
+```
+```
+git pull origin sub
+```
+
 ### 작업 후
 
-1. git add .
-2. git commit -m "message"
-3. git push origin (작업 전 만든 브랜치 이름) / 예: git push origin yh
-4. 깃허브에서 Pull requests 후 merge
+* ***Git Bash***에 밑에 코드 입력
+```
+git add .
+```
+> 👇 xx = 코맨트
+```
+git commit -m "xx"
+```
+> 👇 xx = 작업하던 branch 이름
+```
+git push origin xx
+```
+* 깃허브에서 Pull requests 후 merge
