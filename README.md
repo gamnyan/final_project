@@ -2,7 +2,7 @@
 
 작업 전 세팅
 
-1. CMD
+1. GIT BASH(저장할 경로에서 우클릭해서 켜도 됨)
 2. cd (repository 가져올 경로)
 3. git clone (repository code 주소) / 예: git clone https://github.com/gamnyan/final_project.git
 4. cd final_project
