@@ -12,15 +12,29 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import Stack from "@mui/material/Stack";
+import SvgIcon from "@mui/material/SvgIcon";
+// import AdbIcon from "@mui/icons-material/Adb";
 
 import AuthContext from "../../Store/Auth-context";
 
-const pages = ["Community", "Picture"];
-const settings = ["Profile", "Logout"];
+function HomeIcon(props) {
+   return (
+      <SvgIcon {...props}>
+         <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </SvgIcon>
+   );
+}
+
+const pages = ["커뮤니티", "사진첩"];
+const pagesTo = ["community", "picture"];
+const settings = ["마이페이지", "로그아웃"];
+const settingsTo = ["profile", "toggleLogoutHandler"];
 
 const MainNavigation = () => {
    const authCtx = useContext(AuthContext);
+   const [anchorElNav, setAnchorElNav] = useState(null);
+   const [anchorElUser, setAnchorElUser] = useState(null);
    const [nickname, setNickname] = useState("");
    let isLogin = authCtx.isLoggedIn;
    let isGet = authCtx.isGetSuccess;
@@ -29,47 +43,52 @@ const MainNavigation = () => {
       setNickname(str);
    };
 
+   const handleOpenNavMenu = event => {
+      setAnchorElNav(event.currentTarget);
+   };
+   const handleOpenUserMenu = event => {
+      setAnchorElUser(event.currentTarget);
+   };
+
+   const handleCloseNavMenu = () => {
+      setAnchorElNav(null);
+   };
+
+   const handleCloseUserMenu = () => {
+      setAnchorElUser(null);
+   };
+
    useEffect(() => {
       if (isLogin) {
          console.log("start");
          authCtx.getUser();
       }
-   }, [isLogin, authCtx]);
+   }, [isLogin]);
 
    useEffect(() => {
       if (isGet) {
          console.log("get start");
          callback(authCtx.userObj.nickname);
       }
-   }, [isGet, authCtx]);
+   }, [isGet]);
 
    const toggleLogoutHandler = () => {
       authCtx.logout();
    };
 
    return (
-      //   <header>
-      //      <Link to="/">
-      //         <div>Home</div>
-      //      </Link>
-      //      <nav>
-      //         <ul>
-      //            <li>{!isLogin && <Link to="/login">Login</Link>}</li>
-      //            <li>{!isLogin && <Link to="signup">Sign-Up</Link>}</li>
-      //            <li>{isLogin && <Link to="/profile">{nickname}</Link>}</li>
-      //            <li>{isLogin && <button onClick={toggleLogoutHandler}>Logout</button>}</li>
-      //         </ul>
-      //      </nav>
-      //  </header>
       <AppBar position="static">
          <Container maxWidth="xl">
             <Toolbar disableGutters>
-               <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+               <Stack direction="row" spacing={3}>
+                  <HomeIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+               </Stack>
+               {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
                <Typography
                   variant="h6"
                   noWrap
                   component="a"
-                  href="#app-bar-with-responsive-menu"
+                  href="/"
                   sx={{
                      mr: 2,
                      display: { xs: "none", md: "flex" },
@@ -79,22 +98,21 @@ const MainNavigation = () => {
                      color: "inherit",
                      textDecoration: "none",
                   }}>
-                  LOGO
+                  COW모임
                </Typography>
-
                <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
                   <IconButton
                      size="large"
                      aria-label="account of current user"
                      aria-controls="menu-appbar"
                      aria-haspopup="true"
-                     // onClick={handleOpenNavMenu}
+                     onClick={handleOpenNavMenu}
                      color="inherit">
                      <MenuIcon />
                   </IconButton>
                   <Menu
                      id="menu-appbar"
-                     // anchorEl={anchorElNav}
+                     anchorEl={anchorElNav}
                      anchorOrigin={{
                         vertical: "bottom",
                         horizontal: "left",
@@ -104,22 +122,28 @@ const MainNavigation = () => {
                         vertical: "top",
                         horizontal: "left",
                      }}
-                     // open={Boolean(anchorElNav)}
-                     // onClose={handleCloseNavMenu}
+                     open={Boolean(anchorElNav)}
+                     onClose={handleCloseNavMenu}
                      sx={{
                         display: { xs: "block", md: "none" },
                      }}>
                      {pages.map(page => (
-                        <MenuItem
-                           key={page}
-                           // onClick={handleCloseNavMenu}
-                        >
-                           <Typography textAlign="center">{page}</Typography>
+                        <MenuItem key={page} itemRef={`/${pagesTo[pages.indexOf(page)]}`} onClick={handleCloseNavMenu}>
+                           <Typography
+                              sx={{ textDecoration: "none", textAlign: "center", color: "inherit" }}
+                              textAlign="center"
+                              component={Link}
+                              to={`/${pagesTo[pages.indexOf(page)]}`}>
+                              {page}
+                           </Typography>
                         </MenuItem>
                      ))}
                   </Menu>
                </Box>
-               <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+               <Stack direction="row" spacing={3}>
+                  <HomeIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+               </Stack>
+               {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
                <Typography
                   variant="h5"
                   noWrap
@@ -135,31 +159,44 @@ const MainNavigation = () => {
                      color: "inherit",
                      textDecoration: "none",
                   }}>
-                  LOGO
+                  COW모임
                </Typography>
                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                   {pages.map(page => (
                      <Button
                         key={page}
-                        // onClick={handleCloseNavMenu}
+                        onClick={handleCloseNavMenu}
+                        href={`/${pagesTo[pages.indexOf(page)]}`}
                         sx={{ my: 2, color: "white", display: "block" }}>
                         {page}
                      </Button>
                   ))}
                </Box>
-
                <Box sx={{ flexGrow: 0 }}>
-                  <Tooltip title="Open settings">
-                     <IconButton
-                        //  onClick={handleOpenUserMenu}
-                        sx={{ p: 0 }}>
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                     </IconButton>
-                  </Tooltip>
+                  {isLogin ? (
+                     <Tooltip title="Open settings">
+                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                           <Avatar
+                              alt="Remy Sharp"
+                              //  src="/static/images/avatar/2.jpg"
+                              src="/C:/Java/Java_eclipse/workspace/final_project/picture/123.jpg"
+                           />
+                        </IconButton>
+                     </Tooltip>
+                  ) : (
+                     <>
+                        <Button component={Link} to="/login" sx={{ my: 2, color: "white", display: "block" }}>
+                           Login
+                        </Button>
+                        <Button component={Link} to="/signup" sx={{ my: 2, color: "white", display: "block" }}>
+                           Sign-Up
+                        </Button>
+                     </>
+                  )}
                   <Menu
                      sx={{ mt: "45px" }}
                      id="menu-appbar"
-                     //  anchorEl={anchorElUser}
+                     anchorEl={anchorElUser}
                      anchorOrigin={{
                         vertical: "top",
                         horizontal: "right",
@@ -169,15 +206,26 @@ const MainNavigation = () => {
                         vertical: "top",
                         horizontal: "right",
                      }}
-                     //        open={Boolean(anchorElUser)}
-                     //  onClose={handleCloseUserMenu}
-                  >
+                     open={Boolean(anchorElUser)}
+                     onClose={handleCloseUserMenu}>
                      {settings.map(setting => (
-                        <MenuItem
-                           key={setting}
-                           //  onClick={handleCloseUserMenu}
-                        >
-                           <Typography textAlign="center">{setting}</Typography>
+                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                           {setting !== "로그아웃" && (
+                              <Typography
+                                 sx={{ textDecoration: "none", textAlign: "center", color: "inherit" }}
+                                 component={Link}
+                                 to={`/${settingsTo[settings.indexOf(setting)]}`}>
+                                 {setting}
+                              </Typography>
+                           )}
+                           {setting === "로그아웃" && (
+                              <Typography
+                                 sx={{ textDecoration: "none", textAlign: "center", color: "inherit" }}
+                                 component={Button}
+                                 onClick={toggleLogoutHandler}>
+                                 {setting}
+                              </Typography>
+                           )}
                         </MenuItem>
                      ))}
                   </Menu>
