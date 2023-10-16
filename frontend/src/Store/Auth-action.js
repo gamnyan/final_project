@@ -1,29 +1,29 @@
 import { GET, POST } from "./Fetch-auth-action";
 
 /** 토큰 만드는 함수, 내부에서만 사용 */
-const createTokenHeader = (token) => {
-  return {
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  };
+const createTokenHeader = token => {
+   return {
+      headers: {
+         Authorization: "Bearer " + token,
+      },
+   };
 };
 
 /** 토큰 만요시간 계산하는 함수, 내부에서만 사용 */
-const calculateRemainingTime = (expirationTime) => {
-  const currentTime = new Date().getTime();
-  const adjExpirationTime = new Date(expirationTime).getTime();
-  const remainingDuration = adjExpirationTime - currentTime;
-  return remainingDuration;
+const calculateRemainingTime = expirationTime => {
+   const currentTime = new Date().getTime();
+   const adjExpirationTime = new Date(expirationTime).getTime();
+   const remainingDuration = adjExpirationTime - currentTime;
+   return remainingDuration;
 };
 
 /** 토큰값과 만료시간을 부여받아서 localStorage 내부에 저장, 남은 시간 반환 */
 export const loginTokenHandler = (token, expirationTime) => {
-  localStorage.setItem("token", token);
-  localStorage.setItem("expirationTime", String(expirationTime));
+   localStorage.setItem("token", token);
+   localStorage.setItem("expirationTime", String(expirationTime));
 
-  const remainingTime = calculateRemainingTime(expirationTime);
-  return remainingTime;
+   const remainingTime = calculateRemainingTime(expirationTime);
+   return remainingTime;
 };
 
 /** localStorage 내부에 토큰이 존재하는지 검색
@@ -31,21 +31,21 @@ export const loginTokenHandler = (token, expirationTime) => {
  *  또한 시간이 1초 아래로 남으면 자동으로 토큰 삭제
  */
 export const retrieveStoredToken = () => {
-  const storedToken = localStorage.getItem("token");
-  const storedExpirationDate = localStorage.getItem("expirationTime") || "0";
+   const storedToken = localStorage.getItem("token");
+   const storedExpirationDate = localStorage.getItem("expirationTime") || "0";
 
-  const remaingTime = calculateRemainingTime(+storedExpirationDate);
+   const remaingTime = calculateRemainingTime(+storedExpirationDate);
 
-  if (remaingTime <= 1000) {
-    localStorage.removeItem("token");
-    localStorage.removeItem("expirationTime");
-    return null;
-  }
+   if (remaingTime <= 1000) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("expirationTime");
+      return null;
+   }
 
-  return {
-    token: storedToken,
-    duration: remaingTime,
-  };
+   return {
+      token: storedToken,
+      duration: remaingTime,
+   };
 };
 
 /** 회원가입 URL로 POST 방식으로 호출하는 함수
@@ -53,48 +53,48 @@ export const retrieveStoredToken = () => {
  *  반환 타입은 Promise<AxiosResponse<any, any> | null>
  */
 export const signupActionHandler = (email, password, nickname) => {
-  const URL = "/auth/signup";
-  const signupObject = { email, password, nickname };
+   const URL = "/auth/signup";
+   const signupObject = { email, password, nickname };
 
-  const response = POST(URL, signupObject, {});
-  return response;
+   const response = POST(URL, signupObject, {});
+   return response;
 };
 
 /** 로그인 URL을 POST 방식으로 호출 */
 export const loginActionHandler = (email, password) => {
-  const URL = "/auth/login";
-  const loginObject = { email, password };
+   const URL = "/auth/login";
+   const loginObject = { email, password };
 
-  const response = POST(URL, loginObject, {});
-  return response;
+   const response = POST(URL, loginObject, {});
+   return response;
 };
 
 /** 로그아웃 */
 export const logoutActionHandler = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("expirationTime");
+   localStorage.removeItem("token");
+   localStorage.removeItem("expirationTime");
 };
 
 /** 유저정보 GET 호출, 토큰값 헤더에 넣어 호출, Promise객체 response 반환 */
-export const getUserActionHandler = (token) => {
-  const URL = "/member/me";
-  const response = GET(URL, createTokenHeader(token));
-  return response;
+export const getUserActionHandler = token => {
+   const URL = "/member/me";
+   const response = GET(URL, createTokenHeader(token));
+   return response;
 };
 
 /** 닉네임 바꾸는 함수, 닉네임은 바꿀 닉네임만 보냄 */
 export const changeNicknameActionHandler = (nickname, token) => {
-  const URL = "/member/nickname";
-  const changeNicknameObj = { nickname };
-  const response = POST(URL, changeNicknameObj, createTokenHeader(token));
+   const URL = "/member/nickname";
+   const changeNicknameObj = { nickname };
+   const response = POST(URL, changeNicknameObj, createTokenHeader(token));
 
-  return response;
+   return response;
 };
 
 /** 패스워드 바꾸는 함수, 패스워드는 이전과 현재 둘다 보내줌 */
 export const changePasswordActionHandler = (exPassword, newPassword, token) => {
-  const URL = "/member/password";
-  const changePasswordObj = { exPassword, newPassword };
-  const response = POST(URL, changePasswordObj, createTokenHeader(token));
-  return response;
+   const URL = "/member/password";
+   const changePasswordObj = { exPassword, newPassword };
+   const response = POST(URL, changePasswordObj, createTokenHeader(token));
+   return response;
 };
