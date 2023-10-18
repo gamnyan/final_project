@@ -1,6 +1,6 @@
 spring:
    datasource:
-      url: jdbc:h2:tcp://localhost/c:/java/h2/data/avado
+      url: jdbc:h2:tcp://localhost/C:/Java/h2/data/avadodb
       username: avado
       password: avado
       driver-class-name: org.h2.Driver
