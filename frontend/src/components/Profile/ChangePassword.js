@@ -51,7 +51,7 @@ const ChangePassword = () => {
             <label htmlFor="new-password">New Password Again</label>
             <input
                type="password"
-               id="new-passwordAgian"
+               id="new-password-agian"
                minLength={8}
                ref={newPasswordAgainInputRef}
                //
