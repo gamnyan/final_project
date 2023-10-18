@@ -16,12 +16,10 @@ const ChangePassword = () => {
       const enteredNewPassword = newPasswordInputRef.current.value;
       const enteredNewPasswordAgain = newPasswordAgainInputRef.current.value;
       if (enteredNewPassword !== enteredNewPasswordAgain) {
-         alert("Password Write Correct!");
+         alert("비밀번호가 일치하지 않습니다!");
          return;
       }
-      console.log("change pw start!");
       authCtx.changePassword(enteredExPassword, enteredNewPassword);
-      console.log(authCtx.isSuccess);
       if (authCtx.isSuccess) {
          alert("다시 로그인 하세요.");
          authCtx.logout();

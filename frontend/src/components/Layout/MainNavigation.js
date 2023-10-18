@@ -60,7 +60,6 @@ const MainNavigation = () => {
 
    useEffect(() => {
       if (isLogin) {
-         console.log("start");
          authCtx.getUser();
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,7 +67,6 @@ const MainNavigation = () => {
 
    useEffect(() => {
       if (isGet) {
-         console.log("get start");
          callback(authCtx.userObj.nickname);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -176,7 +174,7 @@ const MainNavigation = () => {
                </Box>
                <Box sx={{ flexGrow: 0 }}>
                   {isLogin ? (
-                     <Tooltip title="Open settings">
+                     <Tooltip title={nickname}>
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                            <Avatar
                               alt="Remy Sharp"
