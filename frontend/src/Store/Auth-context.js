@@ -4,145 +4,137 @@ import * as authAction from "./Auth-action";
 let logoutTimer;
 
 const AuthContext = React.createContext({
-  token: "",
-  userObj: { email: "", nickname: "" },
-  isLoggedIn: false,
-  isSuccess: false,
-  isGetSuccess: false,
-  signup: (email, password, nickname) => {},
-  login: (email, password) => {},
-  logout: () => {},
-  getUser: () => {},
-  changeNickname: (nickname) => {},
-  changePassword: (exPassword, newPassword) => {},
+   token: "",
+   userObj: { email: "", nickname: "" },
+   isLoggedIn: false,
+   isSuccess: false,
+   isGetSuccess: false,
+   signup: (email, password, nickname) => {},
+   login: (email, password) => {},
+   logout: () => {},
+   getUser: () => {},
+   changeNickname: nickname => {},
+   changePassword: (exPassword, newPassword) => {},
 });
 
-export const AuthContextProvider = (props) => {
-  const tokenData = authAction.retrieveStoredToken();
+export const AuthContextProvider = props => {
+   const tokenData = authAction.retrieveStoredToken();
 
-  let initialToken;
-  if (tokenData) {
-    initialToken = tokenData.token;
-  }
+   let initialToken;
+   if (tokenData) {
+      initialToken = tokenData.token;
+   }
 
-  const [token, setToken] = useState(initialToken);
-  const [userObj, setUserObj] = useState({
-    email: "",
-    nickname: "",
-  });
+   const [token, setToken] = useState(initialToken);
+   const [userObj, setUserObj] = useState({
+      email: "",
+      nickname: "",
+   });
 
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isGetSuccess, setIsGetSuccess] = useState(false);
+   const [isSuccess, setIsSuccess] = useState(false);
+   const [isGetSuccess, setIsGetSuccess] = useState(false);
 
-  const userIsLoggedIn = !!token;
+   const userIsLoggedIn = !!token;
 
-  const signupHandler = (email, password, nickname) => {
-    setIsSuccess(false);
-    const response = authAction.signupActionHandler(email, password, nickname);
-    response.then((result) => {
-      if (result !== null) {
-        setIsSuccess(true);
+   const signupHandler = (email, password, nickname) => {
+      setIsSuccess(false);
+      const response = authAction.signupActionHandler(email, password, nickname);
+      response.then(result => {
+         if (result !== null) {
+            setIsSuccess(true);
+         }
+      });
+   };
+
+   const loginHandler = (email, password) => {
+      setIsSuccess(false);
+      console.log(isSuccess);
+
+      const data = authAction.loginActionHandler(email, password);
+      data.then(result => {
+         if (result !== null) {
+            const loginData = result.data;
+            setToken(loginData.accessToken);
+            logoutTimer = setTimeout(
+               logoutHandler,
+               authAction.loginTokenHandler(loginData.accessToken, loginData.tokenExpiresIn),
+            );
+            setIsSuccess(true);
+            console.log(isSuccess);
+         }
+      });
+   };
+
+   const logoutHandler = useCallback(() => {
+      setToken("");
+      authAction.logoutActionHandler();
+      if (logoutTimer) {
+         clearTimeout(logoutTimer);
       }
-    });
-  };
+   }, []);
 
-  const loginHandler = (email, password) => {
-    setIsSuccess(false);
-    console.log(isSuccess);
+   const getUserHandler = () => {
+      setIsGetSuccess(false);
+      const data = authAction.getUserActionHandler(token);
+      data.then(result => {
+         if (result !== null) {
+            console.log("get user start!");
+            const userData = result.data;
+            setUserObj(userData);
+            setIsGetSuccess(true);
+         }
+      });
+   };
 
-    const data = authAction.loginActionHandler(email, password);
-    data.then((result) => {
-      if (result !== null) {
-        const loginData = result.data;
-        setToken(loginData.accessToken);
-        logoutTimer = setTimeout(
-          logoutHandler,
-          authAction.loginTokenHandler(
-            loginData.accessToken,
-            loginData.tokenExpiresIn
-          )
-        );
-        setIsSuccess(true);
-        console.log(isSuccess);
+   const changeNicknameHandler = nickname => {
+      setIsSuccess(false);
+      const data = authAction.changeNicknameActionHandler(nickname, token);
+      console.log("nickdata: " + data.then);
+      data.then(result => {
+         console.log("nickresult: " + result);
+         if (result !== null) {
+            // const userData = result.data;
+            // setUserObj(userData);
+            setIsSuccess(true);
+         }
+      });
+   };
+
+   const changePaswordHandler = (exPassword, newPassword) => {
+      setIsSuccess(false);
+      const data = authAction.changePasswordActionHandler(exPassword, newPassword, token);
+      console.log("passdata: " + data.then);
+      data.then(result => {
+         console.log("passresult: " + result);
+         if (result !== null) {
+            setIsSuccess(true);
+            logoutHandler();
+         }
+      });
+   };
+
+   useEffect(() => {
+      if (tokenData) {
+         console.log(tokenData.duration);
+         logoutTimer = setTimeout(logoutHandler, tokenData.duration);
       }
-    });
-  };
+   }, [tokenData, logoutHandler]);
 
-  const logoutHandler = useCallback(() => {
-    setToken("");
-    authAction.logoutActionHandler();
-    if (logoutTimer) {
-      clearTimeout(logoutTimer);
-    }
-  }, []);
+   const contextValue = {
+      token,
+      userObj,
+      isLoggedIn: userIsLoggedIn,
+      isSuccess,
+      isGetSuccess,
+      signup: signupHandler,
+      login: loginHandler,
+      logout: logoutHandler,
+      getUser: getUserHandler,
+      changeNickname: changeNicknameHandler,
+      changePassword: changePaswordHandler,
+   };
 
-  const getUserHandler = () => {
-    setIsGetSuccess(false);
-    const data = authAction.getUserActionHandler(token);
-    data.then((result) => {
-      if (result !== null) {
-        console.log("get user start!");
-        const userData = result.data;
-        setUserObj(userData);
-        setIsGetSuccess(true);
-      }
-    });
-  };
-
-  const changeNicknameHandler = (nickname) => {
-    setIsSuccess(false);
-
-    const data = authAction.changeNicknameActionHandler(nickname, token);
-    data.then((result) => {
-      if (result !== null) {
-        const userData = result.data;
-        setUserObj(userData);
-        setIsSuccess(true);
-      }
-    });
-  };
-
-  const changePaswordHandler = (exPassword, newPassword) => {
-    setIsSuccess(false);
-    const data = authAction.changePasswordActionHandler(
-      exPassword,
-      newPassword,
-      token
-    );
-    data.then((result) => {
-      if (result !== null) {
-        setIsSuccess(true);
-        logoutHandler();
-      }
-    });
-  };
-
-  useEffect(() => {
-    if (tokenData) {
-      console.log(tokenData.duration);
-      logoutTimer = setTimeout(logoutHandler, tokenData.duration);
-    }
-  }, [tokenData, logoutHandler]);
-
-  const contextValue = {
-    token,
-    userObj,
-    isLoggedIn: userIsLoggedIn,
-    isSuccess,
-    isGetSuccess,
-    signup: signupHandler,
-    login: loginHandler,
-    logout: logoutHandler,
-    getUser: getUserHandler,
-    changeNickname: changeNicknameHandler,
-    changePassword: changePaswordHandler,
-  };
-
-  return (
-    <AuthContext.Provider value={contextValue}>
-      {props.children}
-    </AuthContext.Provider>
-  );
+   return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>;
 };
 
 export default AuthContext;
