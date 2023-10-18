@@ -7,6 +7,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Member {
 
@@ -39,12 +41,12 @@ public class Member {
 
     public void setPassword(String password) { this.password = password; }
     
-    @Builder
-    public Member(Long id, String email, String password, String nickname, Authority authority) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.nickname = nickname;
-        this.authority = authority;
-    }
+    // @Builder
+    // public Member(Long id, String email, String password, String nickname, Authority authority) {
+    //     this.id = id;
+    //     this.email = email;
+    //     this.password = password;
+    //     this.nickname = nickname;
+    //     this.authority = authority;
+    // }
 }
