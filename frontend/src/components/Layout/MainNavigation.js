@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/header.css";
 
-// import classes from "./MainNavigation.module.css";
 import AuthContext from "../../Store/Auth-context";
 
 export const Mobile = ({ children }) => {
@@ -42,6 +41,7 @@ const MainNavigation = () => {
       console.log("start");
       authCtx.getUser();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLogin]);
 
   useEffect(() => {
@@ -49,6 +49,7 @@ const MainNavigation = () => {
       console.log("get start");
       callback(authCtx.userObj.nickname);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isGet]);
 
   const toggleLogoutHandler = () => {
@@ -57,6 +58,7 @@ const MainNavigation = () => {
 
   const [isToggle, setIsToggle] = useState(false);
 
+  // eslint-disable-next-line no-unused-vars
   const handleToggleOpen = () => {
     setIsToggle(!isToggle);
   };
