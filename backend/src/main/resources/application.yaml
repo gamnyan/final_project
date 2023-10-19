@@ -1,11 +1,14 @@
 spring:
-   datasource:
-      url: jdbc:h2:tcp://localhost/C:/Java/H2/data/avadodb
-      username: avado
-      password: avado
-      driver-class-name: org.h2.Driver
+  datasource:
+    url: jdbc:h2:tcp://localhost/C:/Java/h2/data/avadodb
+    username: avado
+    password: avado
+    driver-class-name: org.h2.Driver
 
-   jpa:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
       hibernate:
          ddl-auto: create-drop
       properties:
@@ -27,11 +30,11 @@ spring:
                   user-name-attribute: email
 
 logging:
-   level:
-      "[com.tutorial]": debug
+  level:
+    "[com.tutorial]": debug
 
 jwt:
-   secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
 
 server:
-   port: 8085
+  port: 8085

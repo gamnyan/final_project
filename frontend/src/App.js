@@ -5,9 +5,11 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import CreateAccountForm from "./components/Auth/CreateAccountForm";
 import Layout from "./components/Layout/Layout";
 import AuthPage from "./Pages/AuthPage";
-import HomePage from "./Pages/HomePage";
+import HomePage from "./Pages/home/HomePage";
 import ProfilePage from "./Pages/ProfilePage";
 import AuthContext from "./Store/Auth-context";
+import "./css/reset.css";
+import "./css/style.css";
 
 function App() {
    const authCtx = useContext(AuthContext);
