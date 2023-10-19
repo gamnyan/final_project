@@ -1,8 +1,10 @@
 package com.avado.backend.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -40,8 +42,9 @@ public class Community {
 	@Column(nullable = false)
 	private String content;
 	
-	@Temporal(TemporalType.DATE)
-	private Date createDate;
+	@CreationTimestamp
+	@Column
+	private LocalDateTime createDate = LocalDateTime.now();
 	
 	@OneToMany(mappedBy = "community", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties({"community"})

@@ -16,16 +16,14 @@ public class CommentDto {
 	private Long id;
 	private Community community;
 	private Member member;
-	private String title;
-	private Date createDate;
+	private String text;
 	
 	public static CommentDto of(Comment comment) {
 		return CommentDto.builder()
 				.id(comment.getId())
 				.community(comment.getCommunity())
 				.member(comment.getMember())
-				.title(comment.getTitle())
-				.createDate(comment.getCreateDate())
+				.text(comment.getText())
 				.build();
 	} // of
 } // CommentDto

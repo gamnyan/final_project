@@ -47,21 +47,21 @@ public class Member {
     @JsonIgnoreProperties({"member"})
     private List<Post> post;
     
-//    @OneToMany(mappedBy = "member")
-//    @JsonManagedReference("member_gallerys")
-//    private List<Gallery> gallery;
-//    
-//    @OneToMany(mappedBy = "member")
-//    @JsonManagedReference("member_communitys")
-//    private List<Community> community;
-//    
-//    @OneToMany(mappedBy = "member")
-//    @JsonManagedReference("member_comments")
-//    private List<Comment> comment;
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties({"member"})
+    private List<Gallery> gallery;
+    
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties({"member"})
+    private List<Community> community;
+    
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties({"member"})
+    private List<Comment> comment;
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
-    }
+    } // setNickname
 
     public void setPassword(String password) { this.password = password; }
     

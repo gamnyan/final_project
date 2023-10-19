@@ -1,8 +1,9 @@
 package com.avado.backend.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
@@ -29,11 +30,9 @@ public class Gallery {
 	private Post post;
 	
 	@Column(nullable = false)
-	private String filename;
+	private String img;
 	
-	@Column(nullable = false)
-	private String filepath;
-	
-	@Column(nullable = false)
-	private Date createDate;
+	@CreationTimestamp
+	@Column
+	private LocalDateTime createDate = LocalDateTime.now();
 } // Gallery

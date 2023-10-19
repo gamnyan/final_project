@@ -33,12 +33,8 @@ public class Comment {
 	@JsonIgnoreProperties("community")
 	private Member member;
 	
-	@Length(min = 1)
 	@Column(nullable = false)
-	private String title;
-	
-	@Column(nullable = false)
-	private Date createDate;
+	private String text;
 	
 	
 } // Comment
