@@ -179,7 +179,7 @@ const MainNavigation = () => {
                            <Avatar
                               alt="Remy Sharp"
                               //  src="/static/images/avatar/2.jpg"
-                              src="/C:/Java/Java_eclipse/workspace/final_project/picture/123.jpg"
+                              // src="/C:/Java/Java_eclipse/workspace/final_project/picture/123.jpg"
                            />
                         </IconButton>
                      </Tooltip>

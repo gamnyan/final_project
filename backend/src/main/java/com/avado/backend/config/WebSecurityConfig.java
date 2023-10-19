@@ -25,11 +25,11 @@ public class WebSecurityConfig {
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -42,8 +42,10 @@ public class WebSecurityConfig {
                         .accessDeniedHandler(jwtAccessDeniedHandler))
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/member/me").permitAll() // 엔드포인트 추가 구글 때문에
                         .anyRequest().authenticated())
                 .apply(new JwtSecurityConfig(tokenProvider));
+        // .oauth2Login()
 
         return http.build();
     }

@@ -1,6 +1,8 @@
 package com.avado.backend.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +24,8 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/me")
-    public ResponseEntity<MemberResponseDto> getMyMemberInfo() {
+    public ResponseEntity<MemberResponseDto> getMyMemberInfo(@AuthenticationPrincipal OAuth2User principal) {
+        // OAuth2User principal을 이용하여 현재 로그인한 사용자의 정보를 가져옵니다.
         MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
         // System.out.println(myInfoBySecurity.getNickname());
         return ResponseEntity.ok((myInfoBySecurity));
@@ -36,7 +39,8 @@ public class MemberController {
 
     @PostMapping("/password")
     public ResponseEntity<MemberResponseDto> setMemberPassword(@RequestBody ChangePasswordRequestDto request) {
-        return ResponseEntity.ok(memberService.changeMemberPassword(request.getEmail() ,request.getExPassword(), request.getNewPassword()));
+        return ResponseEntity.ok(memberService.changeMemberPassword(request.getEmail(), request.getExPassword(),
+                request.getNewPassword()));
     }
 
 }

@@ -10,12 +10,25 @@ spring:
          ddl-auto: create-drop
       properties:
          hibernate:
-            format sql: true
-            show sql: true
+            "[format_sql]": true
+            "[show_sql]": true
+
+   security:
+      oauth2:
+         client:
+            registration:
+               google:
+                  client-id: 932221186527-3tbjc2hh6h5p2gqemiqvf2obis7itg1h.apps.googleusercontent.com
+                  client-secret: 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
+                  redirect-uri: "http://localhost:8085/login/oauth2/code/google"
+            provider:
+               google:
+                  user-info-uri: "https://www.googleapis.com/oauth2/v3/userinfo"
+                  user-name-attribute: email
 
 logging:
    level:
-      com.tutorial: debug
+      "[com.tutorial]": debug
 
 jwt:
    secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
