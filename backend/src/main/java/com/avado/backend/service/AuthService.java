@@ -11,8 +11,8 @@ import com.avado.backend.dto.MemberRequestDto;
 import com.avado.backend.dto.MemberResponseDto;
 import com.avado.backend.dto.TokenDto;
 import com.avado.backend.model.Member;
-import com.avado.backend.model.security.TokenProvider;
 import com.avado.backend.persistence.MemberRepository;
+import com.avado.backend.security.TokenProvider;
 
 import lombok.RequiredArgsConstructor;
 
