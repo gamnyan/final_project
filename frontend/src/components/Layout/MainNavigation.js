@@ -1,7 +1,7 @@
 import { Fragment, useContext, useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
-import styled from "styled-components";
+// import styled from "styled-components";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { faBars, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,23 +26,19 @@ export const PC = ({ children }) => {
    return <>{isPc && children}</>;
 };
 
-const pages = ["커뮤니티", "사진첩"];
-const pagesTo = ["community", "picture"];
-const settings = ["마이페이지", "로그아웃"];
-const settingsTo = ["profile", "toggleLogoutHandler"];
+/** 삭제해도 되는 건가? */
+// function HomeIcon(props) {
+//    return (
+//       <SvgIcon {...props}>
+//          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+//       </SvgIcon>
+//    );
+// }
 
-function HomeIcon(props) {
-   return (
-      <SvgIcon {...props}>
-         <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-      </SvgIcon>
-   );
-}
-
-const pages = ["커뮤니티", "사진첩"];
-const pagesTo = ["community", "picture"];
-const settings = ["마이페이지", "로그아웃"];
-const settingsTo = ["profile", "toggleLogoutHandler"];
+// const pages = ["커뮤니티", "사진첩"];
+// const pagesTo = ["community", "picture"];
+// const settings = ["마이페이지", "로그아웃"];
+// const settingsTo = ["profile", "toggleLogoutHandler"];
 
 const MainNavigation = () => {
    const authCtx = useContext(AuthContext);
