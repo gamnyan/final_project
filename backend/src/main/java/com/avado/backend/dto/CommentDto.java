@@ -19,7 +19,7 @@ public class CommentDto {
 	public static CommentDto of(Comment comment) {
 		return CommentDto.builder()
 				.id(comment.getId())
-				.community(comment.getCommunity())
+				//.community(comment.getCommunity())
 				.member(comment.getMember())
 				.text(comment.getText())
 				.build();

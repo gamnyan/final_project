@@ -38,3 +38,9 @@ jwt:
 
 server:
    port: 8085
+
+file:
+  dir: c:/Temp\
+
+spring.servlet.multipart.max-file-size: 10MB
+spring.servlet.multipart.max-request-size: 10MB
