@@ -48,7 +48,6 @@ export const AuthContextProvider = props => {
 
    const loginHandler = (email, password) => {
       setIsSuccess(false);
-      console.log(isSuccess);
 
       const data = authAction.loginActionHandler(email, password);
       data.then(result => {
@@ -60,7 +59,6 @@ export const AuthContextProvider = props => {
                authAction.loginTokenHandler(loginData.accessToken, loginData.tokenExpiresIn),
             );
             setIsSuccess(true);
-            console.log(isSuccess);
          }
       });
    };
@@ -78,7 +76,6 @@ export const AuthContextProvider = props => {
       const data = authAction.getUserActionHandler(token);
       data.then(result => {
          if (result !== null) {
-            console.log("get user start!");
             const userData = result.data;
             setUserObj(userData);
             setIsGetSuccess(true);
@@ -89,9 +86,7 @@ export const AuthContextProvider = props => {
    const changeNicknameHandler = nickname => {
       setIsSuccess(false);
       const data = authAction.changeNicknameActionHandler(nickname, token);
-      console.log("nickdata: " + data.then);
       data.then(result => {
-         console.log("nickresult: " + result);
          if (result !== null) {
             // const userData = result.data;
             // setUserObj(userData);
@@ -103,9 +98,7 @@ export const AuthContextProvider = props => {
    const changePaswordHandler = (exPassword, newPassword) => {
       setIsSuccess(false);
       const data = authAction.changePasswordActionHandler(exPassword, newPassword, token);
-      console.log("passdata: " + data.then);
       data.then(result => {
-         console.log("passresult: " + result);
          if (result !== null) {
             setIsSuccess(true);
             logoutHandler();
@@ -115,7 +108,6 @@ export const AuthContextProvider = props => {
 
    useEffect(() => {
       if (tokenData) {
-         console.log(tokenData.duration);
          logoutTimer = setTimeout(logoutHandler, tokenData.duration);
       }
    }, [tokenData, logoutHandler]);

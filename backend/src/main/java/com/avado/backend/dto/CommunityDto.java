@@ -1,10 +1,6 @@
 package com.avado.backend.dto;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-
-import org.springframework.cglib.core.Local;
-
 import com.avado.backend.model.Community;
 import com.avado.backend.model.Member;
 import com.avado.backend.model.Post;
@@ -21,8 +17,8 @@ public class CommunityDto {
 	private Post post;
 	private String title;
 	private String content;
-	private LocalDateTime createDate = LocalDateTime.now();
-	
+	private final LocalDateTime createDate = LocalDateTime.now();
+
 	public static CommunityDto of(Community community) {
 		return CommunityDto.builder()
 				.id(community.getId())
@@ -32,5 +28,5 @@ public class CommunityDto {
 				.content(community.getContent())
 				.build();
 	} // of
-	
+
 } // CommunityDto

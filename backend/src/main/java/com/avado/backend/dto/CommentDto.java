@@ -1,7 +1,5 @@
 package com.avado.backend.dto;
 
-import java.util.Date;
-
 import com.avado.backend.model.Comment;
 import com.avado.backend.model.Community;
 import com.avado.backend.model.Member;
@@ -17,7 +15,7 @@ public class CommentDto {
 	private Community community;
 	private Member member;
 	private String text;
-	
+
 	public static CommentDto of(Comment comment) {
 		return CommentDto.builder()
 				.id(comment.getId())

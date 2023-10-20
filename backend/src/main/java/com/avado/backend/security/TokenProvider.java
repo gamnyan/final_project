@@ -1,4 +1,4 @@
-package com.avado.backend.model.security;
+package com.avado.backend.security;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -57,8 +57,6 @@ public class TokenProvider {
 
 
         Date tokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
-
-        System.out.println(tokenExpiresIn);
 
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())

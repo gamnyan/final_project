@@ -10,9 +10,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Component;
 
-import com.avado.backend.model.security.JwtAccessDeniedHandler;
-import com.avado.backend.model.security.JwtAuthenticationEntryPoint;
-import com.avado.backend.model.security.TokenProvider;
+import com.avado.backend.security.JwtAccessDeniedHandler;
+import com.avado.backend.security.JwtAuthenticationEntryPoint;
+import com.avado.backend.security.TokenProvider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,31 +25,27 @@ public class WebSecurityConfig {
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .accessDeniedHandler(jwtAccessDeniedHandler)
-
-                .and()
-                .authorizeRequests()
-                .requestMatchers("/auth/**").permitAll()
-                .anyRequest().authenticated()
-
-                .and()
+                .httpBasic(basic -> basic.disable())
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(handling -> handling
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                        .accessDeniedHandler(jwtAccessDeniedHandler))
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/member/me").permitAll() // 엔드포인트 추가 구글 때문에
+                        .anyRequest().authenticated())
                 .apply(new JwtSecurityConfig(tokenProvider));
+        // .oauth2Login()
 
         return http.build();
     }

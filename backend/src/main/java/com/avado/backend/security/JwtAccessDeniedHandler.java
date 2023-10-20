@@ -1,4 +1,4 @@
-package com.avado.backend.model.security;
+package com.avado.backend.security;
 
 import java.io.IOException;
 
