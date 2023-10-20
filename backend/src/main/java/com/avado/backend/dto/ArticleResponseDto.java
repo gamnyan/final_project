@@ -18,6 +18,7 @@ public class ArticleResponseDto {
 	private String memberNickname;
 	private String articleTitle;
 	private String articleContent;
+	private String articleFilename;
 	private String createdAt;
 	private String updatedAt;
 	private boolean isWritten;
@@ -28,6 +29,7 @@ public class ArticleResponseDto {
                 .memberNickname(article.getMember().getNickname())
                 .articleTitle(article.getTitle())
                 .articleContent(article.getContent())
+                .articleFilename(article.getFilename())
                 .createdAt(article.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .updatedAt(article.getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .isWritten(bool)

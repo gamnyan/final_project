@@ -7,4 +7,5 @@ public class ChangeArticleRequestDto {
 	private Long id;
 	private String title;
 	private String content;
+	private String filename;
 }

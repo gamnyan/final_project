@@ -39,8 +39,6 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
     // Querydsl 추가
-     implementation 'com.querydsl:querydsl-core'
-    implementation 'com.querydsl:querydsl-apt:5.0.0'
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
@@ -101,7 +99,7 @@ task copyReactBuildFiles(type:Copy){
 }
 
 // queryDSL 추가 : QueryDSL 빌드 옵션
-def querydslDir = "$buildDir/generated/querydsl"
+def querydslDir = "$projectDir/src/generated/querydsl"
 
 querydsl {
     jpa = true
