@@ -31,82 +31,80 @@ import lombok.RequiredArgsConstructor;
 public class ArticleService {
 	private final ArticleRepository articleRepository;
 	private final MemberRepository memberRepository;
-	
-	
-	public List<PageResponseDto> allArticle(){
+
+	public List<PageResponseDto> allArticle() {
 		List<Article> articles = articleRepository.findAll();
 		return articles.stream().map(PageResponseDto::of).collect(Collectors.toList());
 	}
-	
+
 	public Page<PageResponseDto> pageArticle(int pageNum) {
-        return articleRepository.searchAll(PageRequest.of(pageNum - 1, 20));
-    }
-	
+		return articleRepository.searchAll(PageRequest.of(pageNum - 1, 20));
+	}
+
 	public ArticleResponseDto oneArticle(Long id) {
-		Article article = articleRepository.findById(id).orElseThrow(()->new RuntimeException("글이 없습니다."));
+		Article article = articleRepository.findById(id).orElseThrow(() -> new RuntimeException("글이 없습니다."));
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if(authentication == null || authentication.getPrincipal()=="anonymousUser") {
+		if (authentication == null || authentication.getPrincipal() == "anonymousUser") {
 			return ArticleResponseDto.of(article, false);
-		}else {
+		} else {
 			Member member = memberRepository.findById(Long.parseLong(authentication.getName())).orElseThrow();
 			boolean result = article.getMember().equals(member);
-            return ArticleResponseDto.of(article, result);
+			return ArticleResponseDto.of(article, result);
 		}
 	}
-	
-    @Transactional
-    public void postArticle(Article article) {
-        Member member = isMemberCurrent();
-        article.setMember(member);
-        articleRepository.save(article);
-        //return ArticleResponseDto.of(articleRepository.save(article), true);
-    }
-    
-    @Transactional
-    public ArticleResponseDto postArticleOneImage(String title, String content,String nickname, String filename) {
-        Member member = isMemberCurrent();
-        Article article = Article.createArticleOneImg(title, content, nickname,filename, member);
-        return ArticleResponseDto.of(articleRepository.save(article), true);
-    }
-	
+
+	@Transactional
+	public void postArticle(Article article) {
+		Member member = isMemberCurrent();
+		article.setMember(member);
+		articleRepository.save(article);
+		// return ArticleResponseDto.of(articleRepository.save(article), true);
+	}
+
+	@Transactional
+	public ArticleResponseDto postArticleOneImage(String title, String content, String nickname, String filename) {
+		Member member = isMemberCurrent();
+		Article article = Article.createArticleOneImg(title, content, nickname, filename, member);
+		return ArticleResponseDto.of(articleRepository.save(article), true);
+	}
 
 	public String saveFile(MultipartFile file, String uploadDir) throws IOException {
-	    // 업로드된 파일의 원래 이름을 가져옵니다.
-	    String fileName = file.getOriginalFilename();
+		// 업로드된 파일의 원래 이름을 가져옵니다.
+		String fileName = file.getOriginalFilename();
 
-	    // 파일을 저장할 경로를 결합합니다.
-	    String filePath = uploadDir + File.separator + fileName;
+		// 파일을 저장할 경로를 결합합니다.
+		String filePath = uploadDir + File.separator + fileName;
 
-	    // 파일을 실제 경로에 복사합니다.
-	    FileCopyUtils.copy(file.getBytes(), new File(filePath));
+		// 파일을 실제 경로에 복사합니다.
+		FileCopyUtils.copy(file.getBytes(), new File(filePath));
 
-	    // 저장된 파일의 경로를 반환합니다.
-	    return filePath;
+		// 저장된 파일의 경로를 반환합니다.
+		return filePath;
 	}
 
-	
 	public Member isMemberCurrent() {
 		return memberRepository.findById(SecurityUtil.getCurrentMemberId())
-				.orElseThrow(()-> new RuntimeException("로그인 유저 정보가 없습니다."));
+				.orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
 	}
-	
+
 	@Transactional
-	public ArticleResponseDto changeArticle(Long id, String title, String content,String filename) {
+	public ArticleResponseDto changeArticle(Long id, String title, String content, String filename) {
 		Article article = authorizationArticleWriter(id);
-		return ArticleResponseDto.of(articleRepository.save(Article.changeArticle(article, title, content/*,filename*/)), true);
-		
+		return ArticleResponseDto
+				.of(articleRepository.save(Article.changeArticle(article, title, content/* ,filename */)), true);
+
 	}
-	
+
 	@Transactional
 	public void deleteArticle(Long id) {
 		Article article = authorizationArticleWriter(id);
 		articleRepository.delete(article);
 	}
-	
+
 	public Article authorizationArticleWriter(Long id) {
 		Member member = isMemberCurrent();
-		Article article = articleRepository.findById(id).orElseThrow(()-> new RuntimeException("글이 없습니다."));
-		if(!article.getMember().equals(member)) {
+		Article article = articleRepository.findById(id).orElseThrow(() -> new RuntimeException("글이 없습니다."));
+		if (!article.getMember().equals(member)) {
 			throw new RuntimeException("로그인한 유저와 작성 유저가 같지 않습니다.");
 		}
 		return article;

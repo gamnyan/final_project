@@ -1,6 +1,5 @@
 package com.avado.backend.controller;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -41,106 +40,96 @@ import lombok.RequiredArgsConstructor;
 public class ArticleController {
 	private final ArticleService articleService;
 	private final AttachmentService attachmentService;
-	
-	
-	
-	
-	  @GetMapping("/page")
-	    public ResponseEntity<Page<PageResponseDto>> pageArticle(@RequestParam(name = "page") int page) {
-	        return ResponseEntity.ok(articleService.pageArticle(page));
-	    }
-	  
-	  @GetMapping("/one")
-	    public ResponseEntity<ArticleResponseDto> getOneArticle(@RequestParam(name = "id") Long id) {
-	        return ResponseEntity.ok(articleService.oneArticle(id));
-	    }
-	
-	
-	  @PostMapping("/postArticle")
-	  public ResponseEntity<ArticleResponseDto> postArticle(
-	          @ModelAttribute ArticlePostDto articlePostDto,
-	          @RequestPart("files") MultipartFile[] files
-	  ) {
-	      try {
-	    	  
-	    	 
-	          // 게시글 생성
-	          Article article = new Article();
-	          article.setTitle(articlePostDto.getTitle());
-	          article.setContent(articlePostDto.getContent());
-	          article.setNickname(articlePostDto.getNickname());
 
-	          articleService.postArticle(article);
-	          // 파일 저장
-	          String uploadDir = "C:\\Temp\\img";
-	          if (files != null && files.length > 0) {
-	          for (MultipartFile file : files) {
-	              String originalFilename = file.getOriginalFilename();
-	              String storeFilename = article.getId() + "_" + originalFilename;
-	              File dest = new File(uploadDir + "/" + storeFilename);
-	              file.transferTo(dest);
+	@GetMapping("/page")
+	public ResponseEntity<Page<PageResponseDto>> pageArticle(@RequestParam(name = "page") int page) {
+		return ResponseEntity.ok(articleService.pageArticle(page));
+	}
 
-	              // 첨부 파일 정보 생성
-	              Attachment attachment = new Attachment();
-	             
-	              attachment.setArticle(article);
-	              attachment.setOriginFilename(originalFilename);
-	              attachment.setStoreFilename(storeFilename);
-	              //attachment.setMember(member);
-	              
-	              System.out.println(attachment);
-	              // 저장 로직 (attachmentService.saveAttachment 등)
-	              attachmentService.saveAttachment(attachment);
-	          }
+	@GetMapping("/one")
+	public ResponseEntity<ArticleResponseDto> getOneArticle(@RequestParam(name = "id") Long id) {
+		return ResponseEntity.ok(articleService.oneArticle(id));
+	}
 
-	          
-	          }
-	          return ResponseEntity.ok(ArticleResponseDto.of(article, true));
-	      }
-	       catch (IOException e) {
-	          e.printStackTrace();
-	          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-	      }
-	  }
-	  
-	  @PostMapping("/")
-	  public ResponseEntity<ArticleResponseDto> createArticleOneImg(@ModelAttribute CreateArticleRequestDto request, @RequestPart("file") MultipartFile file) {
-		  try {
-		       
-				
-		        // 게시글 생성
-		        List<Attachment> attachments = attachmentService.saveAttachment(
-		               Collections.singletonMap(AttachmentType.IMAGE, Collections.singletonList(file)));
-		        String filename = attachments.get(0).getStorePath();
-		        
-		        ArticleResponseDto responseDto = articleService.postArticleOneImage(
-		                request.getTitle(), request.getContent(), request.getNickname(), filename);
+	@PostMapping("/postArticle")
+	public ResponseEntity<ArticleResponseDto> postArticle(
+			@ModelAttribute ArticlePostDto articlePostDto,
+			@RequestPart("files") MultipartFile[] files) {
+		try {
 
-		        return ResponseEntity.ok(responseDto);
-		    } catch (IOException e) {
-		        e.printStackTrace();
-		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-		    }
-	  }
-	
+			// 게시글 생성
+			Article article = new Article();
+			article.setTitle(articlePostDto.getTitle());
+			article.setContent(articlePostDto.getContent());
+			article.setNickname(articlePostDto.getNickname());
 
-	  
-	  @GetMapping("/change")
-	  public ResponseEntity<ArticleResponseDto> getChangeArticle(@RequestParam(name = "id") Long id){
-		  return ResponseEntity.ok(articleService.oneArticle((id)));
-	  }
-	  
-	  @PutMapping("/")
-	  public ResponseEntity<ArticleResponseDto> putChangeArticle(@RequestBody ChangeArticleRequestDto request){
-		  return ResponseEntity.ok(articleService.changeArticle(request.getId(),request.getTitle(), request.getContent(),request.getFilename()));
+			articleService.postArticle(article);
+			// 파일 저장
+			String uploadDir = "C:\\Temp\\img";
+			if (files != null && files.length > 0) {
+				for (MultipartFile file : files) {
+					String originalFilename = file.getOriginalFilename();
+					String storeFilename = article.getId() + "_" + originalFilename;
+					File dest = new File(uploadDir + "/" + storeFilename);
+					file.transferTo(dest);
 
-	  }
-	  
-	  @DeleteMapping("/delete")
-	  public ResponseEntity<MessageDto> deleteArticle(@RequestParam(name="id")Long id){
-		  articleService.deleteArticle(id);
-		  return ResponseEntity.ok(new MessageDto("Success"));
-	  }
-	  
-	  
+					// 첨부 파일 정보 생성
+					Attachment attachment = new Attachment();
+
+					attachment.setArticle(article);
+					attachment.setOriginFilename(originalFilename);
+					attachment.setStoreFilename(storeFilename);
+					// attachment.setMember(member);
+
+					System.out.println(attachment);
+					// 저장 로직 (attachmentService.saveAttachment 등)
+					attachmentService.saveAttachment(attachment);
+				}
+
+			}
+			return ResponseEntity.ok(ArticleResponseDto.of(article, true));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+	}
+
+	@PostMapping("/")
+	public ResponseEntity<ArticleResponseDto> createArticleOneImg(@ModelAttribute CreateArticleRequestDto request,
+			@RequestPart("file") MultipartFile file) {
+		try {
+
+			// 게시글 생성
+			List<Attachment> attachments = attachmentService.saveAttachment(
+					Collections.singletonMap(AttachmentType.IMAGE, Collections.singletonList(file)));
+			String filename = attachments.get(0).getStorePath();
+
+			ArticleResponseDto responseDto = articleService.postArticleOneImage(
+					request.getTitle(), request.getContent(), request.getNickname(), filename);
+
+			return ResponseEntity.ok(responseDto);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+	}
+
+	@GetMapping("/change")
+	public ResponseEntity<ArticleResponseDto> getChangeArticle(@RequestParam(name = "id") Long id) {
+		return ResponseEntity.ok(articleService.oneArticle((id)));
+	}
+
+	@PutMapping("/")
+	public ResponseEntity<ArticleResponseDto> putChangeArticle(@RequestBody ChangeArticleRequestDto request) {
+		return ResponseEntity.ok(articleService.changeArticle(request.getId(), request.getTitle(), request.getContent(),
+				request.getFilename()));
+
+	}
+
+	@DeleteMapping("/delete")
+	public ResponseEntity<MessageDto> deleteArticle(@RequestParam(name = "id") Long id) {
+		articleService.deleteArticle(id);
+		return ResponseEntity.ok(new MessageDto("Success"));
+	}
+
 }
