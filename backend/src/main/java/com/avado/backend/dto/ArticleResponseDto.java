@@ -3,6 +3,7 @@ package com.avado.backend.dto;
 import java.time.format.DateTimeFormatter;
 
 import com.avado.backend.model.Article;
+import com.avado.backend.model.Attachment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,10 +30,16 @@ public class ArticleResponseDto {
                 .memberNickname(article.getMember().getNickname())
                 .articleTitle(article.getTitle())
                 .articleContent(article.getContent())
-                .articleFilename(article.getFilename())
                 .createdAt(article.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .updatedAt(article.getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .isWritten(bool)
                 .build();
     }
+
+	public void addAttachedFile(Attachment attachment) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

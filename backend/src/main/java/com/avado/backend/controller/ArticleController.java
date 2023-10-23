@@ -1,5 +1,6 @@
 package com.avado.backend.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -19,14 +20,15 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.avado.backend.dto.ArticlePostDto;
 import com.avado.backend.dto.ArticleResponseDto;
 import com.avado.backend.dto.ChangeArticleRequestDto;
 import com.avado.backend.dto.CreateArticleRequestDto;
 import com.avado.backend.dto.MessageDto;
 import com.avado.backend.dto.PageResponseDto;
+import com.avado.backend.model.Article;
 import com.avado.backend.model.Attachment;
 import com.avado.backend.model.Attachment.AttachmentType;
-// import com.avado.backend.model.FileStore;
 import com.avado.backend.service.ArticleService;
 import com.avado.backend.service.AttachmentService;
 
@@ -49,8 +51,51 @@ public class ArticleController {
 		return ResponseEntity.ok(articleService.oneArticle(id));
 	}
 
+	@PostMapping("/postArticle")
+	public ResponseEntity<ArticleResponseDto> postArticle(
+			@ModelAttribute ArticlePostDto articlePostDto,
+			@RequestPart("files") MultipartFile[] files) {
+		try {
+
+			// 게시글 생성
+			Article article = new Article();
+			article.setTitle(articlePostDto.getTitle());
+			article.setContent(articlePostDto.getContent());
+			article.setNickname(articlePostDto.getNickname());
+
+			articleService.postArticle(article);
+			// 파일 저장
+			String uploadDir = "C:\\Temp\\img";
+			if (files != null && files.length > 0) {
+				for (MultipartFile file : files) {
+					String originalFilename = file.getOriginalFilename();
+					String storeFilename = article.getId() + "_" + originalFilename;
+					File dest = new File(uploadDir + "/" + storeFilename);
+					file.transferTo(dest);
+
+					// 첨부 파일 정보 생성
+					Attachment attachment = new Attachment();
+
+					attachment.setArticle(article);
+					attachment.setOriginFilename(originalFilename);
+					attachment.setStoreFilename(storeFilename);
+					// attachment.setMember(member);
+
+					System.out.println(attachment);
+					// 저장 로직 (attachmentService.saveAttachment 등)
+					attachmentService.saveAttachment(attachment);
+				}
+
+			}
+			return ResponseEntity.ok(ArticleResponseDto.of(article, true));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+	}
+
 	@PostMapping("/")
-	public ResponseEntity<ArticleResponseDto> createArticle(@ModelAttribute CreateArticleRequestDto request,
+	public ResponseEntity<ArticleResponseDto> createArticleOneImg(@ModelAttribute CreateArticleRequestDto request,
 			@RequestPart("file") MultipartFile file) {
 		try {
 
@@ -59,7 +104,7 @@ public class ArticleController {
 					Collections.singletonMap(AttachmentType.IMAGE, Collections.singletonList(file)));
 			String filename = attachments.get(0).getStorePath();
 
-			ArticleResponseDto responseDto = articleService.postArticle(
+			ArticleResponseDto responseDto = articleService.postArticleOneImage(
 					request.getTitle(), request.getContent(), request.getNickname(), filename);
 
 			return ResponseEntity.ok(responseDto);

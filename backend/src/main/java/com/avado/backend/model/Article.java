@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-// import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -20,6 +19,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -48,10 +48,6 @@ public class Article {
     @Column(nullable = true)
     @NotEmpty
     private String content;
-    @Column
-    private String filename;
-    @Column
-    private String filepath;
 
     @CreationTimestamp
     @Column
@@ -88,11 +84,28 @@ public class Article {
      * }
      */
 
-    public static Article createArticle(String title, String content, String nickname, String filename, Member member) {
+    public void addAttachedFile(Attachment attachment) {
+        this.attachedFiles.add(attachment);
+        attachment.setArticle(this); // 첨부 파일에도 연관 관계 설정
+    }
+
+    public static Article createArticle(String title, String content, String nickname, Member member) {
         Article article = new Article();
         article.title = title;
         article.content = content;
-        article.filename = filename;
+
+        article.nickname = nickname;
+        article.member = member;
+
+        return article;
+    }
+
+    public static Article createArticleOneImg(String title, String content, String nickname, String filename,
+            Member member) {
+        Article article = new Article();
+        article.title = title;
+        article.content = content;
+        // article.filename = filename;
         article.nickname = nickname;
         article.member = member;
 
@@ -105,6 +118,19 @@ public class Article {
         // article.filename = filename;
 
         return article;
+    }
+
+    @Builder
+    public Article(String title, String content, String nickname, List<Attachment> attachedFiles) {
+        this.title = title;
+
+        this.content = content;
+        this.nickname = nickname;
+        this.attachedFiles = attachedFiles;
+        if (attachedFiles != null) {
+            attachedFiles.forEach(attachment -> attachment.setArticle(this));
+        }
+
     }
 
 }
