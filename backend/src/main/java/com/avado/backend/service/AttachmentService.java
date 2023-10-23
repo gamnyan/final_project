@@ -25,39 +25,33 @@ public class AttachmentService {
 	private final FileStore fileStore;
 	
 	
-	/*public List<Attachment> saveAttachment(Map<AttachmentType,List<MultipartFile>>multipartFileListMap) throws IOException{
-		
-		List<Attachment> imageFiles = fileStore.storeFiles(multipartFileListMap.get(AttachmentType.IMAGE), AttachmentType.IMAGE);
-		List<Attachment> generalFiles = fileStore.storeFiles(multipartFileListMap.get(AttachmentType.GENERAL), AttachmentType.GENERAL);
-		List<Attachment> result = Stream.of(imageFiles,generalFiles)
-				.flatMap(t->t.stream())
-				.collect(Collectors.toList());
-		
-		return result;
-	}*/
-	public List<Attachment> saveAttachment(Map<AttachmentType,List<MultipartFile>>multipartFileListMap) throws IOException{
-	    List<MultipartFile> imageFiles = multipartFileListMap.getOrDefault(AttachmentType.IMAGE, Collections.emptyList());
-	    List<MultipartFile> generalFiles = multipartFileListMap.getOrDefault(AttachmentType.GENERAL, Collections.emptyList());
+	public List<Attachment> saveAttachment(Map<AttachmentType, List<MultipartFile>> multipartFileListMap) throws IOException {
+        List<MultipartFile> imageFiles = multipartFileListMap.getOrDefault(AttachmentType.IMAGE, Collections.emptyList());
+        System.out.println(imageFiles);
+        List<Attachment> imageAttachments = fileStore.storeFiles(imageFiles, AttachmentType.IMAGE);
+        System.out.println(imageAttachments);
+        return imageAttachments;
+    }
 
-	    List<Attachment> imageAttachments = fileStore.storeFiles(imageFiles, AttachmentType.IMAGE);
-	    List<Attachment> generalAttachments = fileStore.storeFiles(generalFiles, AttachmentType.GENERAL);
+    public Map<AttachmentType, List<Attachment>> findAttachments() {
+        List<Attachment> attachments = attachmentRepository.findAll();
+        Map<AttachmentType, List<Attachment>> result = attachments.stream()
+                .collect(Collectors.groupingBy(Attachment::getAttachmentType));
 
-	    List<Attachment> result = Stream.concat(imageAttachments.stream(), generalAttachments.stream())
-	            .collect(Collectors.toList());
+        return result;
+    }
+    /*
+    public List<Attachment> saveAttachments(List<MultipartFile> multipartFiles, AttachmentType attachmentType) throws IOException {
+        return fileStore.storeFiles(multipartFiles, attachmentType);
+    }*/
+    public Attachment saveAttachment(Attachment attachment) {
+        return attachmentRepository.save(attachment);
+    }
 
-	    return result;
-	}
-
-		
-
-
-	public Map<AttachmentType, List<Attachment>> findAttachments() {
-	        List<Attachment> attachments = attachmentRepository.findAll();
-	        Map<AttachmentType, List<Attachment>> result = attachments.stream()
-	                .collect(Collectors.groupingBy(Attachment::getAttachmentType));
-
-	        return result;
-	    }
-	 
+    public Map<AttachmentType, List<Attachment>> findAttachmentss() {
+        List<Attachment> attachments = attachmentRepository.findAll();
+        return attachments.stream()
+                .collect(Collectors.groupingBy(Attachment::getAttachmentType));
+    }
 	 
 }

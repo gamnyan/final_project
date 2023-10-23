@@ -18,11 +18,11 @@ import com.avado.backend.config.SecurityUtil;
 import com.avado.backend.dto.ArticleResponseDto;
 import com.avado.backend.dto.PageResponseDto;
 import com.avado.backend.model.Article;
+import com.avado.backend.model.Attachment;
 import com.avado.backend.model.Member;
 import com.avado.backend.persistence.ArticleRepository;
 import com.avado.backend.persistence.MemberRepository;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -32,16 +32,7 @@ public class ArticleService {
 	private final ArticleRepository articleRepository;
 	private final MemberRepository memberRepository;
 	
-	//private String uploadDir = "C:\\Temp\\images";
-	/*
-	@PostConstruct
-    public void init() {
-        // 디렉토리 생성
-        File dir = new File(uploadDir);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-    }*/
+	
 	public List<PageResponseDto> allArticle(){
 		List<Article> articles = articleRepository.findAll();
 		return articles.stream().map(PageResponseDto::of).collect(Collectors.toList());
@@ -62,34 +53,22 @@ public class ArticleService {
             return ArticleResponseDto.of(article, result);
 		}
 	}
-	/*
-	@Transactional
-    public ArticleResponseDto postArticle(String title, String content,String nickname) {
+	
+    @Transactional
+    public void postArticle(Article article) {
         Member member = isMemberCurrent();
-        Article article = Article.createArticle(title, content, nickname, member);
-        return ArticleResponseDto.of(articleRepository.save(article), true);
-    }*/
-	@Transactional
-    public ArticleResponseDto postArticle(String title, String content,String nickname, String filename) {
+        article.setMember(member);
+        articleRepository.save(article);
+        //return ArticleResponseDto.of(articleRepository.save(article), true);
+    }
+    
+    @Transactional
+    public ArticleResponseDto postArticleOneImage(String title, String content,String nickname, String filename) {
         Member member = isMemberCurrent();
-        Article article = Article.createArticle(title, content, nickname,filename, member);
+        Article article = Article.createArticleOneImg(title, content, nickname,filename, member);
         return ArticleResponseDto.of(articleRepository.save(article), true);
     }
-	/*
-	@Transactional
-	public ArticleResponseDto createArticle(String title, String body, String nickname, MultipartFile file) throws IOException {
-	    Member member = isMemberCurrent();
-
-	    // 파일 저장 처리
-	    String uploadDir = "C:\\Users\\tj\\.eclipse\\workspace\\final_project\\backend\\src\\main\\webapp\\img";
-	    String filename = saveFile(file, uploadDir);
-
-	    // 기사 생성
-	    Article article = Article.createArticle(title, body, nickname, filename, member);
-
-	    // ArticleResponseDto 생성 및 반환
-	    return ArticleResponseDto.of(articleRepository.save(article), true);
-	}*/
+	
 
 	public String saveFile(MultipartFile file, String uploadDir) throws IOException {
 	    // 업로드된 파일의 원래 이름을 가져옵니다.
