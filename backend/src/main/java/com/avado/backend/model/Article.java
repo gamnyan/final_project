@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.web.multipart.MultipartFile;
+// import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -34,11 +34,11 @@ public class Article {
     private Long id;
 
     @Column(length = 10, nullable = true)
-    
+
     private String userid;
 
     @Column(length = 10, nullable = true)
-   
+
     private String nickname;
 
     @Column(length = 30, nullable = true)
@@ -66,28 +66,29 @@ public class Article {
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE)
     private List<Recommend> recommends = new ArrayList<>();
-    
+
     @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE)
     private List<Attachment> attachedFiles = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-    
-    
-    /*
-    public static Article createArticle (String title, String content,String nickname, Member member) {
-        Article article = new Article();
-        article.title = title;
-        article.content = content;
-       
-        article.nickname = nickname;
-        article.member = member;
 
-        return article;
-    }*/
-    
-    public static Article createArticle (String title, String content,String nickname,String filename, Member member) {
+    /*
+     * public static Article createArticle (String title, String content,String
+     * nickname, Member member) {
+     * Article article = new Article();
+     * article.title = title;
+     * article.content = content;
+     * 
+     * article.nickname = nickname;
+     * article.member = member;
+     * 
+     * return article;
+     * }
+     */
+
+    public static Article createArticle(String title, String content, String nickname, String filename, Member member) {
         Article article = new Article();
         article.title = title;
         article.content = content;
@@ -97,12 +98,11 @@ public class Article {
 
         return article;
     }
-    
 
-    public static Article changeArticle (Article article, String title, String content/*, String filename*/) {
+    public static Article changeArticle(Article article, String title, String content/* , String filename */) {
         article.title = title;
         article.content = content;
-        //article.filename = filename;
+        // article.filename = filename;
 
         return article;
     }

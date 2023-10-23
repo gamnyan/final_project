@@ -1,6 +1,5 @@
 package com.avado.backend.controller;
 
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +26,7 @@ import com.avado.backend.dto.MessageDto;
 import com.avado.backend.dto.PageResponseDto;
 import com.avado.backend.model.Attachment;
 import com.avado.backend.model.Attachment.AttachmentType;
-import com.avado.backend.model.FileStore;
+// import com.avado.backend.model.FileStore;
 import com.avado.backend.service.ArticleService;
 import com.avado.backend.service.AttachmentService;
 
@@ -39,58 +38,53 @@ import lombok.RequiredArgsConstructor;
 public class ArticleController {
 	private final ArticleService articleService;
 	private final AttachmentService attachmentService;
-	
-	  @GetMapping("/page")
-	    public ResponseEntity<Page<PageResponseDto>> pageArticle(@RequestParam(name = "page") int page) {
-	        return ResponseEntity.ok(articleService.pageArticle(page));
-	    }
-	  
-	  @GetMapping("/one")
-	    public ResponseEntity<ArticleResponseDto> getOneArticle(@RequestParam(name = "id") Long id) {
-	        return ResponseEntity.ok(articleService.oneArticle(id));
-	    }
-	
-	 
-	  @PostMapping("/")
-	  public ResponseEntity<ArticleResponseDto> createArticle(@ModelAttribute CreateArticleRequestDto request, @RequestPart("file") MultipartFile file) {
-		  try {
-		       
-				
-		        // 게시글 생성
-		        List<Attachment> attachments = attachmentService.saveAttachment(
-		               Collections.singletonMap(AttachmentType.IMAGE, Collections.singletonList(file)));
-		        String filename = attachments.get(0).getStorePath();
-		        
-		        ArticleResponseDto responseDto = articleService.postArticle(
-		                request.getTitle(), request.getContent(), request.getNickname(), filename);
 
-		        return ResponseEntity.ok(responseDto);
-		    } catch (IOException e) {
-		        e.printStackTrace();
-		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-		    }
-	  }
-	  
+	@GetMapping("/page")
+	public ResponseEntity<Page<PageResponseDto>> pageArticle(@RequestParam(name = "page") int page) {
+		return ResponseEntity.ok(articleService.pageArticle(page));
+	}
 
-	  
+	@GetMapping("/one")
+	public ResponseEntity<ArticleResponseDto> getOneArticle(@RequestParam(name = "id") Long id) {
+		return ResponseEntity.ok(articleService.oneArticle(id));
+	}
 
-	  
-	  @GetMapping("/change")
-	  public ResponseEntity<ArticleResponseDto> getChangeArticle(@RequestParam(name = "id") Long id){
-		  return ResponseEntity.ok(articleService.oneArticle((id)));
-	  }
-	  
-	  @PutMapping("/")
-	  public ResponseEntity<ArticleResponseDto> putChangeArticle(@RequestBody ChangeArticleRequestDto request){
-		  return ResponseEntity.ok(articleService.changeArticle(request.getId(),request.getTitle(), request.getContent(),request.getFilename()));
+	@PostMapping("/")
+	public ResponseEntity<ArticleResponseDto> createArticle(@ModelAttribute CreateArticleRequestDto request,
+			@RequestPart("file") MultipartFile file) {
+		try {
 
-	  }
-	  
-	  @DeleteMapping("/delete")
-	  public ResponseEntity<MessageDto> deleteArticle(@RequestParam(name="id")Long id){
-		  articleService.deleteArticle(id);
-		  return ResponseEntity.ok(new MessageDto("Success"));
-	  }
-	  
-	  
+			// 게시글 생성
+			List<Attachment> attachments = attachmentService.saveAttachment(
+					Collections.singletonMap(AttachmentType.IMAGE, Collections.singletonList(file)));
+			String filename = attachments.get(0).getStorePath();
+
+			ArticleResponseDto responseDto = articleService.postArticle(
+					request.getTitle(), request.getContent(), request.getNickname(), filename);
+
+			return ResponseEntity.ok(responseDto);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+	}
+
+	@GetMapping("/change")
+	public ResponseEntity<ArticleResponseDto> getChangeArticle(@RequestParam(name = "id") Long id) {
+		return ResponseEntity.ok(articleService.oneArticle((id)));
+	}
+
+	@PutMapping("/")
+	public ResponseEntity<ArticleResponseDto> putChangeArticle(@RequestBody ChangeArticleRequestDto request) {
+		return ResponseEntity.ok(articleService.changeArticle(request.getId(), request.getTitle(), request.getContent(),
+				request.getFilename()));
+
+	}
+
+	@DeleteMapping("/delete")
+	public ResponseEntity<MessageDto> deleteArticle(@RequestParam(name = "id") Long id) {
+		articleService.deleteArticle(id);
+		return ResponseEntity.ok(new MessageDto("Success"));
+	}
+
 }

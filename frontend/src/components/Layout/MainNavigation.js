@@ -1,11 +1,9 @@
 import { Fragment, useContext, useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
-// import styled from "styled-components";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { faBars, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-//import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/header.css";
 
 import AuthContext from "../../Store/Auth-context";
@@ -26,29 +24,43 @@ export const PC = ({ children }) => {
    return <>{isPc && children}</>;
 };
 
-/** 삭제해도 되는 건가? */
-// function HomeIcon(props) {
-//    return (
-//       <SvgIcon {...props}>
-//          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-//       </SvgIcon>
-//    );
-// }
-
 // const pages = ["커뮤니티", "사진첩"];
 // const pagesTo = ["community", "picture"];
 // const settings = ["마이페이지", "로그아웃"];
 // const settingsTo = ["profile", "toggleLogoutHandler"];
 
-const MainNavigation = () => {
+export function UserProfile() {
    const authCtx = useContext(AuthContext);
-   const [nickname, setNickname] = useState("");
+   const [userProfile, setUserProfile] = useState({
+      email: "",
+      nickname: "",
+      password: "",
+   });
+   // const [email, setEmail] = useState("");
+   // const [nickname, setNickname] = useState("");
+   // const [password, setPassword] = useState("");
    let isLogin = authCtx.isLoggedIn;
    let isGet = authCtx.isGetSuccess;
 
-   const callback = str => {
-      setNickname(str);
+   // let userProfiles = [email, nickname, password];
+
+   const updateProfile = (email, nickname, password) => {
+      setUserProfile({
+         email: email,
+         nickname: nickname,
+         password: password,
+      });
    };
+
+   // const callbackNickname = str => {
+   //    setNickname(str);
+   // };
+   // const callbackEmail = str => {
+   //    setEmail(str);
+   // };
+   // const callbackPassword = str => {
+   //    setPassword(str);
+   // };
 
    useEffect(() => {
       if (isLogin) {
@@ -61,10 +73,49 @@ const MainNavigation = () => {
    useEffect(() => {
       if (isGet) {
          console.log("get start");
-         callback(authCtx.userObj.nickname);
+         // callbackEmail(authCtx.userObj.email);
+         // callbackNickname(authCtx.userObj.nickname);
+         // callbackPassword(authCtx.userObj.password);
+         const { email, nickname, password } = authCtx.userObj;
+         updateProfile(email, nickname, password);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [isGet]);
+
+   return userProfile;
+}
+
+const MainNavigation = () => {
+   const authCtx = useContext(AuthContext);
+   const userProfile = UserProfile();
+   // const [nickname, setNickname] = useState("");
+   // const [email, setEmail] = useState("");
+   let isLogin = authCtx.isLoggedIn;
+   // let isGet = authCtx.isGetSuccess;
+
+   // const callbackNickname = str => {
+   //    setNickname(str);
+   // };
+   // const callbackEmail = str => {
+   //    setEmail(str);
+   // };
+
+   useEffect(() => {
+      if (isLogin) {
+         console.log("start");
+         authCtx.getUser();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [isLogin]);
+
+   // useEffect(() => {
+   //    if (isGet) {
+   //       console.log("get start");
+   //       callbackEmail(authCtx.userObj.email);
+   //       callbackNickname(authCtx.userObj.nickname);
+   //    }
+   //    // eslint-disable-next-line react-hooks/exhaustive-deps
+   // }, [isGet]);
 
    const toggleLogoutHandler = () => {
       authCtx.logout();
@@ -114,7 +165,7 @@ const MainNavigation = () => {
                         <li>
                            <NavLink to="/profile">
                               <FontAwesomeIcon icon={faUser} size="2x" />
-                              {nickname}
+                              {userProfile.nickname}
                            </NavLink>
                         </li>
                         <li>
@@ -144,7 +195,7 @@ const MainNavigation = () => {
                         ) : (
                            <ul className="nav-user nav-logined">
                               <li>
-                                 <NavLink to="/profile">{nickname}</NavLink>
+                                 <NavLink to="/profile">{userProfile.nickname}</NavLink>
                               </li>
                               <li>
                                  <button onClick={toggleLogoutHandler}>Logout</button>
@@ -188,97 +239,3 @@ const MainNavigation = () => {
 };
 
 export default MainNavigation;
-
-/* 
-    <header>
-      {isLogin === false ? (
-        <ul>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="signup">Sign-Up</Link>
-          </li>
-        </ul>
-      ) : (
-        <ul>
-          <li>
-            <Link to="/profile">{nickname}</Link>
-          </li>
-          <li>
-            <button onClick={toggleLogoutHandler}>Logout</button>
-          </li>
-        </ul>
-      )}
-    </header>
-
-
-*/
-
-/* 
-<PC>
-          <Navbar.Brand href="/">Home</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link href="#">gallery</Nav.Link>
-            <Nav.Link href="#">chat</Nav.Link>
-          </Nav>
-          {isLogin === false ? (
-            <Nav className="ml-auto">
-              <Nav.Link href="/login">Login</Nav.Link>
-              <Nav.Link href="/signup">Sign-Up</Nav.Link>
-            </Nav>
-          ) : (
-            <Nav className="ml-auto">
-              <Nav.Link href="/profile">{nickname}</Nav.Link>
-              <button onClick={toggleLogoutHandler}>Logout</button>
-            </Nav>
-          )}
-        </PC>
- */
-
-/* 
-                <Navbar className="gnb gnb_lg">
-          <Container>
-            <div style={{ display: "flex" }}>
-              <Navbar.Brand href="/" className="nav-logo-link">
-                Home
-              </Navbar.Brand>
-              <Nav className="ml-auto">
-                <ul className="menu">
-                  <li>
-                    <Nav.Link href="#" className="nav-menu-list">
-                      gallery
-                    </Nav.Link>
-                  </li>
-                  <li>
-                    <Nav.Link href="#" className="nav-menu-list">
-                      chat
-                    </Nav.Link>
-                  </li>
-                </ul>
-              </Nav>
-            </div>
-            {isLogin === false ? (
-              <Nav className="ml-auto">
-                <ul className="menu">
-                  <li>
-                    <Nav.Link href="/login">Login</Nav.Link>
-                  </li>
-                  <li>
-                    <Nav.Link href="/signup">Sign-Up</Nav.Link>
-                  </li>
-                </ul>
-              </Nav>
-            ) : (
-              <Nav className="ml-auto">
-                <li>
-                  <Nav.Link href="/profile">{nickname}</Nav.Link>
-                </li>
-                <li>
-                  <button onClick={toggleLogoutHandler}>Logout</button>
-                </li>
-              </Nav>
-            )}
-          </Container>
-        </Navbar>
-        */
