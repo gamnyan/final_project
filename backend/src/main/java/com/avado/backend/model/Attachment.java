@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 public class Attachment {
 	 @Id
@@ -39,16 +39,20 @@ public class Attachment {
 	 
 	 
 	 public enum AttachmentType {
-		    IMAGE, GENERAL
+		    IMAGE
 		}
 	 public String getStorePath() {
 		    return this.storeFilename;
 		}
 	 
+	 public Attachment() {
+		 article = new Article();
+	 }
+	 
 	 
 	 @Builder
 	 public Attachment(Long id,String originFilename,String storePath,AttachmentType attachmentType,Member member ) {
-		 this.id = id;
+		 
 	        this.originFilename = originFilename;
 	        this.storeFilename = storePath;
 	        this.attachmentType = attachmentType;
