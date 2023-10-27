@@ -58,6 +58,12 @@ public class Member {
     @JsonIgnoreProperties({ "member" })
     private List<Comment> comment;
 
+    // chat
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties({ "member" })
+    private List<ChatRoom> chatRoom;
+    //
+
     public void setNickname(String nickname) {
         this.nickname = nickname;
     } // setNickname
