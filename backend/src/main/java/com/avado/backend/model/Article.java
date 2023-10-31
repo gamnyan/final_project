@@ -69,6 +69,10 @@ public class Article {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "club_id")
+    private Club club;
 
     /*
      * public static Article createArticle (String title, String content,String
@@ -116,9 +120,10 @@ public class Article {
         article.title = title;
         article.content = content;
         // article.filename = filename;
-
+       
         return article;
     }
+   
 
     @Builder
     public Article(String title, String content, String nickname, List<Attachment> attachedFiles) {

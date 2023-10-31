@@ -20,7 +20,7 @@ public class ArticlePostDto {
     private String title;
     private String content;
     private String nickname;
-    private Map<AttachmentType, List<MultipartFile>> attachmentFiles = new ConcurrentHashMap<>();
+    //private Map<AttachmentType, List<MultipartFile>> attachmentFiles = new ConcurrentHashMap<>();
 
     @Builder
     public ArticlePostDto(String title, String content, String nickname,
@@ -29,7 +29,7 @@ public class ArticlePostDto {
         this.title = title;
         this.content = content;
         this.nickname = nickname;
-        this.attachmentFiles = attachmentFiles;
+        //this.attachmentFiles = attachmentFiles;
     }
 
     public Article createArticle() {
@@ -37,7 +37,7 @@ public class ArticlePostDto {
                 .title(title)
                 .content(content)
                 .nickname(nickname)
-                .attachedFiles(new ArrayList<>())
+                //.attachedFiles(new ArrayList<>())
                 .build();
     }
 

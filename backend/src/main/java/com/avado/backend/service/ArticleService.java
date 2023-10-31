@@ -60,6 +60,13 @@ public class ArticleService {
 		articleRepository.save(article);
 		// return ArticleResponseDto.of(articleRepository.save(article), true);
 	}
+	
+	@Transactional
+    public ArticleResponseDto postArticleNoImg(String title, String content,String nickname) {
+        Member member = isMemberCurrent();
+        Article article = Article.createArticle(title, content,nickname, member);
+        return ArticleResponseDto.of(articleRepository.save(article), true);
+    }
 
 	@Transactional
 	public ArticleResponseDto postArticleOneImage(String title, String content, String nickname, String filename) {
@@ -88,12 +95,30 @@ public class ArticleService {
 	}
 
 	@Transactional
-	public ArticleResponseDto changeArticle(Long id, String title, String content, String filename) {
+	public ArticleResponseDto changeArticle(Long id, String title, String content) {
 		Article article = authorizationArticleWriter(id);
 		return ArticleResponseDto
 				.of(articleRepository.save(Article.changeArticle(article, title, content/* ,filename */)), true);
 
 	}
+	@Transactional
+	public Article changeArticleF(Long id, String title, String content) {
+		try {
+			Article article = authorizationArticleWriter(id);
+			article.setTitle(title);
+			article.setContent(content);
+		
+			return articleRepository.save(article);
+	       
+	       
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new RuntimeException("게시글 업데이트 중 오류가 발생했습니다.");
+	    }
+	   
+	}
+	
 
 	@Transactional
 	public void deleteArticle(Long id) {
