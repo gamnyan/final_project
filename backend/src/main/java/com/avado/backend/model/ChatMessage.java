@@ -1,5 +1,7 @@
 package com.avado.backend.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -9,7 +11,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "chatmessage")
+@Table(name = "chat_message")
 @Entity
 @Builder
 @JsonAutoDetect
@@ -18,18 +20,23 @@ public class ChatMessage {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  //채팅방 ID
+  // 채팅방 ID
   @ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "roomid")
-	@JsonIgnoreProperties("chatmessage")
+	@JoinColumn(name = "room_id")
+	@JsonIgnoreProperties("chat_message")
   private ChatRoom chatRoom;
 
-  //보내는 사람
+  // 보내는 사람
 	@Column(name = "writer")
   private String writer;
 
-  //내용
+  // 내용
   @Column(nullable = false)
   private String message;
+
+  // 시간
+  // @CreationTimestamp
+  // @Column(name = "createat")
+  // private LocalDateTime createdAt = LocalDateTime.now();
 
 } // Message

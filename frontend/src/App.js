@@ -53,6 +53,10 @@ function App() {
           path="/chat/room/:id"
           element={!authCtx.isLoggedIn ? <Navigate to="/" /> : <ChatRoom />}
         />
+        {/* <Route
+          path="/gallery"
+          element={!authCtx.isLoggedIn ? <Navigate to="/" /> : <ChatRoom />}
+        /> */}
       </Routes>
     </Layout>
   );

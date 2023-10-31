@@ -10,7 +10,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "chatroom")
+@Table(name = "chat_room")
 @Entity
 @Builder
 public class ChatRoom {
@@ -20,15 +20,20 @@ public class ChatRoom {
   private Long id;
 
   @ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "memberid")
-	@JsonIgnoreProperties("chatroom")
+	@JoinColumn(name = "member_id")
+	@JsonIgnoreProperties("chat_room")
   private Member member;
+
+  // @ManyToOne(fetch = FetchType.EAGER)
+  // @JoinColumn(name = "articleid")
+  // @JsonIgnoreProperties
+  // private Article article;
   
-  @Column(name = "roomname", nullable = false)
+  @Column(name = "room_name", nullable = false)
   private String roomName;
 
-  @OneToMany(mappedBy = "chatRoom", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-  @JsonIgnoreProperties({ "chatroom" })
+  @OneToMany(mappedBy = "chat_room", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @JsonIgnoreProperties({ "chat_room" })
   private List<ChatMessage> chatMessage;
 
 } // ChatRoom

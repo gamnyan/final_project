@@ -19,47 +19,52 @@ import lombok.NoArgsConstructor;
 //@NoArgsConstructor
 @AllArgsConstructor
 public class Attachment {
-	 @Id
-	 @GeneratedValue(strategy = GenerationType.IDENTITY)
-	 private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	 
-	 private String originFilename;
-	 private String storeFilename;
+	private String originFilename;
+	private String storeFilename;
 	 
-	 @Enumerated(EnumType.STRING)
-	 private AttachmentType attachmentType;
+	@Enumerated(EnumType.STRING)
+	private AttachmentType attachmentType;
 	 
-	 @ManyToOne(fetch = FetchType.LAZY)
-	    @JoinColumn(name = "article_id")
-	    private Article article;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "article_id")
+  private Article article;
+      
+	@ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "gallery_id")
+  private Gallery gallery;
 	 
-	 @ManyToOne(fetch = FetchType.LAZY)
-	 @JoinColumn(name = "member_id")
-	 private Member member;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "member_id")
+	private Member member;
 	 
 	 
-	 public enum AttachmentType {
-		    IMAGE
-		}
-	 public String getStorePath() {
-		    return this.storeFilename;
-		}
+	public enum AttachmentType {
+	    IMAGE
+	}
+	public String getStorePath() {
+	    return this.storeFilename;
+	}
 	 
-	 public Attachment() {
-		 article = new Article();
+	public Attachment() {
+      article = new Article();
+      gallery = new Gallery();
+	}
+	 
+	 
+	@Builder
+	public Attachment(Long id,String originFilename,String storePath,AttachmentType attachmentType,Member member ) {		 
+    this.originFilename = originFilename;
+    this.storeFilename = storePath;
+    this.attachmentType = attachmentType;
+    this.member = member;
 	 }
-	 
-	 
-	 @Builder
-	 public Attachment(Long id,String originFilename,String storePath,AttachmentType attachmentType,Member member ) {
-		 
-	        this.originFilename = originFilename;
-	        this.storeFilename = storePath;
-	        this.attachmentType = attachmentType;
-	        this.member = member;
-	 }
-	 public void setMember(Member member) {
-	        this.member = member;
-	    }
-	 
+
+  public void setMember(Member member) {
+    this.member = member;
+  }
+   
 }

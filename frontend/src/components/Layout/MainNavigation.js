@@ -143,13 +143,19 @@ const MainNavigation = () => {
                 </Navbar.Brand>
                 <ul className="nav-menu">
                   <li className="linkStyled">
-                    <Link to="#">social</Link>
+                    <Link to="/">Home</Link>
                   </li>
                   <li className="linkStyled">
-                    <Nav.Link href="/chat">chat</Nav.Link>
+                    <Link to="/">Moim</Link>
                   </li>
                   <li className="linkStyled">
-                    <Link to="#">settings</Link>
+                    <Nav.Link href="/chat">Chat</Nav.Link>
+                  </li>
+                  <li className="linkStyled">
+                    <Nav.Link href="/gallery">Gallery</Nav.Link>
+                  </li>
+                  <li className="linkStyled">
+                    <Link to="#">Community</Link>
                   </li>
                 </ul>
               </div>
@@ -212,16 +218,19 @@ const MainNavigation = () => {
                 <div className="menuWrap">
                   <ul className="nav-menu">
                     <li className="linkStyled">
-                      <Nav.Link href="/">home</Nav.Link>
+                      <Nav.Link href="/">Home</Nav.Link>
                     </li>
                     <li className="linkStyled">
-                      <Nav.Link href="#">social</Nav.Link>
+                      <Nav.Link href="#">Moim</Nav.Link>
                     </li>
                     <li className="linkStyled">
-                      <Nav.Link href="/chat">chat</Nav.Link>
+                      <Nav.Link href="/chat">Chat</Nav.Link>
                     </li>
                     <li className="linkStyled">
-                      <Nav.Link href="#">settings</Nav.Link>
+                      <Nav.Link href="/gallery">Gallery</Nav.Link>
+                    </li>
+                    <li className="linkStyled">
+                      <Nav.Link href="#">Community</Nav.Link>
                     </li>
                   </ul>
                 </div>
