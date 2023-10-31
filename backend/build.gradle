@@ -12,11 +12,7 @@ java {
     sourceCompatibility = '17'
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
+
 
 repositories {
     mavenCentral()
@@ -59,13 +55,23 @@ tasks.named('test') {
 
 def reactDir = "$projectDir/src/main/webapp/frontend";
 
-sourceSets{
+
+configurations {
+    querydsl.extendsFrom compileClasspath
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+sourceSets {
+    main.java.srcDir querydslDir
     main{
         resources{
             srcDirs = ["$projectDir/src/main/resources"]
         }
     }
 }
+
 
 processResources{
     dependsOn "copyReactBuildFiles"
@@ -112,13 +118,6 @@ querydsl {
     querydslSourcesDir = querydslDir
 }
 
-sourceSets {
-    main.java.srcDir querydslDir
-}
-
-configurations {
-    querydsl.extendsFrom compileClasspath
-}
 
 compileQuerydsl {
     options.annotationProcessorPath = configurations.querydsl

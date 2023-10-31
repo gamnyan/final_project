@@ -15,7 +15,9 @@ import com.avado.backend.security.JwtAuthenticationEntryPoint;
 import com.avado.backend.security.TokenProvider;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
@@ -41,11 +43,12 @@ public class WebSecurityConfig {
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                         .accessDeniedHandler(jwtAccessDeniedHandler))
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/**", "/article/**", "/recommend/**", "/comment/**","/img/**").permitAll()
+                        .requestMatchers("/article/img/**").permitAll()  
                         .requestMatchers("/member/me").permitAll() // 엔드포인트 추가 구글 때문에
                         .anyRequest().authenticated())
                 .apply(new JwtSecurityConfig(tokenProvider));
-        // .oauth2Login()
+        log.info("jwt: ");        // .oauth2Login()
 
         return http.build();
     }

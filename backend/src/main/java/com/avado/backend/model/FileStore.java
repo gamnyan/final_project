@@ -18,7 +18,7 @@ import com.avado.backend.model.Attachment.AttachmentType;
 public class FileStore {
 	@Value("C:\\Temp\\img/")
 	private String fileDirPath;
-
+	String uploadDir = "C:\\Temp\\img/";
 	
 	public List<Attachment> storeFiles(List<MultipartFile> multipartFiles,AttachmentType attachmentType) throws IOException{
 		List<Attachment> attachments = new ArrayList<>();
@@ -50,15 +50,19 @@ public class FileStore {
 		return Attachment.builder()
 				.originFilename(originalFilename)
 				.storePath(storeFilename)
-				.attachmentType(attachmentType)
+			
 				.build();
 	}
-	public String createPath(String storeFilename, AttachmentType attachmentType) {
-        //String viaPath = (attachmentType == AttachmentType.IMAGE) ? "images/" : "generals/";
+	public String createPath(String storeFilename,AttachmentType attachmentType) {
+        String viaPath = (attachmentType == AttachmentType.IMAGE) ? "" : "generals/";
         //System.out.println("AttachmentType51: " + attachmentType);
+        
         //System.out.println("viapath " + viaPath);
-        return fileDirPath/*+viaPath*/+storeFilename;
-    }
+        //System.out.println(fileDirPath);
+        //System.out.println(uploadDir);
+        return uploadDir+viaPath+storeFilename;
+        
+	}
 
     private String createStoreFilename(String originalFilename) {
         String uuid = UUID.randomUUID().toString();

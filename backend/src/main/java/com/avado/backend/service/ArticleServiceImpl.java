@@ -19,17 +19,17 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ArticleServiceImpl {
+public class ArticleServiceImpl  {
 
 	private final ArticleRepository articleRepository;
     private final AttachmentRepository attachmentRepositoty;
     private final FileStore fileStore;
-
+/*
     public List<Attachment> saveAttachments(Map<AttachmentType, List<MultipartFile>> multipartFileListMap) throws IOException {
         List<Attachment> imageFiles = fileStore.storeFiles(multipartFileListMap.get(AttachmentType.IMAGE), AttachmentType.IMAGE);
 
         return imageFiles;
-    }
+    }*/
 
     public Map<AttachmentType, List<Attachment>> findAttachments() {
         List<Attachment> attachments = attachmentRepositoty.findAll();
