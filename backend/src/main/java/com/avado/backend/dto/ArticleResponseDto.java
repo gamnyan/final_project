@@ -21,7 +21,7 @@ public class ArticleResponseDto {
 	private String memberNickname;
 	private String articleTitle;
 	private String articleContent;
-	//private String articleFilename;
+	
 	private String createdAt;
 	private String updatedAt;
 	private boolean isWritten;
@@ -37,7 +37,6 @@ public class ArticleResponseDto {
                 .createdAt(article.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .updatedAt(article.getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .isWritten(bool)
-                //.attachment(article.getAttachedFiles())
                 .build();
         
         List<AttachmentDto> attachmentDtos = new ArrayList<>();
@@ -50,14 +49,6 @@ public class ArticleResponseDto {
         return rtn;
         
     }
-	/*
-	public void setAttachments(List<Attachment> attachment) {
-        this.attachment = attachment;
-    }*/
-	/*
-	public void setAttachments(List<AttachmentDto> attachmentDtoList) {
-		this.attachment = attachmentDtoList;
-	}*/
-
+	
 	
 }
