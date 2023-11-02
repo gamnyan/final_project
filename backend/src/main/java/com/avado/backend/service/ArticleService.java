@@ -18,7 +18,6 @@ import com.avado.backend.config.SecurityUtil;
 import com.avado.backend.dto.ArticleResponseDto;
 import com.avado.backend.dto.PageResponseDto;
 import com.avado.backend.model.Article;
-import com.avado.backend.model.Attachment;
 import com.avado.backend.model.Member;
 import com.avado.backend.persistence.ArticleRepository;
 import com.avado.backend.persistence.MemberRepository;

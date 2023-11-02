@@ -34,9 +34,9 @@ export const retrieveStoredToken = () => {
    const storedToken = localStorage.getItem("token");
    const storedExpirationDate = localStorage.getItem("expirationTime") || "0";
 
-   const remaingTime = calculateRemainingTime(+storedExpirationDate);
+   const remaining = calculateRemainingTime(+storedExpirationDate);
 
-   if (remaingTime <= 1000) {
+   if (remaining <= 1000) {
       localStorage.removeItem("token");
       localStorage.removeItem("expirationTime");
       return null;
@@ -44,7 +44,7 @@ export const retrieveStoredToken = () => {
 
    return {
       token: storedToken,
-      duration: remaingTime,
+      duration: remaining,
    };
 };
 
@@ -52,19 +52,52 @@ export const retrieveStoredToken = () => {
  *  통신으로 반환된 response를 반환
  *  반환 타입은 Promise<AxiosResponse<any, any> | null>
  */
-export const signupActionHandler = (email, password, nickname) => {
+export const signupActionHandler = async (email, password, nickname) => {
    const URL = "/auth/signup";
-   const signupObject = { email, password, nickname };
+   // 이메일 중복 체크를 기다림
+   const isEmailDuplicate = await checkDuplicateEmail(email);
+   // 중복이 아니면 회원가입 요청
+   if (!isEmailDuplicate) {
+      const signupObject = { email, password, nickname };
+      const response = await POST(URL, signupObject, {});
+      return response;
+   } else {
+      // 중복이면 처리할 내용 추가
+      return null; // 또는 다른 처리를 하세요.
+   }
+};
 
-   const response = POST(URL, signupObject, {});
-   return response;
+/** 이메일 인증 보내는 함수 */
+export const sendEmailActionHandler = async email => {
+   const URL = "/auth/mailConfirm";
+   // FormData 객체 생성
+   const formData = new FormData();
+   formData.append("email", email);
+
+   const response = await POST(URL, formData, {});
+   // console.log("이메일: " + email);
+   // console.log("이메일 인증 ActionHandler 함수: " + response.data);
+   return response.data;
+};
+
+/** 이메일 중복 체크를 위한 함수
+ *  중복되면 false, 중복되지 않으면 true 반환
+ *  반환 타입은 Promise<boolean>
+ */
+export const checkDuplicateEmail = async email => {
+   const duplicateCheckURL = "/member/check-email";
+   const userEmail = { email };
+   const duplicateCheckResponse = await POST(duplicateCheckURL, userEmail, {});
+   // console.log("이메일: " + email);
+   // console.log("duplicateCheckResponse:", duplicateCheckResponse);
+   // console.log("duplicateCheckResponse.data:", duplicateCheckResponse.data);
+   return duplicateCheckResponse.data;
 };
 
 /** 로그인 URL을 POST 방식으로 호출 */
 export const loginActionHandler = (email, password) => {
    const URL = "/auth/login";
    const loginObject = { email, password };
-
    const response = POST(URL, loginObject, {});
    return response;
 };

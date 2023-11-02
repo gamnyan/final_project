@@ -43,6 +43,9 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/member/me").permitAll() // 엔드포인트 추가 구글 때문에
+                        .requestMatchers(
+                                "/member/check-email")
+                        .permitAll()
                         .anyRequest().authenticated())
                 .apply(new JwtSecurityConfig(tokenProvider));
         // .oauth2Login()

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.avado.backend.dto.ChangePasswordRequestDto;
+import com.avado.backend.dto.EmailCheckRequestDto;
 import com.avado.backend.dto.MemberRequestDto;
 import com.avado.backend.dto.MemberResponseDto;
 import com.avado.backend.service.MemberService;
@@ -41,6 +42,12 @@ public class MemberController {
     public ResponseEntity<MemberResponseDto> setMemberPassword(@RequestBody ChangePasswordRequestDto request) {
         return ResponseEntity.ok(memberService.changeMemberPassword(request.getEmail(), request.getExPassword(),
                 request.getNewPassword()));
+    }
+
+    @PostMapping("/check-email")
+    public ResponseEntity<Boolean> checkEmailDuplicate(@RequestBody EmailCheckRequestDto request) {
+        boolean isDuplicate = memberService.isEmailDuplicate(request);
+        return ResponseEntity.ok(isDuplicate);
     }
 
 }
