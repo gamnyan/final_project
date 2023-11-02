@@ -1,6 +1,6 @@
 package com.avado.backend.dto;
 
-import com.avado.backend.model.Club;
+
 import com.avado.backend.model.Member;
 
 import lombok.Builder;
@@ -28,15 +28,5 @@ public class ClubCreateRequestDto {
 		this.address = address;
 		this.filename = filename;
 	}
-	/*
-	public Club toEntity() {
-		return Club.builder()
-				.member(member)
-				.name(name)
-				.clubinfo(clubinfo)
-				.categoty(category)
-				.address(address)
-				.filenmae(filename)
-				.build();
-	}*/
+	
 }

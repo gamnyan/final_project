@@ -88,12 +88,12 @@ public class Article {
      * }
      */
 
-    public void addAttachedFile(Attachment attachment) {
+    /* public void addAttachedFile(Attachment attachment) {
         this.attachedFiles.add(attachment);
         attachment.setArticle(this); // 첨부 파일에도 연관 관계 설정
-    }
+    } */
 
-    public static Article createArticle(String title, String content, String nickname, Member member) {
+    /* public static Article createArticle(String title, String content, String nickname, Member member) {
         Article article = new Article();
         article.title = title;
         article.content = content;
@@ -102,9 +102,9 @@ public class Article {
         article.member = member;
 
         return article;
-    }
+    } */
 
-    public static Article createArticleOneImg(String title, String content, String nickname, String filename,
+   /*  public static Article createArticleOneImg(String title, String content, String nickname, String filename,
             Member member) {
         Article article = new Article();
         article.title = title;
@@ -115,7 +115,7 @@ public class Article {
 
         return article;
     }
-
+ */
     public static Article changeArticle(Article article, String title, String content/* , String filename */) {
         article.title = title;
         article.content = content;
@@ -125,7 +125,7 @@ public class Article {
     }
    
 
-    @Builder
+    /* @Builder
     public Article(String title, String content, String nickname, List<Attachment> attachedFiles) {
         this.title = title;
 
@@ -136,6 +136,6 @@ public class Article {
             attachedFiles.forEach(attachment -> attachment.setArticle(this));
         }
 
-    }
+    } */
 
 }

@@ -54,7 +54,22 @@ public class Club {
 	@OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE)
     private List<Article> articles = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "club")
+    private List<ClubJoin> clubJoins = new ArrayList<>();
 
+    public List<ClubJoin> getClubJoins() {
+        return clubJoins;
+    }
 	
+
+	public static Club changeClub(Club club,String name,String Filename,String Clubinfo,String Category,String Address) {
+		club.name = name;
+		club.Filename=Filename;
+		club.Clubinfo=Clubinfo;
+		club.Category=Category;
+		club.Address=Address;
+		
+		return club;
+	}
 	
 }

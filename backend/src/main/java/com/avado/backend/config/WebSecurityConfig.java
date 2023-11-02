@@ -43,7 +43,7 @@ public class WebSecurityConfig {
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                         .accessDeniedHandler(jwtAccessDeniedHandler))
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/auth/**", "/article/**", "/recommend/**", "/comment/**","/img/**").permitAll()
+                        .requestMatchers("/auth/**", "/article/**", "/recommend/**", "/comment/**","/img/**","/club/**","/clubjoin/**").permitAll()
                         .requestMatchers("/article/img/**").permitAll()  
                         .requestMatchers("/member/me").permitAll() // 엔드포인트 추가 구글 때문에
                         .anyRequest().authenticated())
