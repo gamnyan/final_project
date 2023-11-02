@@ -100,4 +100,3 @@ task copyReactBuildFiles(type:Copy){
     from "$reactDir/build"
     into "$projectDir/src/main/resources/static"
 }
-
