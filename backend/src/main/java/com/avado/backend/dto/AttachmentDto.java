@@ -17,16 +17,14 @@ public class AttachmentDto {
     private Long id;
     private String originFilename;
     private String storeFilename;
-    //private AttachmentType attachmentType;
-    private Long articleId; 
+    private Long galleryId;
     
     public static AttachmentDto convertToDto(Attachment attachment) {
         return AttachmentDto.builder()
                 .id(attachment.getId())
                 .originFilename(attachment.getOriginFilename())
                 .storeFilename(attachment.getStoreFilename())
-                //.attachmentType(attachment.setAttachmentType(AttachmentType.IMAGE))
-                .articleId(attachment.getArticle().getId())
+                .galleryId(attachment.getGallery().getId())
                 .build();
     }
 

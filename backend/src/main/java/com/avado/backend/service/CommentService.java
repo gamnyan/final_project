@@ -42,7 +42,7 @@ public class CommentService {
 			return comments.stream().map(comment -> CommentResponseDto.of(comment,false))
 					.collect(Collectors.toList());
 		}else {
-			 Member member = memberRepository.findById(Long.parseLong(authentication.getName())).orElseThrow();
+			Member member = memberRepository.findById(Long.parseLong(authentication.getName())).orElseThrow();
 			Map<Boolean,List<Comment>> collect = comments.stream().collect(
 					Collectors.partitioningBy(comment->comment.getMember().equals(member)
 							)

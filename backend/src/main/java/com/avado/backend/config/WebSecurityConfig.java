@@ -42,11 +42,14 @@ public class WebSecurityConfig {
                 .exceptionHandling(handling -> handling
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                         .accessDeniedHandler(jwtAccessDeniedHandler))
-                .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/auth/**", "/article/**", "/recommend/**", "/comment/**","/img/**").permitAll()
+            .authorizeHttpRequests(requests -> requests
+                .requestMatchers("/ws/chat/**").permitAll()
+                .requestMatchers("/chat/**").permitAll()
+                .requestMatchers("/club/**").permitAll()
+                .requestMatchers("/auth/**", "/article/**", "/recommend/**", "/comment/**","/img/**").permitAll()
                         .requestMatchers("/article/img/**").permitAll()  
-                        .requestMatchers("/member/me").permitAll() // 엔드포인트 추가 구글 때문에
-                        .anyRequest().authenticated())
+                .requestMatchers("/member/me").permitAll() // 엔드포인트 추가 구글 때문에
+                .anyRequest().authenticated())
                 .apply(new JwtSecurityConfig(tokenProvider));
         log.info("jwt: ");        // .oauth2Login()
 

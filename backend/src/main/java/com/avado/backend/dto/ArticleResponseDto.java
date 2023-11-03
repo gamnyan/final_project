@@ -50,14 +50,6 @@ public class ArticleResponseDto {
         return rtn;
         
     }
-	/*
-	public void setAttachments(List<Attachment> attachment) {
-        this.attachment = attachment;
-    }*/
-	/*
-	public void setAttachments(List<AttachmentDto> attachmentDtoList) {
-		this.attachment = attachmentDtoList;
-	}*/
 
 	
 }

@@ -42,12 +42,6 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "article_id")
     private Article article;
-    
-    @ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "communityid")
-	@JsonIgnoreProperties("community")
-	private Community community;
-
 
     @Builder
     public Comment(String text, Member member, Article article) {
