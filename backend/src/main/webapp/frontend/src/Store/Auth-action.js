@@ -67,6 +67,19 @@ export const signupActionHandler = async (email, password, nickname) => {
    }
 };
 
+/** 이메일 인증 보내는 함수 */
+export const sendEmailActionHandler = async email => {
+   const URL = "/auth/mailConfirm";
+   // FormData 객체 생성
+   const formData = new FormData();
+   formData.append("email", email);
+
+   const response = await POST(URL, formData, {});
+   // console.log("이메일: " + email);
+   // console.log("이메일 인증 ActionHandler 함수: " + response.data);
+   return response.data;
+};
+
 /** 이메일 중복 체크를 위한 함수
  *  중복되면 false, 중복되지 않으면 true 반환
  *  반환 타입은 Promise<boolean>

@@ -10,6 +10,7 @@ const AuthContext = React.createContext({
    isSuccess: false,
    isGetSuccess: false,
    signup: (email, password, nickname) => {},
+   sendEmail: email => {},
    checkEmail: email => {},
    login: (email, password) => {},
    logout: () => {},
@@ -45,6 +46,11 @@ export const AuthContextProvider = props => {
             setIsSuccess(true);
          }
       });
+   };
+
+   const sendEmailHandler = email => {
+      const response = authAction.sendEmailActionHandler(email);
+      return response;
    };
 
    const checkEmailHandler = email => {
@@ -125,6 +131,7 @@ export const AuthContextProvider = props => {
       isSuccess,
       isGetSuccess,
       signup: signupHandler,
+      sendEmail: sendEmailHandler,
       checkEmail: checkEmailHandler,
       login: loginHandler,
       logout: logoutHandler,
