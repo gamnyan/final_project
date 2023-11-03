@@ -8,10 +8,12 @@ import AuthPage from "./Pages/AuthPage";
 import HomePage from "./Pages/home/HomePage";
 import ProfilePage from "./Pages/ProfilePage";
 import AuthContext from "./Store/Auth-context";
-import ArticleListPage from './Pages/ArticleListPage';
-import ArticleOnePage from './Pages/ArticleOnePage';
-import CreateArticlePage from './Pages/CreateArticlePage';
-import UpdateArticlePage from './Pages/UpdateArticlePage';
+import ArticleListPage from './Pages/article/ArticleListPage';
+import ArticleOnePage from './Pages/article/ArticleOnePage';
+import CreateArticlePage from './Pages/article/CreateArticlePage';
+import UpdateArticlePage from './Pages/article/UpdateArticlePage';
+import ClubListPage from "./Pages/club/ClubListPage";
+import ClubOnePage from "./Pages/club/ClubOnePage";
 import "./css/reset.css";
 import "./css/style.css";
 
@@ -37,10 +39,14 @@ function App() {
             <Route path="/login/*" element={authCtx.isLoggedIn ? <Navigate to="/" /> : <AuthPage />} />
             <Route path="/profile/" element={!authCtx.isLoggedIn ? <Navigate to="/" /> : <ProfilePage />} />
             
-            <Route path="/page/:pageId" element={<ArticleListPage />} />
+            {/* <Route path="/page/:pageId" element={<ArticleListPage />} /> */}
             <Route path="/create" element={authCtx.isLoggedIn ? <CreateArticlePage /> : <Navigate to='/' />} />
             <Route path="/update/:articleId" element={authCtx.isLoggedIn ? <UpdateArticlePage /> : <Navigate to='/' />} />
-            <Route path="/article/:articleId" element={<ArticleOnePage />} />
+            <Route path="/club/1/article/:articleId" element={<ArticleOnePage />} />
+            <Route path="/page/:pageId" element={<ClubListPage />} />
+            <Route path="/club/:clubId" element={<ClubOnePage />} />
+
+
          </Routes>
       </Layout>
    );

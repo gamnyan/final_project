@@ -9,13 +9,13 @@ const ArticleContext = React.createContext({
   isGetUpdateSuccess: false,
   totalPages: 0,
   getPageList: () => {},
-  getArticle: () => {},
+  //getArticle: () => {},
   getArticleWithImg: () =>{},
   createArticleWithFiles: ()=>{},
-  createArticle: () => {},
-  getUpdateArticle: () => {},
+  //createArticle: () => {},
+  //getUpdateArticle: () => {},
   getUpdateArticleWithFiles:() =>{},
-  updateArticle: () => {},
+ // updateArticle: () => {},
   updateArticleWithFiles: () => {},
   deleteArticle: () => {}
 })
@@ -38,7 +38,7 @@ export const ArticleContextProvider = props => {
     setIsSuccess(true)
   }
 
-  const getArticleHandler = (param, token) => {
+  /* const getArticleHandler = (param, token) => {
     setIsSuccess(false)
     const data = token
       ? articleAction.getOneArticle(param, token)
@@ -50,7 +50,7 @@ export const ArticleContextProvider = props => {
       }
     })
     setIsSuccess(true)
-  }
+  } */
 
   const getArticleHandler2 = (param, token) => {
     setIsSuccess(false)
@@ -66,7 +66,7 @@ export const ArticleContextProvider = props => {
     setIsSuccess(true)
   }
 
-  const createArticleHandler = (article, token) => {
+  /* const createArticleHandler = (article, token) => {
     setIsSuccess(false)
     const data = articleAction.makeArticle(token, article)
     data.then(result => {
@@ -75,7 +75,7 @@ export const ArticleContextProvider = props => {
       }
     })
     setIsSuccess(true)
-  }
+  } */
 
   const createArticleHandler2 = (article, token, files) => {
     setIsSuccess(false)
@@ -101,13 +101,13 @@ export const ArticleContextProvider = props => {
 
 
 
-  const getUpdateArticleHancler = async (token, param) => {
+  /* const getUpdateArticleHancler = async (token, param) => {
     setIsGetUpdateSuccess(false)
     const updateData = await articleAction.getChangeArticle(token, param)
     const article = updateData?.data
     setArticle(article)
     setIsGetUpdateSuccess(true)
-  }
+  } */
 
   const getUpdateArticleHancler2 = async (token, param) => {
     setIsGetUpdateSuccess(false)
@@ -119,7 +119,7 @@ export const ArticleContextProvider = props => {
     setIsGetUpdateSuccess(true)
   }
 
-  const updateArticleHandler = (token, article) => {
+  /* const updateArticleHandler = (token, article) => {
     setIsSuccess(false)
     console.log("update api start")
     const data = articleAction.changeArticle(token, article)
@@ -128,7 +128,7 @@ export const ArticleContextProvider = props => {
       }
     })
     setIsSuccess(true)
-  }
+  } */
 
    const updateArticleHandler2 = (article, token, files) => {
     setIsSuccess(false)
@@ -197,13 +197,13 @@ export const ArticleContextProvider = props => {
     isGetUpdateSuccess,
     totalPages,
     getPageList: getPageHandlerV2,
-    getArticle: getArticleHandler,
+    //getArticle: getArticleHandler,
     getArticleWithImg:getArticleHandler2,
-    createArticle: createArticleHandler,
+    //createArticle: createArticleHandler,
     createArticleWithFiles:createArticleHandler2,
-    getUpdateArticle: getUpdateArticleHancler,
+    //getUpdateArticle: getUpdateArticleHancler,
     getUpdateArticleWithFiles:getUpdateArticleHancler2,
-    updateArticle: updateArticleHandler,
+    //updateArticle: updateArticleHandler,
     updateArticleWithFiles:updateArticleHandler2,
     deleteArticle: deleteArticleHandler
   }

@@ -14,7 +14,7 @@ export const getPageList = param => {
   return response
 }
 
-export const getOneArticle = (param, token) => {
+/* export const getOneArticle = (param, token) => {
   const URL = "/article/one?id=" + param
   if (!token) {
     const response = GET(URL, {})
@@ -23,10 +23,10 @@ export const getOneArticle = (param, token) => {
     const response = GET(URL, createTokenHeader(token))
     return response
   }
-}
+} */
 
 export const getOneArticleWithImg = (param, token) => {
-  const URL = "/article/oneone?id=" + param
+  const URL = "/club/one/1/article/oneone?id=" + param
   if (!token) {
     const response = GET(URL, {})
     return response
@@ -36,13 +36,13 @@ export const getOneArticleWithImg = (param, token) => {
   }
 }
 
-export const makeArticle = (token, article) => {
+/* export const makeArticle = (token, article) => {
   const URL = "/article/noimg"
   
 
   const response = POST(URL, article, createTokenHeader(token))
   return response
-}
+} */
 
 export const makeArticleWithFiles = (token, formData) => {
  
@@ -52,11 +52,11 @@ export const makeArticleWithFiles = (token, formData) => {
   return response
 }
 
-export const getChangeArticle = (token, param) => {
+/* export const getChangeArticle = (token, param) => {
   const URL = "/article/change?id=" + param
   const response = GET(URL, createTokenHeader(token))
   return response
-}
+} */
 
 export const getChangeArticleWithFile = (token, param) => {
   const URL = "/article/changef?id=" + param
@@ -64,11 +64,11 @@ export const getChangeArticleWithFile = (token, param) => {
   return response
 }
 
-export const changeArticle = (token, article) => {
+/* export const changeArticle = (token, article) => {
   const URL = "/article/"
   const response = PUT(URL, article, createTokenHeader(token))
   return response
-}
+} */
 
 export const changeArticleWithFiles = (token, formData) => {
  

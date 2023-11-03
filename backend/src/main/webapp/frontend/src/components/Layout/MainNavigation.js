@@ -141,6 +141,9 @@ const MainNavigation = () => {
                      </Navbar.Brand>
                      <ul className="nav-menu">
                         <li className="linkStyled">
+                        <Nav.Link href="/page">클럽</Nav.Link>
+                        </li>
+                        <li className="linkStyled">
                            <Link to="#">gallery</Link>
                         </li>
                         <li className="linkStyled">
