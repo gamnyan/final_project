@@ -1,5 +1,5 @@
 import { Fragment, useContext, useEffect, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { faBars, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../css/header.css";
 
 import AuthContext from "../../Store/Auth-context";
+import { useUser } from "../ContextProvider/UserContext";
 
 export const Mobile = ({ children }) => {
    const isMobile = useMediaQuery({
@@ -69,6 +70,7 @@ export function UserProfile() {
 
 const MainNavigation = () => {
    const authCtx = useContext(AuthContext);
+   let navigate = useNavigate();
    const userProfile = UserProfile();
    let isLogin = authCtx.isLoggedIn;
 
@@ -82,6 +84,7 @@ const MainNavigation = () => {
 
    const toggleLogoutHandler = () => {
       authCtx.logout();
+      navigate("/", { replace: true });
    };
 
    const [isToggle, setIsToggle] = useState(false);
