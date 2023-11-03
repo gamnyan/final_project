@@ -5,9 +5,9 @@ import java.time.format.DateTimeFormatter;
 import com.avado.backend.model.Article;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 @Builder
 public class PageResponseDto {
 	private Long articleId;

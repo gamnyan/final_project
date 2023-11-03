@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Value;
-// import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,6 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-// @PropertySource("classpath:application.properties")
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -24,7 +22,7 @@ public class EmailService {
     private final JavaMailSender javaMailSender;
 
     // 인증번호 생성
-    private final String ePw = createKey();
+    private String ePw;
 
     @Value("${spring.mail.username}")
     private String id;
@@ -54,7 +52,7 @@ public class EmailService {
     }
 
     // 인증코드 만들기
-    public static String createKey() {
+    public String createKey() {
         StringBuffer key = new StringBuffer();
         Random rnd = new Random();
 
@@ -71,6 +69,7 @@ public class EmailService {
      * bean으로 등록해둔 javaMailSender 객체를 사용하여 이메일 send
      */
     public String sendSimpleMessage(String to) throws Exception {
+        ePw = createKey();
         MimeMessage message = createMessage(to);
         try {
             log.info("Sending email to: " + to);

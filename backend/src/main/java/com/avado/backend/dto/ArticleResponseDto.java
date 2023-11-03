@@ -1,6 +1,8 @@
 package com.avado.backend.dto;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.avado.backend.model.Article;
 import com.avado.backend.model.Attachment;
@@ -19,13 +21,15 @@ public class ArticleResponseDto {
 	private String memberNickname;
 	private String articleTitle;
 	private String articleContent;
-	private String articleFilename;
+
 	private String createdAt;
 	private String updatedAt;
 	private boolean isWritten;
+	private List<AttachmentDto> attachment;
+	private Article article;
 
 	public static ArticleResponseDto of(Article article, boolean bool) {
-		return ArticleResponseDto.builder()
+		ArticleResponseDto rtn = ArticleResponseDto.builder()
 				.articleId(article.getId())
 				.memberNickname(article.getMember().getNickname())
 				.articleTitle(article.getTitle())
@@ -34,9 +38,15 @@ public class ArticleResponseDto {
 				.updatedAt(article.getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
 				.isWritten(bool)
 				.build();
-	}
 
-	public void addAttachedFile(Attachment attachment) {
+		List<AttachmentDto> attachmentDtos = new ArrayList<>();
+		for (Attachment a : article.getAttachedFiles()) {
+			attachmentDtos.add(AttachmentDto.convertToDto(a));
+		}
+
+		rtn.setAttachment(attachmentDtos);
+
+		return rtn;
 
 	}
 

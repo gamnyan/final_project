@@ -25,7 +25,6 @@ spring:
       host: smtp.naver.com
       port: 465
       username: project_avado@naver.com
-      # password: vmfhwprxm_dkqkeh1!
       password: HD6RKTX4JQD2
       properties:
          debug: true
