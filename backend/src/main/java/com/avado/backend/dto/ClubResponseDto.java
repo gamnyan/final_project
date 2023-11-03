@@ -18,6 +18,8 @@ public class ClubResponseDto {
 	private String clubName;
 	private String clubInfo;
 	private String clubFilename;
+	private String clubCategory;
+	private String clubAddress;
 	private String createdAt;
 	private boolean isWritten;
 	private Club club;
@@ -28,6 +30,8 @@ public class ClubResponseDto {
 				.clubName(club.getName())
 				.clubInfo(club.getClubinfo())
 				.clubFilename(club.getFilename())
+				.clubCategory(club.getCategory())
+				.clubAddress(club.getAddress())
 				.createdAt(club.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
 				.isWritten(bool)
 				.build();

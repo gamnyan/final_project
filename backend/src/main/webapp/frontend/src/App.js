@@ -39,11 +39,11 @@ function App() {
             <Route path="/login/*" element={authCtx.isLoggedIn ? <Navigate to="/" /> : <AuthPage />} />
             <Route path="/profile/" element={!authCtx.isLoggedIn ? <Navigate to="/" /> : <ProfilePage />} />
             
-            {/* <Route path="/page/:pageId" element={<ArticleListPage />} /> */}
+            <Route path="/page/:pageId" element={<ArticleListPage />} />
             <Route path="/create" element={authCtx.isLoggedIn ? <CreateArticlePage /> : <Navigate to='/' />} />
             <Route path="/update/:articleId" element={authCtx.isLoggedIn ? <UpdateArticlePage /> : <Navigate to='/' />} />
-            <Route path="/club/1/article/:articleId" element={<ArticleOnePage />} />
-            <Route path="/page/:pageId" element={<ClubListPage />} />
+            <Route path="/article/:articleId" element={<ArticleOnePage />} />
+            <Route path="/clubpage/:pageId" element={<ClubListPage />} />
             <Route path="/club/:clubId" element={<ClubOnePage />} />
 
 

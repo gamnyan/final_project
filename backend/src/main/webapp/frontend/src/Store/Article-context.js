@@ -83,6 +83,7 @@ export const ArticleContextProvider = props => {
     const formData = new FormData();
     formData.append("title", article.title);
     formData.append("content", article.content);
+    formData.append("clubId",article.clubId);
   
     for (let i = 0; i < files.length; i++) {
       formData.append("files", files[i]);

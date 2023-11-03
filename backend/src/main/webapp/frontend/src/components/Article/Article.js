@@ -42,7 +42,7 @@ const Article = props => {
       return (
         <div key={index}>
           <img
-            src={`http://localhost:8085/article/img/${image.storeFilename}`}
+            src={`http://localhost:8085/club/one/1/article/img/${image.storeFilename}`}
             alt={`Attachment ${index}`}
             style={{ maxWidth: "100%" }}
           />

@@ -17,7 +17,7 @@ const ClubContext = React.createContext({
 })
 
 export const ClubContextProvider = props => {
-    const [club, setClub] = useState([])
+    const [club, setClub] = useState()
     const [page,setPage] = useState([])
     const [totalPages,setTotalPages] = useState(0)
     const [isSuccess,setIsSuccess] = useState(false)
@@ -55,7 +55,7 @@ export const ClubContextProvider = props => {
         formData.append("category", club.category);
         formData.append("clubinfo", club.clubinfo);
         formData.append("address", club.address);
-        formData.append("file", club.file);
+        formData.append("file", file);
 
         const data = clubAction.makeClubWithFiles(token,formData);
 

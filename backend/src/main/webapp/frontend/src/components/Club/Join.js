@@ -1,17 +1,17 @@
 import React, {useCallback, useContext,useEffect,useState} from "react";
 
 import AuthContext from "../../Store/Auth-context";
-import ClubJoinContext from "../../Store/ClubJoin-context";
+import JoinContext from "../../Store/Join-context";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faHeart } from "@fortawesome/free-solid-svg-icons"
 
 const ClubJoin = props => {
     const [isLoading,setIsLoading] = useState(false);
-    const [clubjoins,setClubjoins] = useState();
+    const [joins,setJoins] = useState();
 
     const authCtx = useContext(AuthContext);
-    const clubjoinCtx = useContext(ClubJoinContext);
+    const joinCtx = useContext(JoinContext);
 
     let isLogin = authCtx.isLoggedIn;
     const id = String(props.item);
@@ -19,8 +19,8 @@ const ClubJoin = props => {
     const getContext = useCallback(()=>{
         setIsLoading(false)
         isLogin
-            ? clubjoinCtx.getclubjoin(id,authCtx.token)
-            : clubjoinCtx.getclubjoin(id)
+            ? joinCtx.getclubjoin(id,authCtx.token)
+            : joinCtx.getclubjoin(id)
     },[isLogin]);
 
     useEffect(()=>{
@@ -28,46 +28,41 @@ const ClubJoin = props => {
     },[getContext]);
 
     useEffect(()=>{
-        if(clubjoinCtx.isSuccess){
-            setClubjoins(clubjoinCtx.clubjoins);
+        if(joinCtx.isSuccess){
+            setJoins(joinCtx.joins);
             setIsLoading(true);
         }
-    },[clubjoinCtx,clubjoins])  
+    },[joinCtx,joins])  
 
     useEffect(()=>{
-        if(clubjoinCtx.isChangeSuccess){
-            setClubjoins(clubjoinCtx.clubjoins)
+        if(joinCtx.isChangeSuccess){
+            setJoins(joinCtx.joins)
             setIsLoading(true);
         }
-    },[clubjoinCtx.isChangeSuccess]);
+    },[joinCtx.isChangeSuccess]);
 
 
     const changeClubjoin = () =>{
         if(!isLogin){
             return alert("로그인 하세요");
         }else{
-            clubjoins.joined
-            ? clubjoinCtx.deleteclubjoin(id,authCtx.token)
-            : clubjoinCtx.postclubjoin(id,authCtx.token)
+            joins.joined
+            ? joinCtx.deleteclubjoin(id,authCtx.token)
+            : joinCtx.postclubjoin(id,authCtx.token)
         }
     }
 
     let media = <h3>is Loading...</h3>
 
-    if(isLoading && clubjoins){
+    if(isLoading && joins){
         media = (
             <div>
-                
-                {/* {recommends.recommended ? heartImage(faHeart) : heartImage(faHeart)} */}
-               {/*  {recommends.recommended !== undefined && (
-  recommends.recommended ? heartImage(faHeart) : heartImage(faHeart)
-)} */}
- <FontAwesomeIcon
+              <FontAwesomeIcon
                     icon={faHeart}
-                    style={{ color: clubjoins.joined ? "#ff0000" : "#000000" }}
-                    onClick={clubjoins}
+                    style={{ color: joins.joined ? "#ff0000" : "#000000" }}
+                    onClick={changeClubjoin}
                 />
-                <h4>좋아요  {clubjoins.joinedNum}</h4>
+                <h4>좋아요  {joins.joinedNum}</h4>
             </div>
         )
     }

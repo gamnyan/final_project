@@ -5,7 +5,7 @@ import { ArticleContextProvider } from "../../Store/Article-context"
 const CreateArticlePage = () => {
   return (
     <ArticleContextProvider>
-      <CreateArticleForm item={undefined} />
+      <CreateArticleForm item={undefined} /* clubId={clubId} */ />
     </ArticleContextProvider>
   )
 }

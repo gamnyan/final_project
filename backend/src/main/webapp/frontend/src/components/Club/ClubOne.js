@@ -39,6 +39,7 @@ const ClubOne = props => {
             setIsLoading(true);
         }
     },[clubCtx,club]);
+    
 
     let content = <p>Loading</p>
 

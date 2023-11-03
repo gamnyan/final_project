@@ -1,9 +1,9 @@
-import { Fragment } from "react";
-import {useParams} from "react-router-dom";
-import ClubOne from "../../components/Club/ClubOne";
-import ClubJoin from "../../components/Club/ClubJoin";
+import { Fragment ,Link } from "react";
+import { useParams } from "react-router-dom";
 import { ClubContextProvider } from "../../Store/Club-context";
-import { ClubjoinContextProvider } from "../../Store/ClubJoin-context";
+import { JoinContextProvider } from "../../Store/Join-context";
+import ClubOne from "../../components/Club/ClubOne";
+import Join from "../../components/Club/Join";
 
 const ClubOnePage =() => {
     let {clubId} = useParams();
@@ -13,9 +13,10 @@ const ClubOnePage =() => {
             <ClubContextProvider>
                 <ClubOne item={clubId}/>
             </ClubContextProvider>
-            <ClubjoinContextProvider>
-                <ClubJoin itme={clubId}/>
-            </ClubjoinContextProvider>
+            <JoinContextProvider>
+                <Join item={clubId}/>
+            </JoinContextProvider>
+           
         </Fragment>
     )
 }

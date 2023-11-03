@@ -1,9 +1,9 @@
 import React, {useState} from "react"
 
-import * as clubjoinAction from "./ClubJoin-action"
+import * as JoinAction from "./Join-action"
 
-const ClubjoinContext = React.createContext({
-    clubjoins: undefined,
+const JoinContext = React.createContext({
+    joins: undefined,
     isSuccess: false,
     isChangeSuccess: false,
     getclubjoin: ()=>{},
@@ -11,20 +11,20 @@ const ClubjoinContext = React.createContext({
     deleteclubjoin:()=>{}
 })
 
-export const ClubjoinContextProvider = props => {
-    const [clubjoins,setClubjoins] = useState()
+export const JoinContextProvider = props => {
+    const [joins,setJoins] = useState()
     const [isSuccess,setIsSuccess] = useState(false)
     const [isChangeSuccess,setIsChangeSuccess] = useState(false)
 
     const getClubjoinHandler = (param,token)=>{
         setIsSuccess(false)
         const data = token
-            ? clubjoinAction.getJoinedClub(param,token)
-            : clubjoinAction.getJoinedClub(param)
+            ? JoinAction.getJoinedClub(param,token)
+            : JoinAction.getJoinedClub(param)
         data.then(result => {
             if(result !== null){
-                const clubjoins = result.data
-                setClubjoins(clubjoins)
+                const joins = result.data
+                setJoins(joins)
             }
         })
         setIsSuccess(true)
@@ -32,30 +32,30 @@ export const ClubjoinContextProvider = props => {
 
     const makeClubjoinHandler = async (id, token) => {
         setIsChangeSuccess(false)
-        const postData = await clubjoinAction.JoinClub(id,token)
+        const postData = await JoinAction.JoinClub(id,token)
         const msg = await postData?.data
         console.log(msg)
 
-        const getData = await clubjoinAction.getJoinedClub(id,token)
-        const clubjoins = getData?.data
-        setClubjoins(clubjoins)
+        const getData = await JoinAction.getJoinedClub(id,token)
+        const joins = getData?.data
+        setJoins(joins)
         setIsChangeSuccess(true)
     }
 
     const deleteClubjoinHandler = async (id,token) =>{
         setIsChangeSuccess(false)
-        const postData = await clubjoinAction.deleteJoinClub(id,token)
+        const postData = await JoinAction.deleteJoinClub(id,token)
         const msg = await postData?.data
         console.log(msg)
 
-        const getData = await clubjoinAction.getJoinedClub(id,token)
-        const clubjoins = getData?.data
-        setClubjoins(clubjoins)
+        const getData = await JoinAction.getJoinedClub(id,token)
+        const joins = getData?.data
+        setJoins(joins)
         setIsChangeSuccess(true)
     }
 
     const contextValue ={
-        clubjoins,
+        joins,
         isSuccess,
         isChangeSuccess,
         getclubjoin : getClubjoinHandler,
@@ -64,10 +64,10 @@ export const ClubjoinContextProvider = props => {
     }
 
     return (
-        <ClubjoinContext.Provider value={contextValue}>
+        <JoinContext.Provider value={contextValue}>
             {props.children}
-        </ClubjoinContext.Provider>
+        </JoinContext.Provider>
     )
 }
 
-export default ClubjoinContext
+export default JoinContext
