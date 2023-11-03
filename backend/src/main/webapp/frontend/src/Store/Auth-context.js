@@ -10,6 +10,7 @@ const AuthContext = React.createContext({
    isSuccess: false,
    isGetSuccess: false,
    signup: (email, password, nickname) => {},
+   checkEmail: email => {},
    login: (email, password) => {},
    logout: () => {},
    getUser: () => {},
@@ -44,6 +45,11 @@ export const AuthContextProvider = props => {
             setIsSuccess(true);
          }
       });
+   };
+
+   const checkEmailHandler = email => {
+      const response = authAction.checkDuplicateEmail(email);
+      return response;
    };
 
    const loginHandler = (email, password) => {
@@ -119,6 +125,7 @@ export const AuthContextProvider = props => {
       isSuccess,
       isGetSuccess,
       signup: signupHandler,
+      checkEmail: checkEmailHandler,
       login: loginHandler,
       logout: logoutHandler,
       getUser: getUserHandler,
