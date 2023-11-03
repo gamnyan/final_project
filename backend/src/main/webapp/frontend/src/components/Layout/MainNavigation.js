@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../css/header.css";
 
 import AuthContext from "../../Store/Auth-context";
-import { useUser } from "../ContextProvider/UserContext";
 
 export const Mobile = ({ children }) => {
    const isMobile = useMediaQuery({

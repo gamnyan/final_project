@@ -69,8 +69,7 @@ public class EmailService {
      * bean으로 등록해둔 javaMailSender 객체를 사용하여 이메일 send
      */
     public String sendSimpleMessage(String to) throws Exception {
-        String ePwCode = createKey();
-        ePw = ePwCode;
+        ePw = createKey();
         MimeMessage message = createMessage(to);
         try {
             log.info("Sending email to: " + to);
