@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ArticleResponseDto {
 	private Long articleId;
+        private Long clubId;
 	private String memberNickname;
 	private String articleTitle;
 	private String articleContent;
@@ -31,6 +32,7 @@ public class ArticleResponseDto {
 	public static ArticleResponseDto of(Article article, boolean bool) {
         ArticleResponseDto rtn =  ArticleResponseDto.builder()
                 .articleId(article.getId())
+                .clubId(article.getClub().getId())
                 .memberNickname(article.getMember().getNickname())
                 .articleTitle(article.getTitle())
                 .articleContent(article.getContent())

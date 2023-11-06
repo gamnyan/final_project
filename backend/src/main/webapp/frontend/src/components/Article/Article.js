@@ -7,12 +7,12 @@ const Article = props => {
 
     const backHandler = event => {
         event.preventDefault();
-        navigate("/page/1");
+        navigate(`/page/${props.item.clubId}/1`);
     }
 
     const updateHandler = event => {
         event.preventDefault();
-        navigate("../update/" + id);
+        navigate(`../updatearticle/${props.item.clubId}/${id}`);
     }
 
     const deleteHandler = event => {
@@ -42,7 +42,7 @@ const Article = props => {
       return (
         <div key={index}>
           <img
-            src={`http://localhost:8085/article/img/${image.storeFilename}`}
+            src={`http://localhost:8085/club/one/${props.item.clubId}/article/img/${image.storeFilename}`}
             alt={`Attachment ${index}`}
             style={{ maxWidth: "100%" }}
           />

@@ -8,13 +8,13 @@ const Paging = props => {
   
     const maxNum = props.maxPage
     const currentNum = props.currentPage
-  
+    const clubId = props.clubId;
     const navigateToPage = page => event => {
       event.preventDefault()
-      console.log(page)
+      //console.log(page)
       if (props.currentPage !== page) {
         const pageNumb = String(page)
-        navigate(`../page/${pageNumb}`)
+        navigate(`../page/${clubId}/${pageNumb}`)
       }
     }
   
