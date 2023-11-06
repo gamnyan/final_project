@@ -1,9 +1,15 @@
 import React, { Fragment } from "react";
+import { Col } from "react-bootstrap";
+import ClubItemNavigation from "../Layout/ClubItemNavigation";
+import { Outlet } from "react-router-dom";
 
 const Test2 = () => {
   return (
     <Fragment>
-      <h2>test 2222</h2>
+      <Col xs={12}>
+        <ClubItemNavigation />
+        <Outlet />
+      </Col>
     </Fragment>
   );
 };

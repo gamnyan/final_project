@@ -8,15 +8,9 @@ import { Outlet } from "react-router-dom";
 const ClubLayout = (props) => {
   return (
     <Fragment>
-      <Container>
+      <Container style={{ width: "90%" }}>
         <Row>
-          <Col xs={2}>
-            <SideNavigation />
-          </Col>
-          <Col xs={10}>
-            <ClubItemNavigation />
-            <Outlet />
-          </Col>
+          <Outlet />
         </Row>
       </Container>
     </Fragment>

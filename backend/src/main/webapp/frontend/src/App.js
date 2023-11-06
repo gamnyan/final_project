@@ -82,7 +82,9 @@ function App() {
 
         <Route path="/moim" element={<ClubLayout />}>
           <Route path="" element={<Test1 />} />
-          <Route path="chat" element={<ChatPage />} />
+          <Route path="chat" element={<Test2 />}>
+            <Route path="" element={<ChatPage />} />
+          </Route>
           <Route path="articlearticle" element={<Test3 />} />
         </Route>
       </Routes>
