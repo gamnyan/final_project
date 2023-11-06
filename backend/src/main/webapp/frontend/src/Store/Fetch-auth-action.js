@@ -30,7 +30,7 @@ const fetchAuth = async fetchData => {
          const serverError = err;
          if (serverError && serverError.response) {
             console.log(serverError.response.data);
-            alert("failed!!");
+            // alert("failed!!");
             return null;
          }
       }

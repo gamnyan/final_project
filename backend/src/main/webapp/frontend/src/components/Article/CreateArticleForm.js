@@ -1,108 +1,102 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useNavigate,useLocation} from "react-router-dom"; // useLocation 추가
+import { useNavigate } from "react-router-dom";
 import ArticleContext from "../../Store/Article-context";
 import AuthContext from "../../Store/Auth-context";
 
-const CreateArticleForm = (props) => {
-  let navigate = useNavigate();
-  
-  const clubId=null;
-  
-  //const clubId = String(props.item)
-  const [selectedFiles, setSelectedFiles] = useState(null);
-  const selectedFilesRef = useRef(null);
-  const [updateArticle, setUpdateArticle] = useState({
-    title: "",
-    content: "",
-    clubId: "",
-    attachment: [],
-  });
+const CreateArticleForm = props => {
+   let navigate = useNavigate();
 
-  const articleCtx = useContext(ArticleContext);
-  const authCtx = useContext(AuthContext);
+   const clubId = null;
 
-  const titleRef = useRef(null);
-  const contentRef = useRef(null);
-  const fileInputRef = useRef(null);
+   //const clubId = String(props.item)
+   const [selectedFiles, setSelectedFiles] = useState(null);
+   const selectedFilesRef = useRef(null);
+   const [updateArticle, setUpdateArticle] = useState({
+      title: "",
+      content: "",
+      clubId: "",
+      attachment: [],
+   });
 
-  const fileInputChangeHandler = (event) => {
-    setSelectedFiles(event.target.files);
-  };
+   const articleCtx = useContext(ArticleContext);
+   const authCtx = useContext(AuthContext);
 
-  const submitHandler = (event) => {
-    event.preventDefault();
+   const titleRef = useRef(null);
+   const contentRef = useRef(null);
+   const fileInputRef = useRef(null);
 
-    let postArticle = {
-      title: titleRef.current.value,
-      content: contentRef.current.value,
-      clubId: props.clubId,
-    };
+   const fileInputChangeHandler = event => {
+      setSelectedFiles(event.target.files);
+   };
 
-    if (props.item) {
-      postArticle = { ...postArticle, id: props.item };
-    }
-    let files = fileInputRef.current.files;
+   const submitHandler = event => {
+      event.preventDefault();
 
-    props.item
-      ? articleCtx.updateArticleWithFiles(postArticle, authCtx.token, files)
-      : articleCtx.createArticleWithFiles(postArticle, authCtx.token, files);
-  };
+      let postArticle = {
+         title: titleRef.current.value,
+         content: contentRef.current.value,
+         clubId: props.clubId,
+      };
 
-  const setUpdateArticleHandler = useCallback(() => {
-    if (articleCtx.isGetUpdateSuccess) {
-      setUpdateArticle({
-        title: articleCtx.article.articleTitle,
-        content: articleCtx.article.articleContent,
-        attachment: articleCtx.article.attachment,
-        clubId:props.clubId
-      });
-    }
-  }, [articleCtx.isGetUpdateSuccess]);
+      if (props.item) {
+         postArticle = { ...postArticle, id: props.item };
+      }
+      let files = fileInputRef.current.files;
 
-  useEffect(() => {
-    if (props.item) {
-      articleCtx.getUpdateArticleWithFiles(authCtx.token, props.item);
-    }
-  }, [props.item]);
+      props.item
+         ? articleCtx.updateArticleWithFiles(postArticle, authCtx.token, files)
+         : articleCtx.createArticleWithFiles(postArticle, authCtx.token, files);
+   };
 
-  useEffect(() => {
-    console.log("update effect");
-    setUpdateArticleHandler();
-  }, [setUpdateArticleHandler]);
+   const setUpdateArticleHandler = useCallback(() => {
+      if (articleCtx.isGetUpdateSuccess) {
+         setUpdateArticle({
+            title: articleCtx.article.articleTitle,
+            content: articleCtx.article.articleContent,
+            attachment: articleCtx.article.attachment,
+            clubId: props.clubId,
+         });
+      }
+   }, [articleCtx.isGetUpdateSuccess]);
 
-  useEffect(() => {
-    if (articleCtx.isSuccess) {
-      console.log("wrting success");
-      navigate(`/page/${props.clubId}/1`, { replace: true });
-    }
-  }, [articleCtx.isSuccess]);
+   useEffect(() => {
+      if (props.item) {
+         articleCtx.getUpdateArticleWithFiles(authCtx.token, props.item);
+      }
+   }, [props.item]);
 
-  return (
-    <div>
-      <Form onSubmit={submitHandler}>
-        <Form.Group>
-          <Form.Label>제목</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="제목을 입력하세요"
-            required
-            ref={titleRef}
-            defaultValue={updateArticle.title}
-          />
-        </Form.Group>
-        <br />
-        <Form.Group>
-          <Form.Label>본문</Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={20}
-            required
-            ref={contentRef}
-            defaultValue={updateArticle.content}
-          />
-        </Form.Group>
-        <br />
+   useEffect(() => {
+      console.log("update effect");
+      setUpdateArticleHandler();
+   }, [setUpdateArticleHandler]);
+
+   useEffect(() => {
+      if (articleCtx.isSuccess) {
+         console.log("wrting success");
+         navigate("/page/1", { replace: true });
+      }
+   }, [articleCtx.isSuccess]);
+
+   return (
+      <div>
+         <Form onSubmit={submitHandler}>
+            <Form.Group>
+               <Form.Label>제목</Form.Label>
+               <Form.Control
+                  type="text"
+                  placeholder="제목을 입력하세요"
+                  required
+                  ref={titleRef}
+                  defaultValue={updateArticle.title}
+               />
+            </Form.Group>
+            <br />
+            <Form.Group>
+               <Form.Label>본문</Form.Label>
+               <Form.Control as="textarea" rows={20} required ref={contentRef} defaultValue={updateArticle.content} />
+            </Form.Group>
+            <br />
 
         <Form.Group>
           <Form.Label>첨부파일</Form.Label>
@@ -125,13 +119,13 @@ const CreateArticleForm = (props) => {
             </div>
           ))}
 
-        <Button variant="primary">취소</Button>
-        <Button variant="primary" type="submit">
-          작성
-        </Button>
-      </Form>
-    </div>
-  );
+            <Button varient="primary">취소</Button>
+            <Button varient="primary" type="submit">
+               작성
+            </Button>
+         </Form>
+      </div>
+   );
 };
 
 export default CreateArticleForm;

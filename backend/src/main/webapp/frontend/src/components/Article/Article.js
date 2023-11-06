@@ -1,26 +1,26 @@
 import { useNavigate } from "react-router-dom";
 
 const Article = props => {
-    let navigate = useNavigate();
+   let navigate = useNavigate();
 
-    const id = props.item.articleId.toString();
+   const id = props.item.articleId.toString();
 
-    const backHandler = event => {
-        event.preventDefault();
-        navigate(`/page/${props.item.clubId}/1`);
-    }
+   const backHandler = event => {
+      event.preventDefault();
+      navigate(`/page/${props.item.clubId}/1`);
+   };
 
-    const updateHandler = event => {
-        event.preventDefault();
-        navigate(`../updatearticle/${props.item.clubId}/${id}`);
-    }
+   const updateHandler = event => {
+      event.preventDefault();
+      navigate(`../updatearticle/${props.item.clubId}/${id}`);
+   };
 
-    const deleteHandler = event => {
-        event.preventDefault();
-        if(window.confirm("삭제하시겠습니까?")){
-            props.onDelete(id);
-        }
-    }
+   const deleteHandler = event => {
+      event.preventDefault();
+      if (window.confirm("삭제하시겠습니까?")) {
+         props.onDelete(id);
+      }
+   };
 
     return(
         <div>

@@ -1,25 +1,23 @@
-import { Fragment } from "react"
-import { useParams } from "react-router-dom"
-import ArticleList from "../../components/Article/ArticleList"
+import { Fragment } from "react";
+import { useParams } from "react-router-dom";
+import ArticleList from "../../components/Article/ArticleList";
 //import SearchForm from "../components/Article/SearchForm"
-import { ArticleContextProvider } from "../../Store/Article-context"
-import CreateArticlePage from "./CreateArticlePage"
+import { ArticleContextProvider } from "../../Store/Article-context";
+import CreateArticlePage from "./CreateArticlePage";
 
 const ArticleListPage = () => {
-  let { pageId,clubId } = useParams()
- 
-  
-  return (
-    <>
-    <ArticleContextProvider>
-      <Fragment>
-        <ArticleList item={pageId} clubId={clubId}  />
-        {/* <SearchForm /> */}
-      </Fragment>
-    </ArticleContextProvider>
-      
-      </>
-  )
-}
+   let { pageId, clubId } = useParams();
 
-export default ArticleListPage
+   return (
+      <>
+         <ArticleContextProvider>
+            <Fragment>
+               <ArticleList item={pageId} clubId={clubId} />
+               {/* <SearchForm /> */}
+            </Fragment>
+         </ArticleContextProvider>
+      </>
+   );
+};
+
+export default ArticleListPage;

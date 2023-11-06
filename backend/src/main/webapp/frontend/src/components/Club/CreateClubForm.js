@@ -1,98 +1,95 @@
-import React,{ useCallback, useContext, useEffect,useRef,useState} from "react";
-import { Button, Form} from "react-bootstrap";
-import { useNavigate} from "react-router-dom";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { Button, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 import ClubContext from "../../Store/Club-context";
 import AuthContext from "../../Store/Auth-context";
 
 const CreateClubForm = props => {
-    let navigate = useNavigate();
+   let navigate = useNavigate();
 
-    const [selectedFile,setSelectedFile] = useState(null);
-    const selectedFileRef = useRef(null);
-    const [updateClub,setUpdateClub] = useState({
-        name:"",
-        clubinfo:"",
-        Filename:"",
-        category:"",
-        address:""
-    })
+   const [selectedFile, setSelectedFile] = useState(null);
+   const selectedFileRef = useRef(null);
+   const [updateClub, setUpdateClub] = useState({
+      name: "",
+      clubinfo: "",
+      Filename: "",
+      category: "",
+      address: "",
+   });
 
-    const clubCtx = useContext(ClubContext);
-    const authCtx = useContext(AuthContext);
-    
-    const nameRef = useRef(null);
-    const clubInfoRef = useRef(null);
-    const fileInputRef = useRef(null);
-    const categoryRef = useRef(null);
-    const addressRef = useRef(null);
+   const clubCtx = useContext(ClubContext);
+   const authCtx = useContext(AuthContext);
 
-    const fileInputChangeHandler = (event) => {
-        setSelectedFile(event.target.files[0]); // 수정된 부분
-    };
-    
+   const nameRef = useRef(null);
+   const clubInfoRef = useRef(null);
+   const fileInputRef = useRef(null);
+   const categoryRef = useRef(null);
+   const addressRef = useRef(null);
 
-    const submitHandler = (event) => {
-        event.preventDefault();
-    
-        let postClub = {
-            name: nameRef.current.value,
-            clubinfo: clubInfoRef.current.value,
-            Filename: fileInputRef.current.value,
-            category: categoryRef.current.value,
-            address: addressRef.current.value
-        };
-    
-        if (props.item) {
-          console.log("update!");
-          postClub = { ...postClub, id: props.item };
-        }
-        let file = selectedFile;
+   const fileInputChangeHandler = event => {
+      setSelectedFile(event.target.files[0]); // 수정된 부분
+   };
 
+   const submitHandler = event => {
+      event.preventDefault();
 
-        /* if(props.itme){
+      let postClub = {
+         name: nameRef.current.value,
+         clubinfo: clubInfoRef.current.value,
+         Filename: fileInputRef.current.value,
+         category: categoryRef.current.value,
+         address: addressRef.current.value,
+      };
+
+      if (props.item) {
+         console.log("update!");
+         postClub = { ...postClub, id: props.item };
+      }
+      let file = selectedFile;
+
+      /* if(props.itme){
             const newFiles = selectedFilesRef.current.files;
             console.log(newFiles);
             if(newFiles.length > 0){
                 files = newFiles;
             }
         } */
-    
-        props.item
-          ? clubCtx.updateClubWithImg(postClub,authCtx.token, file)
-          : clubCtx.createClubWithImg(postClub,authCtx.token, file)
-    };
 
-    const setChangeClubHandler = useCallback(()=>{
-        if(clubCtx.isGetUpdateSuccess){
-            setUpdateClub({
-                name:clubCtx.club.clubName,
-                clubinfo: clubCtx.club.clubinfo,
-                Filename: clubCtx.club.clubFilename,
-                category:clubCtx.club.clubCategory,
-                address:clubCtx.club.clubAddress
-            
-            })
-        }
-    },[clubCtx.isGetUpdateSuccess])
+      props.item
+         ? clubCtx.updateClubWithImg(postClub, authCtx.token, file)
+         : clubCtx.createClubWithImg(postClub, authCtx.token, file);
+   };
 
-    useEffect(() => {
-        if (props.item) {
-            clubCtx.getUpdateClubWithImg(authCtx.token, props.item) // 업데이트 시 사진도 가져오도록 수정
-        }
-    }, [props.item])
+   const setChangeClubHandler = useCallback(() => {
+      if (clubCtx.isGetUpdateSuccess) {
+         setUpdateClub({
+            name: clubCtx.club.clubName,
+            clubinfo: clubCtx.club.clubinfo,
+            Filename: clubCtx.club.clubFilename,
+            category: clubCtx.club.clubCategory,
+            address: clubCtx.club.clubAddress,
+         });
+      }
+   }, [clubCtx.isGetUpdateSuccess]);
 
-    useEffect(()=>{
-        console.log("update effect");
-        setChangeClubHandler()
-    },[setChangeClubHandler])
+   useEffect(() => {
+      if (props.item) {
+         clubCtx.getUpdateClubWithImg(authCtx.token, props.item); // 업데이트 시 사진도 가져오도록 수정
+      }
+   }, [props.item]);
 
-    useEffect(()=>{
-        if(clubCtx.isSuccess){
-            console.log("wrting success")
-            navigate("/clubpage/1",{replace:true})
-        }
-    },[clubCtx.isSuccess]);
+   useEffect(() => {
+      console.log("update effect");
+      setChangeClubHandler();
+   }, [setChangeClubHandler]);
+
+   useEffect(() => {
+      if (clubCtx.isSuccess) {
+         console.log("wrting success");
+         navigate("/clubpage/1", { replace: true });
+      }
+   }, [clubCtx.isSuccess]);
 
     return (
         <div>
@@ -163,13 +160,13 @@ const CreateClubForm = props => {
                 </div>
                 )}
 
-                <Button varient ="primary">취소</Button>
-                <Button varient ="primary" type="submit" >작성</Button>
-            </Form>
-        </div>
-    )
-    
+            <Button varient="primary">취소</Button>
+            <Button varient="primary" type="submit">
+               작성
+            </Button>
+         </Form>
+      </div>
+   );
+};
 
-}
-
-export default CreateClubForm
+export default CreateClubForm;
