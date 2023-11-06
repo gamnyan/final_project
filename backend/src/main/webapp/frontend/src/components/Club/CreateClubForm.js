@@ -156,7 +156,7 @@ const CreateClubForm = props => {
                 {updateClub.Filename && (
                     <div>
                     <img
-                        src={`http://localhost:8085/club/img/${updateClub.Filename}`}
+                        src={`http://localhost:80/club/img/${updateClub.Filename}`}
                         alt={`Attachment`}
                         style={{ maxWidth: "100%" }}
                     />

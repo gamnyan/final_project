@@ -8,7 +8,7 @@ import AuthPage from "./Pages/AuthPage";
 import HomePage from "./Pages/home/HomePage";
 import ProfilePage from "./Pages/ProfilePage";
 import AuthContext from "./Store/Auth-context";
-<<<<<<< HEAD
+
 import ArticleListPage from './Pages/ArticleListPage';
 import ArticleOnePage from './Pages/ArticleOnePage';
 import CreateArticlePage from './Pages/CreateArticlePage';
@@ -16,12 +16,7 @@ import UpdateArticlePage from './Pages/UpdateArticlePage';
 import ClubListPage from './Pages/Club/ClubListPage';
 import ClubOnePage from './Pages/Club/ClubListPage'
 
-=======
-import ArticleListPage from "./Pages/ArticleListPage";
-import ArticleOnePage from "./Pages/ArticleOnePage";
-import CreateArticlePage from "./Pages/CreateArticlePage";
-import UpdateArticlePage from "./Pages/UpdateArticlePage";
->>>>>>> f6fa9f210ac2be03166b809123532c641d732534
+
 import "./css/reset.css";
 import "./css/style.css";
 import { UserProvider } from "./components/ContextProvider/UserContext";
@@ -31,7 +26,7 @@ function App() {
    const authCtx = useContext(AuthContext);
 
    return (
-<<<<<<< HEAD
+
       // <div className="App">
       //    <header className="App-header">
       //       <img src={logo} className="App-logo" alt="logo" />
@@ -59,20 +54,7 @@ function App() {
 
          </Routes>
       </Layout>
-=======
-      <AuthContextProvider>
-         <UserProvider>
-            <Layout>
-               <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to="/" /> : <CreateAccountForm />} />
-                  <Route path="/login/*" element={authCtx.isLoggedIn ? <Navigate to="/" /> : <AuthPage />} />
-                  <Route path="/profile/" element={!authCtx.isLoggedIn ? <Navigate to="/" /> : <ProfilePage />} />
-               </Routes>
-            </Layout>
-         </UserProvider>
-      </AuthContextProvider>
->>>>>>> f6fa9f210ac2be03166b809123532c641d732534
+
    );
 }
 

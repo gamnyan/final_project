@@ -44,7 +44,7 @@ const Club = props => {
       {props.item.clubFilename && (
           <div>
               <img
-                  src={`http://localhost:8085/club/img/${props.item.clubFilename}`}
+                  src={`http://localhost:80/club/img/${props.item.clubFilename}`}
                   alt={`Attachment`}
                   style={{ maxWidth: "100%" }}
               />

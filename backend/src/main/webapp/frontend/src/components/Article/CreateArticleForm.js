@@ -118,7 +118,7 @@ const CreateArticleForm = (props) => {
           updateArticle.attachment.map((image, index) => (
             <div key={index}>
               <img
-                src={`http://localhost:8085/club/one/${clubId}/article/img/${image.storeFilename}`}
+                src={`http://localhost:80/club/one/${clubId}/article/img/${image.storeFilename}`}
                 alt={`Attachment ${index}`}
                 style={{ maxWidth: "100%" }}
               />
