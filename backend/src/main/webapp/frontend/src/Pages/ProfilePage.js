@@ -1,16 +1,16 @@
 import { Fragment } from "react";
-import { ChangeUsername } from "../components/Profile/ChangeUsername";
-import { ChangePassword } from "../components/Profile/ChangePassword";
-import MainProfilePage from "../components/Profile/MainProfilePage";
+// import { ChangeUsername } from "../components/Profile/ChangeUsername";
+// import { ChangePassword } from "../components/Profile/ChangePassword";
+import Profiles from "../components/Profile/Profile";
 
 const ProfilePage = () => {
-   return (
-      <Fragment>
-         <MainProfilePage />
-         <ChangePassword />
-         <ChangeUsername />
-      </Fragment>
-   );
+  return (
+    <Fragment>
+      <Profiles />
+      {/* <ChangePassword />
+         <ChangeUsername /> */}
+    </Fragment>
+  );
 };
 
 export default ProfilePage;

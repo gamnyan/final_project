@@ -68,7 +68,7 @@ public class Article {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     private Club club;
@@ -78,7 +78,7 @@ public class Article {
         article.title = title;
         article.content = content;
         // article.filename = filename;
-       
+
         return article;
     }
    

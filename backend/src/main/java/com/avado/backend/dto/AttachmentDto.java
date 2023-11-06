@@ -1,7 +1,7 @@
 package com.avado.backend.dto;
 
 import com.avado.backend.model.Attachment;
-import com.avado.backend.model.Attachment.AttachmentType;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +18,7 @@ public class AttachmentDto {
     private String originFilename;
     private String storeFilename;
     private Long galleryId;
+    private Long articleId; 
     
     public static AttachmentDto convertToDto(Attachment attachment) {
         return AttachmentDto.builder()
@@ -25,6 +26,7 @@ public class AttachmentDto {
                 .originFilename(attachment.getOriginFilename())
                 .storeFilename(attachment.getStoreFilename())
                 .galleryId(attachment.getGallery().getId())
+                .articleId(attachment.getArticle().getId())
                 .build();
     }
 

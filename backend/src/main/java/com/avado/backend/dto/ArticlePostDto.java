@@ -9,4 +9,6 @@ public class ArticlePostDto {
     private String title;
     private String content;
     private String nickname;
+  
+
 }

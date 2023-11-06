@@ -60,7 +60,7 @@ public class ClubController {
 	
 	@PostMapping("/create")
 	public ResponseEntity<ClubResponseDto> createClub(@ModelAttribute ClubCreateRequestDto requestDto, 
-		@RequestPart("file") MultipartFile file){
+		@RequestPart(name="file", required = false) MultipartFile file){
 		try {
 		 	FileStore fileStore = new FileStore();
 	        

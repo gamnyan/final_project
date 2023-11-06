@@ -1,7 +1,7 @@
 plugins {
-  id 'java'
-  id 'org.springframework.boot' version '3.1.4'
-  id 'io.spring.dependency-management' version '1.1.3'
+    id 'java'
+    id 'org.springframework.boot' version '3.1.4'
+    id 'io.spring.dependency-management' version '1.1.3'
 }
 
 group = 'com.final'
@@ -22,20 +22,20 @@ repositories {
 }
 
 dependencies {
-  implementation 'org.springframework.boot:spring-boot-starter-validation'
-  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-  implementation 'org.springframework.boot:spring-boot-starter-security'
-  implementation 'org.springframework.boot:spring-boot-starter-web'
-  runtimeOnly 'com.h2database:h2'
-  testImplementation 'org.springframework.boot:spring-boot-starter-test'
-  testImplementation 'org.springframework.security:spring-security-test'
-  
-  compileOnly 'org.projectlombok:lombok'
-  annotationProcessor 'org.projectlombok:lombok'
-  
-  implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-  runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
-  runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    runtimeOnly 'com.h2database:h2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'    
 
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-client
@@ -54,6 +54,9 @@ dependencies {
 
   //jackson
   implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.15.3'
+
+    // 코드 난독화
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
 
 }
 
@@ -78,17 +81,18 @@ processResources{
 }
 
 task installReact(type:Exec){
-  workingDir "$reactDir"
-  inputs.dir "$reactDir"
-  group = BasePlugin.BUILD_GROUP
-  
-  if(System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')){
-    commandLine "npm.cmd", "audit", "fix"
-    commandLine 'npm.cmd', 'install'
-  }else{
-    commandLine "npm", "audit", "fix"
-    commandLine 'npm', 'install'
-  }
+    //workingDir "$reactDir"
+    workingDir "/Users/tj/.eclipse/workspace/final_project/backend/src/main/webapp/frontend"
+    inputs.dir "$reactDir"
+    group = BasePlugin.BUILD_GROUP
+    
+    if(System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')){
+        //commandLine "cmd", "/c", "npm", "audit", "fix"
+        commandLine "cmd", "/c", 'npm.cmd', 'install', '--force'
+    }else{
+        //commandLine "npm", "audit", "fix"
+        commandLine "cmd", "/c", 'npm.cmd', 'install', '--force'
+    }
 }
 
 task buildReact(type:Exec){

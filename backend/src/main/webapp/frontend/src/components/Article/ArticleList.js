@@ -11,6 +11,7 @@ import Paging from "./Paging";
 const ArticleList = (props) => {
   let navigate = useNavigate();
   const pageId = String(props.item);
+  const clubId = props.clubId;
 
   const columns = [
     {
@@ -19,6 +20,10 @@ const ArticleList = (props) => {
       headerStyle: () => {
         return { width: "8%" };
       },
+    },
+    {
+      dataField: "clubId",
+      text: "clubId",
     },
     {
       dataField: "articleTitle",
@@ -62,7 +67,7 @@ const ArticleList = (props) => {
   useEffect(() => {
     if (articleCtx.isSuccess) {
       setAList(articleCtx.page);
-      console.log(AList);
+      //console.log(AList)
       setMaxNum(articleCtx.totalPages);
     }
   }, [articleCtx]);
@@ -72,12 +77,12 @@ const ArticleList = (props) => {
       <BootStrapTable keyField="id" data={AList} columns={columns} />
       <div>
         {isLogin && (
-          <Link to="/create">
+          <Link to={`/createarticle/${clubId}`} state={{ clubId: clubId }}>
             <Button>글 작성</Button>
           </Link>
         )}
       </div>
-      <Paging currentPage={Number(pageId)} maxPage={maxNum} />
+      <Paging currentPage={Number(pageId)} maxPage={maxNum} clubId={clubId} />
     </div>
   );
 };

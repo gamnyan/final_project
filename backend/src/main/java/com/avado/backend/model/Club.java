@@ -37,7 +37,7 @@ public class Club {
 	@Column
 	private String Storename;
 	@Column
-	private String Clubinfo;
+	private String clubinfo;
 	
 	@Column
 	private String Category;
@@ -61,7 +61,22 @@ public class Club {
 	@OneToOne(mappedBy = "club", cascade = CascadeType.REMOVE)
   private ChatRoom chatRoom;
 	
+	@OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE)
+    private List<ClubJoin> clubJoins = new ArrayList<>();
 
+    public List<ClubJoin> getClubJoins() {
+        return clubJoins;
+    }
 	
+
+	public static Club changeClub(Club club,String name,String Filename,String clubinfo,String Category,String Address) {
+		club.name = name;
+		club.Filename=Filename;
+		club.clubinfo=clubinfo;
+		club.Category=Category;
+		club.Address=Address;
+		
+		return club;
+	}
 	
 }

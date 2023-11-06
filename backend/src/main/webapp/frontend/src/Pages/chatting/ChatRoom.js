@@ -45,7 +45,7 @@ const ChatRoom = () => {
       });
 
     clientRef.current = new Client({
-      brokerURL: "ws://localhost:8085/ws/chat",
+      brokerURL: "ws://localhost:80/ws/chat",
     }); // axios.get end
 
     clientRef.current.onConnect = (frame) => {
