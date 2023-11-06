@@ -42,21 +42,26 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties({ "member" })
-    private List<Post> post;
-
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties({ "member" })
-    private List<Gallery> gallery;
-
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties({ "member" })
-    private List<Community> community;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties({ "member" })
     private List<Comment> comment;
+
+    // chat
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties({ "member" })
+    private List<ChatRoom> chatRoom;
+
+    // gallery
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties({ "member" })
+    private List<Gallery> gallery;
+
+    // gallery_heart
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties({ "member" })
+    private List<GalleryHeart> galleryHeart;
+
 
     public void setNickname(String nickname) {
         this.nickname = nickname;

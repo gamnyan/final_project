@@ -32,10 +32,12 @@ import com.avado.backend.dto.ClubPageResponseDto;
 import com.avado.backend.dto.ClubResponseDto;
 import com.avado.backend.dto.MessageDto;
 import com.avado.backend.model.Attachment.AttachmentType;
+import com.avado.backend.model.ChatRoom;
 import com.avado.backend.model.Club;
 import com.avado.backend.model.FileStore;
 import com.avado.backend.model.Member;
 import com.avado.backend.persistence.MemberRepository;
+import com.avado.backend.service.ChatService;
 import com.avado.backend.service.ClubJoinService;
 import com.avado.backend.service.ClubService;
 
@@ -47,7 +49,8 @@ import lombok.RequiredArgsConstructor;
 public class ClubController {
 	private final ClubService clubService;
 	private final MemberRepository memberRepository;
-	private final ClubJoinService clubJoinService;
+  private final ClubJoinService clubJoinService;
+  private final ChatService chatService;
 
 	@GetMapping("/page")
 	public ResponseEntity<Page<ClubPageResponseDto>> pageClub(@RequestParam(name="page")int page){
@@ -77,8 +80,10 @@ public class ClubController {
 	     // 클럽을 생성한 멤버를 자동으로 클럽에 가입시킴
 	        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
 	                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
-	        clubJoinService.createClubJoin2(createdClub.getId(), member.getId());
+            clubJoinService.createClubJoin2(createdClub.getId(), member.getId());
 	        
+            // 클럽과 채팅방을 OneToOne으로 만듬
+          chatService.createRoom(createdClub.getName(), createdClub.getId(), member);
 
 	        return ResponseEntity.ok(ClubResponseDto.of(club, true));
 	    } catch (IOException e) {

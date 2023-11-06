@@ -17,7 +17,7 @@ public class AttachmentDto {
     private Long id;
     private String originFilename;
     private String storeFilename;
-   
+    private Long galleryId;
     private Long articleId; 
     
     public static AttachmentDto convertToDto(Attachment attachment) {
@@ -25,7 +25,7 @@ public class AttachmentDto {
                 .id(attachment.getId())
                 .originFilename(attachment.getOriginFilename())
                 .storeFilename(attachment.getStoreFilename())
-                
+                .galleryId(attachment.getGallery().getId())
                 .articleId(attachment.getArticle().getId())
                 .build();
     }

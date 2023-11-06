@@ -37,12 +37,13 @@ public class ArticleService {
 		List<Article> articles = articleRepository.findAll();
 		return articles.stream().map(PageResponseDto::of).collect(Collectors.toList());
 	}
-
+	
 	public Page<PageResponseDto> pageArticle(int pageNum) {
 		return articleRepository.findAll(PageRequest.of(pageNum - 1, 20))
 				.map(PageResponseDto::of);
 	}
 
+	
 	public ArticleResponseDto oneArticle(Long id) {
 		Article article = articleRepository.findById(id).orElseThrow(() -> new RuntimeException("글이 없습니다."));
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

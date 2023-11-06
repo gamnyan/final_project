@@ -27,9 +27,10 @@ public class ClubJoin {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "club_id")
 	private Club club;
-
-	public ClubJoin (Member member,Club club){
+  
+  public ClubJoin (Member member,Club club){
 		this.member = member;
 		this.club = club;
 	}
+
 }

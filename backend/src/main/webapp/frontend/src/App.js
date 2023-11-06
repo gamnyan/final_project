@@ -21,42 +21,93 @@ import "./css/style.css";
 import { UserProvider } from "./components/ContextProvider/UserContext";
 import { AuthContextProvider } from "./Store/Auth-context";
 
-function App() {
-   const authCtx = useContext(AuthContext);
+import Test1 from "./components/Club/Test1";
+import Test2 from "./components/Club/Test2";
+import Test3 from "./components/Club/Test3";
+import ChatPage from "./Pages/chatting/ChatPage";
+import ChatRoom from "./Pages/chatting/ChatRoom";
+import ClubLayout from "./components/Layout/ClubLayout";
 
-   return (
-      <AuthContextProvider>
-         <UserProvider>
-            <Layout>
-               <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to="/" /> : <CreateAccountForm />} />
-                  <Route path="/login/*" element={authCtx.isLoggedIn ? <Navigate to="/" /> : <AuthPage />} />
-                  <Route path="/profile/" element={!authCtx.isLoggedIn ? <Navigate to="/" /> : <ProfilePage />} />
-                  <Route path="/page/:clubId/:pageId" element={<ArticleListPage />} />
-                  <Route
-                     path="/createarticle/:clubId"
-                     element={authCtx.isLoggedIn ? <CreateArticlePage /> : <Navigate to="/" />}
-                  />
-                  <Route
-                     path="/updatearticle/:clubId/:articleId"
-                     element={authCtx.isLoggedIn ? <UpdateArticlePage /> : <Navigate to="/" />}
-                  />
-                  <Route path="/article/:articleId" element={<ArticleOnePage />} />
-                  <Route path="/clubpage/:pageId" element={<ClubListPage />} />
-                  <Route path="/club/:clubId" element={<ClubOnePage />} />
-                  <Route path="/clubpage/:pageId" element={<ClubListPage />} />
-                  <Route path="/club/:clubId" element={<ClubOnePage />} />
-                  <Route path="createclub" element={authCtx.isLoggedIn ? <CreateClubPage /> : <Navigate to="/" />} />
-                  <Route
-                     path="/updateclub/:clubId"
-                     element={authCtx.isLoggedIn ? <UpdateClubPage /> : <Navigate to="/" />}
-                  />
-               </Routes>
-            </Layout>
-         </UserProvider>
-      </AuthContextProvider>
-   );
+function App() {
+  const authCtx = useContext(AuthContext);
+
+  return (
+    <AuthContextProvider>
+      <UserProvider>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route
+              path="/signup/"
+              element={
+                authCtx.isLoggedIn ? <Navigate to="/" /> : <CreateAccountForm />
+              }
+            />
+            <Route
+              path="/login/*"
+              element={authCtx.isLoggedIn ? <Navigate to="/" /> : <AuthPage />}
+            />
+            <Route
+              path="/profile/"
+              element={
+                !authCtx.isLoggedIn ? <Navigate to="/" /> : <ProfilePage />
+              }
+            />
+            <Route path="/page/:clubId/:pageId" element={<ArticleListPage />} />
+            <Route
+              path="/createarticle/:clubId"
+              element={
+                authCtx.isLoggedIn ? <CreateArticlePage /> : <Navigate to="/" />
+              }
+            />
+            <Route
+              path="/updatearticle/:clubId/:articleId"
+              element={
+                authCtx.isLoggedIn ? <UpdateArticlePage /> : <Navigate to="/" />
+              }
+            />
+            <Route
+              path="/chat/"
+              element={!authCtx.isLoggedIn ? <Navigate to="/" /> : <ChatPage />}
+            />
+            <Route
+              path="/chat/room/:id"
+              element={!authCtx.isLoggedIn ? <Navigate to="/" /> : <ChatRoom />}
+            />
+            {/* <Route
+          path="/gallery"
+          element={!authCtx.isLoggedIn ? <Navigate to="/" /> : <ChatRoom />}
+        /> */}
+            <Route path="/article/:articleId" element={<ArticleOnePage />} />
+            <Route path="/clubpage/:pageId" element={<ClubListPage />} />
+            <Route path="/club/:clubId" element={<ClubOnePage />} />
+            <Route path="/clubpage/:pageId" element={<ClubListPage />} />
+            <Route path="/club/:clubId" element={<ClubOnePage />} />
+            <Route
+              path="createclub"
+              element={
+                authCtx.isLoggedIn ? <CreateClubPage /> : <Navigate to="/" />
+              }
+            />
+            <Route
+              path="/updateclub/:clubId"
+              element={
+                authCtx.isLoggedIn ? <UpdateClubPage /> : <Navigate to="/" />
+              }
+            />
+
+            <Route path="/moim" element={<ClubLayout />}>
+              <Route path="" element={<Test1 />} />
+              <Route path="chat" element={<Test2 />}>
+                <Route path="" element={<ChatPage />} />
+              </Route>
+              <Route path="articlearticle" element={<Test3 />} />
+            </Route>
+          </Routes>
+        </Layout>
+      </UserProvider>
+    </AuthContextProvider>
+  );
 }
 
 export default App;

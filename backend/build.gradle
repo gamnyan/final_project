@@ -8,7 +8,7 @@ group = 'com.final'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '17'
+  sourceCompatibility = '17'
 }
 
 configurations {
@@ -18,7 +18,7 @@ configurations {
 }
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
@@ -42,13 +42,26 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:3.1.4'
     // implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.1'
     implementation 'org.springframework.boot:spring-boot-starter-mail:3.1.5'
+
+  // WebSocket
+  implementation 'org.springframework.boot:spring-boot-starter-websocket'
+  // sockjs
+  implementation 'org.webjars:sockjs-client:1.5.1'
+  // stomp
+  implementation 'org.webjars:stomp-websocket:2.3.4'
+  // gson
+  implementation 'com.google.code.gson:gson:2.9.0'
+
+  //jackson
+  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.15.3'
+
     // 코드 난독화
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
 
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+  useJUnitPlatform()
 }
 
 // 아래 코드는 통합 build를 위한 코드
@@ -64,7 +77,7 @@ sourceSets{
 }
 
 processResources{
-    dependsOn "copyReactBuildFiles"
+  dependsOn "copyReactBuildFiles"
 }
 
 task installReact(type:Exec){
@@ -83,20 +96,20 @@ task installReact(type:Exec){
 }
 
 task buildReact(type:Exec){
-    dependsOn "installReact"
-    workingDir "$reactDir"
-    inputs.dir "$reactDir"
-    group = BasePlugin.BUILD_GROUP
-    
-    if(System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')){
-        commandLine "npm.cmd", "run-script", "build"
-    }else{
-        commandLine "npm", "run-script", "build"
-    }
+  dependsOn "installReact"
+  workingDir "$reactDir"
+  inputs.dir "$reactDir"
+  group = BasePlugin.BUILD_GROUP
+  
+  if(System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')){
+    commandLine "npm.cmd", "run-script", "build"
+  }else{
+    commandLine "npm", "run-script", "build"
+  }
 }
 
 task copyReactBuildFiles(type:Copy){
-    dependsOn "buildReact"
-    from "$reactDir/build"
-    into "$projectDir/src/main/resources/static"
+  dependsOn "buildReact"
+  from "$reactDir/build"
+  into "$projectDir/src/main/resources/static"
 }

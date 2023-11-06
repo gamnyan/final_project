@@ -16,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -52,7 +53,13 @@ public class Club {
 	private Member member;
 	
 	@OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE)
-    private List<Article> articles = new ArrayList<>();
+  private List<Article> articles = new ArrayList<>();
+
+	@OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE)
+  private List<Gallery> gallery = new ArrayList<>();
+  
+	@OneToOne(mappedBy = "club", cascade = CascadeType.REMOVE)
+  private ChatRoom chatRoom;
 	
 	@OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE)
     private List<ClubJoin> clubJoins = new ArrayList<>();

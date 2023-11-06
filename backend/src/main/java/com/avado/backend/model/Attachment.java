@@ -21,44 +21,52 @@ public class Attachment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	 
 	private String originFilename;
 	private String storeFilename;
-
+	 
 	@Enumerated(EnumType.STRING)
 	private AttachmentType attachmentType;
-
+	 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "article_id")
-	private Article article;
-
+  private Article article;
+      
+	@ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "gallery_id")
+  private Gallery gallery;
+	 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
-
+	 
+	 
 	public enum AttachmentType {
-		IMAGE
+	    IMAGE
 	}
-
 	public String getStorePath() {
-		return this.storeFilename;
+	    return this.storeFilename;
 	}
-
-	public Attachment() {
-		article = new Article();
-	}
-
+	 
+  public Attachment(String str) {
+    if (str == "gallery") {
+      gallery = new Gallery();
+    } else if(str == "article") {
+      article = new Article();
+    }
+	} // Attachment
+	 
+	 
 	@Builder
-	public Attachment(Long id, String originFilename, String storePath, AttachmentType attachmentType, Member member) {
+	public Attachment(Long id,String originFilename,String storePath,AttachmentType attachmentType,Member member ) {		 
+    this.originFilename = originFilename;
+    this.storeFilename = storePath;
+    this.attachmentType = attachmentType;
+    this.member = member;
+	 }
 
-		this.originFilename = originFilename;
-		this.storeFilename = storePath;
-		this.attachmentType = attachmentType;
-		this.member = member;
-	}
-
-	public void setMember(Member member) {
-		this.member = member;
-	}
-
+  public void setMember(Member member) {
+    this.member = member;
+  }
+   
 }

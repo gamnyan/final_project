@@ -43,7 +43,9 @@ public class WebSecurityConfig {
                                 .exceptionHandling(handling -> handling
                                                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                                                 .accessDeniedHandler(jwtAccessDeniedHandler))
-                                .authorizeHttpRequests(requests -> requests
+                    .authorizeHttpRequests(requests -> requests
+                                .requestMatchers("/ws/chat/**").permitAll()
+                .requestMatchers("/chat/**").permitAll()
                                                 .requestMatchers("/auth/**", "/article/**", "/recommend/**",
                                                                 "/comment/**", "/img/**", "/club/**", "/clubjoin/**")
                                                 .permitAll()

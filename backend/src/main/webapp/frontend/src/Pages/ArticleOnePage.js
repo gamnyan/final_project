@@ -8,21 +8,21 @@ import { CommentContextProvider } from "../Store/Comment-context";
 import { RecommendContextProvider } from "../Store/Recommend-context";
 
 const ArticleOnePage = () => {
-   let { articleId } = useParams();
+  let { articleId } = useParams();
 
-   return (
-      <Fragment>
-         <ArticleContextProvider>
-            <ArticleOne item={articleId} />
-         </ArticleContextProvider>
-         <RecommendContextProvider>
-            <Recommend item={articleId} />
-         </RecommendContextProvider>
-         <CommentContextProvider>
-            <Comment item={articleId} />
-         </CommentContextProvider>
-      </Fragment>
-   );
+  return (
+    <Fragment>
+      <ArticleContextProvider>
+        <ArticleOne item={articleId} />
+      </ArticleContextProvider>
+      <RecommendContextProvider>
+        <Recommend item={articleId} />
+      </RecommendContextProvider>
+      <CommentContextProvider>
+        <Comment item={articleId} />
+      </CommentContextProvider>
+    </Fragment>
+  );
 };
 
 export default ArticleOnePage;

@@ -4,13 +4,13 @@ import { Fragment } from "react";
 import Profiles from "../components/Profile/Profile";
 
 const ProfilePage = () => {
-   return (
-      <Fragment>
-         <Profiles />
-         {/* <ChangePassword />
+  return (
+    <Fragment>
+      <Profiles />
+      {/* <ChangePassword />
          <ChangeUsername /> */}
-      </Fragment>
-   );
+    </Fragment>
+  );
 };
 
 export default ProfilePage;

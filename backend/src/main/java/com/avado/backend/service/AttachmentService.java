@@ -24,7 +24,22 @@ public class AttachmentService {
 
     @Transactional
     public void deleteAttachmentsByArticleId(Long articleId) {
-        List<Attachment> attachmentsToDelete = attachmentRepository.findByArticleId(articleId);
+      List<Attachment> attachmentsToDelete = attachmentRepository.findByArticleId(articleId);
+
+      for (Attachment attachment : attachmentsToDelete) {
+        String uploadDir = "C:\\Temp\\img"; // 첨부 파일이 저장된 경로
+        File fileToDelete = new File(uploadDir + "\\" + attachment.getStoreFilename());
+        if (fileToDelete.exists()) {
+          fileToDelete.delete();
+        }
+      }
+
+      attachmentRepository.deleteAll(attachmentsToDelete);
+    }
+    
+    @Transactional
+    public void deleteAttachmentsByGalleryId(Long galleryId) {
+        List<Attachment> attachmentsToDelete = attachmentRepository.findByGalleryId(galleryId);
 
         for (Attachment attachment : attachmentsToDelete) {
             String uploadDir = "C:\\Temp\\img"; // 첨부 파일이 저장된 경로
@@ -36,5 +51,5 @@ public class AttachmentService {
 
         attachmentRepository.deleteAll(attachmentsToDelete);
     }
-
+   
 }

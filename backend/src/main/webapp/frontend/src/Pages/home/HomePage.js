@@ -7,9 +7,9 @@ import React, { Fragment } from "react";
 import "../../css/homePage.css";
 
 const HomePage = () => {
-   return (
-      <Fragment>
-         {/* <HomeVisual />
+  return (
+    <Fragment>
+      {/* <HomeVisual />
       <section id="shortCard-area">
         <Container>
           <h2>What is Lorem Ipsum?</h2>
@@ -34,8 +34,8 @@ const HomePage = () => {
       <section id="section3-area">
         <HomeSection3 />
       </section> */}
-      </Fragment>
-   );
+    </Fragment>
+  );
 };
 
 export default HomePage;

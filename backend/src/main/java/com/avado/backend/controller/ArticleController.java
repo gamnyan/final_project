@@ -1,9 +1,8 @@
 package com.avado.backend.controller;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.MalformedURLException;
-import java.util.List;
+import java.util.*;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -110,7 +109,7 @@ public class ArticleController {
 	                file.transferTo(dest);
 
 	                // 첨부 파일 정보 생성
-	                Attachment attachment = new Attachment();
+	                Attachment attachment = new Attachment("article");
 	                attachment.setArticle(article);
 	                attachment.setOriginFilename(originalFilename);
 	                attachment.setStoreFilename(storeFilename);
@@ -167,7 +166,7 @@ public class ArticleController {
 					file.transferTo(dest);
 
 					// 첨부 파일 정보 생성
-					Attachment attachment = new Attachment();
+					Attachment attachment = new Attachment("article");
 
 					attachment.setArticle(article);
 					attachment.setOriginFilename(originalFilename);

@@ -8,51 +8,65 @@ import { ChangePassword } from "./ChangePassword";
 import { UserProfile } from "../Layout/MainNavigation";
 
 export default function AddressForm() {
-   const userProfile = UserProfile();
-   const [open, setOpen] = React.useState(false);
-   const [value, setValue] = React.useState(userProfile.nickname);
+  const userProfile = UserProfile();
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState(userProfile.nickname);
 
-   const handleClickListItem = () => {
-      setOpen(true);
-   };
+  const handleClickListItem = () => {
+    setOpen(true);
+  };
 
-   const handleClose = newValue => {
-      setOpen(false);
+  const handleClose = (newValue) => {
+    setOpen(false);
 
-      if (newValue) {
-         setValue(newValue);
-      }
-   };
+    if (newValue) {
+      setValue(newValue);
+    }
+  };
 
-   return (
-      <Box sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-         <List component="div" role="group">
-            <ListItem button divider disabled>
-               <ListItemText primary={userProfile.email} secondary="이메일" />
-            </ListItem>
-            <ListItem
-               button
-               divider
-               aria-haspopup="true"
-               aria-controls="change-nickname"
-               aria-label="change nickname"
-               onClick={handleClickListItem}>
-               <ListItemText primary={value} secondary="닉네임 수정" />
-               <ChangeUsername id="change-nickname" keepMounted open={open} onClose={handleClose} value={value} />
-            </ListItem>
-            <ChangePassword id="change-password" keepMounted open={open} onClose={handleClose} value={value} />
-            <ListItem
-               button
-               divider
-               aria-haspopup="true"
-               aria-controls="change-password"
-               aria-label="phone ringtone"
-               onClick={handleClickListItem}>
-               <ListItemText primary="비밀번호 수정" />
-            </ListItem>
-         </List>
-      </Box>
-   );
+  return (
+    <Box sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+      <List component="div" role="group">
+        <ListItem button divider disabled>
+          <ListItemText primary={userProfile.email} secondary="이메일" />
+        </ListItem>
+        <ListItem
+          button
+          divider
+          aria-haspopup="true"
+          aria-controls="change-nickname"
+          aria-label="change nickname"
+          onClick={handleClickListItem}
+        >
+          <ListItemText primary={value} secondary="닉네임 수정" />
+          <ChangeUsername
+            id="change-nickname"
+            keepMounted
+            open={open}
+            onClose={handleClose}
+            value={value}
+          />
+        </ListItem>
+        <ChangePassword
+          id="change-password"
+          keepMounted
+          open={open}
+          onClose={handleClose}
+          value={value}
+        />
+        <ListItem
+          button
+          divider
+          aria-haspopup="true"
+          aria-controls="change-password"
+          aria-label="phone ringtone"
+          onClick={handleClickListItem}
+        >
+          <ListItemText primary="비밀번호 수정" />
+        </ListItem>
+      </List>
+    </Box>
+  );
 }
 
 // import * as React from "react";

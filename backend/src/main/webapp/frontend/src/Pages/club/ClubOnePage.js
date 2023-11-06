@@ -7,18 +7,18 @@ import ClubOne from "../../components/Club/ClubOne";
 import Join from "../../components/Club/Join";
 
 const ClubOnePage = () => {
-   let { clubId } = useParams();
-   console.log(clubId);
-   return (
-      <Fragment>
-         <ClubContextProvider>
-            <ClubOne item={clubId} />
-         </ClubContextProvider>
-         <JoinContextProvider>
-            <Join item={clubId} />
-         </JoinContextProvider>
-      </Fragment>
-   );
+  let { clubId } = useParams();
+  console.log(clubId);
+  return (
+    <Fragment>
+      <ClubContextProvider>
+        <ClubOne item={clubId} />
+      </ClubContextProvider>
+      <JoinContextProvider>
+        <Join item={clubId} />
+      </JoinContextProvider>
+    </Fragment>
+  );
 };
 
 export default ClubOnePage;
