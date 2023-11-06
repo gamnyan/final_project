@@ -58,10 +58,10 @@ public class ClubService {
 	
 	
 	@Transactional
-	public ClubResponseDto changeClubf(Long id , String name, String Clubinfo,String Filename,String category,String address) {
+	public ClubResponseDto changeClubf(Long id , String name, String clubinfo,String Filename,String category,String address) {
 	    Club club = authorizationClubWriter(id);
 	    club.setName(name);
-	    club.setClubinfo(Clubinfo);
+	    club.setClubinfo(clubinfo);
 	    club.setFilename(Filename);
 	    club.setCategory(category);
 	    club.setAddress(address);

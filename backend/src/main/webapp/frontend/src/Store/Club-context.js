@@ -38,6 +38,7 @@ export const ClubContextProvider = props => {
       data.then(result => {
          if (result !== null) {
             const club = result.data;
+            console.log(club);
             setClub(club);
          }
       });
@@ -80,7 +81,7 @@ export const ClubContextProvider = props => {
       formData.append("category", club.category);
       formData.append("clubinfo", club.clubinfo);
       formData.append("address", club.address);
-      formData.append("file", club.file);
+      formData.append("file", file);
       formData.append("id", club.id);
 
       const data = clubAction.changeClubWithFile(token, formData);

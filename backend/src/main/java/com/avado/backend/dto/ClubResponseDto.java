@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class ClubResponseDto {
 	private Long clubId;
 	private String clubName;
-	private String clubInfo;
+	private String clubinfo;
 	private String clubFilename;
 	private String clubCategory;
 	private String clubAddress;
@@ -28,7 +28,7 @@ public class ClubResponseDto {
 		return ClubResponseDto.builder()
 				.clubId(club.getId())
 				.clubName(club.getName())
-				.clubInfo(club.getClubinfo())
+				.clubinfo(club.getClubinfo())
 				.clubFilename(club.getFilename())
 				.clubCategory(club.getCategory())
 				.clubAddress(club.getAddress())

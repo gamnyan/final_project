@@ -7,12 +7,12 @@ const Club = props => {
 
    const backHandler = event => {
       event.preventDefault();
-      navigate("/page/1");
+      navigate("/clubpage/1");
    };
 
    const updateHandler = event => {
       event.preventDefault();
-      navigate("../update" + id);
+      navigate("../updateclub/" + id);
    };
 
    const deleteHandler = event => {
@@ -21,11 +21,15 @@ const Club = props => {
          props.onDelete(id);
       }
    };
+   const movetoArticle = event => {
+      event.preventDefault();
+      navigate(`/page/${props.item.clubId}/1`);
+   };
 
    return (
       <div>
          <header>
-            <h4>{props.item.clubName}</h4>
+            <h4>이름:{props.item.clubName}</h4>
             <div>
                <span>카테고리: {props.item.clubCategory}</span>
                <br />
@@ -33,7 +37,7 @@ const Club = props => {
             </div>
          </header>
          <div>
-            <div>{props.item.clubInfo}</div>
+            <div>{props.item.clubinfo}</div>
          </div>
          {props.item.clubFilename && (
             <div>
@@ -45,6 +49,11 @@ const Club = props => {
             </div>
          )}
          <button onClick={backHandler}>뒤로</button>
+         <br />
+         <button onClick={movetoArticle}>게시판</button>
+         {/* {props.item.joined && (
+
+      )} */}
          {props.item.written && (
             <div>
                <button onClick={updateHandler}>수정</button>

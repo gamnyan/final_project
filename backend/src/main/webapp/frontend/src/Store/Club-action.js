@@ -26,7 +26,7 @@ export const getOneClubWithImg = (param, token) => {
 };
 
 export const makeClubWithFiles = (token, formData) => {
-   const URL = "/club/uploadimg";
+   const URL = "/club/create";
    const response = POST(URL, formData, createTokenHeader(token));
    return response;
 };
@@ -38,7 +38,7 @@ export const getChangeClubWithFile = (token, param) => {
 };
 
 export const changeClubWithFile = (token, formData) => {
-   const URL = "/club/change";
+   const URL = "/club/changec";
    const response = PUT(URL, formData, createTokenHeader(token));
    return response;
 };
