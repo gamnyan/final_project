@@ -44,7 +44,7 @@ spring:
                google:
                   client-id: 932221186527-3tbjc2hh6h5p2gqemiqvf2obis7itg1h.apps.googleusercontent.com
                   client-secret: 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
-                  redirect-uri: "http://localhost:8085/login/oauth2/code/google"
+                  redirect-uri: "http://localhost:80/login/oauth2/code/google"
             provider:
                google:
                   user-info-uri: "https://www.googleapis.com/oauth2/v3/userinfo"

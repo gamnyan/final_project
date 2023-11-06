@@ -1,26 +1,26 @@
 import { useNavigate } from "react-router-dom";
 
 const Article = props => {
-    let navigate = useNavigate();
+   let navigate = useNavigate();
 
-    const id = props.item.articleId.toString();
+   const id = props.item.articleId.toString();
 
-    const backHandler = event => {
-        event.preventDefault();
-        navigate("/page/1");
-    }
+   const backHandler = event => {
+      event.preventDefault();
+      navigate(`/page/${props.item.clubId}/1`);
+   };
 
-    const updateHandler = event => {
-        event.preventDefault();
-        navigate("../update/" + id);
-    }
+   const updateHandler = event => {
+      event.preventDefault();
+      navigate(`../updatearticle/${props.item.clubId}/${id}`);
+   };
 
-    const deleteHandler = event => {
-        event.preventDefault();
-        if(window.confirm("삭제하시겠습니까?")){
-            props.onDelete(id);
-        }
-    }
+   const deleteHandler = event => {
+      event.preventDefault();
+      if (window.confirm("삭제하시겠습니까?")) {
+         props.onDelete(id);
+      }
+   };
 
     return(
         <div>
@@ -42,7 +42,7 @@ const Article = props => {
       return (
         <div key={index}>
           <img
-            src={`http://localhost:8085/article/img/${image.storeFilename}`}
+            src={`http://localhost:80/club/one/${props.item.clubId}/article/img/${image.storeFilename}`}
             alt={`Attachment ${index}`}
             style={{ maxWidth: "100%" }}
           />

@@ -22,12 +22,12 @@ public class EmailService {
     private final JavaMailSender javaMailSender;
 
     // 인증번호 생성
-    private String ePw;
+    // private String ePw = "123456";
 
     @Value("${spring.mail.username}")
     private String id;
 
-    public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException {
+    public MimeMessage createMessage(String to, String ePw) throws MessagingException, UnsupportedEncodingException {
         log.info("보내는 대상 : " + to);
         log.info("인증 번호 : " + ePw);
         MimeMessage message = javaMailSender.createMimeMessage();
@@ -69,9 +69,8 @@ public class EmailService {
      * bean으로 등록해둔 javaMailSender 객체를 사용하여 이메일 send
      */
     public String sendSimpleMessage(String to) throws Exception {
-        String ePwCode = createKey();
-        ePw = ePwCode;
-        MimeMessage message = createMessage(to);
+        String ePw = createKey();
+        MimeMessage message = createMessage(to, ePw);
         try {
             log.info("Sending email to: " + to);
             javaMailSender.send(message); // 메일 발송

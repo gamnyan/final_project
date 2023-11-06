@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../css/header.css";
 
 import AuthContext from "../../Store/Auth-context";
-import { useUser } from "../ContextProvider/UserContext";
 
 export const Mobile = ({ children }) => {
    const isMobile = useMediaQuery({
@@ -96,6 +95,11 @@ const MainNavigation = () => {
 
    const [btnToggle, setBtnToggle] = useState(false);
 
+   const clupPageHandler = () => {
+      let num = 1;
+      return "/clubpage/" + num;
+   };
+
    return (
       <Fragment>
          <header id="header-area">
@@ -106,6 +110,9 @@ const MainNavigation = () => {
                         Logo
                      </Navbar.Brand>
                      <ul className="nav-menu">
+                        <li className="linkStyled">
+                           <Nav.Link href={clupPageHandler()}>클럽</Nav.Link>
+                        </li>
                         <li className="linkStyled">
                            <Link to="#">gallery</Link>
                         </li>

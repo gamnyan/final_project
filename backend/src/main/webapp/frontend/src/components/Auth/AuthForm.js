@@ -16,6 +16,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import AuthContext from "../../Store/Auth-context";
 import { Alert } from "@mui/material";
+import { checkDuplicateEmail } from "../../Store/Auth-action";
 
 const AuthForm = () => {
    const emailInputRef = useRef(null);
@@ -25,6 +26,7 @@ const AuthForm = () => {
    const [isLoading, setIsLoading] = useState(false);
    const authCtx = useContext(AuthContext);
    const [isSigninFailed, setIsSigninFailed] = useState(false);
+   const [loginErrorMessage, setLoginErrorMessage] = useState("");
 
    const defaultTheme = createTheme();
 
@@ -35,15 +37,31 @@ const AuthForm = () => {
       const enteredPassword = passwordInputRef.current.value;
 
       setIsLoading(true);
-      authCtx.login(enteredEmail, enteredPassword);
-      setIsLoading(false);
-
-      if (authCtx.isSuccess) {
-         navigate("/", { replace: true });
-         // navigate("/", { replace: true });
+      // 데이터 베이스에 이메일이 있으면 로그인 실행
+      const duplicateCheckResponse = await checkDuplicateEmail(enteredEmail);
+      if (duplicateCheckResponse) {
+         // const loginSuccess = authCtx.login(enteredEmail, enteredPassword);
+         // console.log(loginSuccess);
+         authCtx.login(enteredEmail, enteredPassword);
+         if (!authCtx.isSuccess) {
+            setLoginErrorMessage("비밀번호가 틀렸습니다. 다시 시도해주세요.");
+            setIsLoading(false);
+            setIsSigninFailed(true);
+         } else {
+            setIsLoading(false);
+            return navigate("/", { replace: true });
+         }
       } else {
+         setLoginErrorMessage("존재하지 않는 이메일입니다. 다시 시도해주세요.");
+         setIsLoading(false);
          setIsSigninFailed(true);
       }
+
+      // if (authCtx.isSuccess) {
+      //    // navigate("/", { replace: true });
+      // } else {
+      //    setIsSigninFailed(true);
+      // }
    };
 
    return (
@@ -105,7 +123,7 @@ const AuthForm = () => {
                      <Grid item xs={12}>
                         {isSigninFailed && (
                            <Alert variant="outlined" style={{ fontSize: "12px" }} severity="error">
-                              로그인에 실패하셨습니다. 다시 시도해주세요.
+                              {loginErrorMessage}
                            </Alert>
                         )}
                      </Grid>

@@ -61,10 +61,10 @@ const SignupEmail = props => {
          emailInputRef.current.focus();
       }
    };
-   const checkEmailHandler = async () => {
+   const checkEmailHandler = () => {
       const enteredCheckEmail = checkEmailInputRef.current.value;
       checkEmailCode.then(result => {
-         if (result === enteredCheckEmail) {
+         if (result === parseInt(enteredCheckEmail)) {
             setIsEmailDisabled(true);
             setIsEmailDuplicateButtonDisabled(true);
             setIsCheckEmailDisabled(true);
@@ -72,7 +72,7 @@ const SignupEmail = props => {
             showCheckEmailAlert("success", "인증번호 확인!");
             props.setIsEmail(false);
          }
-         if (result !== enteredCheckEmail) {
+         if (result !== parseInt(enteredCheckEmail)) {
             showCheckEmailAlert("error", "인증번호를 다시 확인하고 적어주세요.");
             checkEmailInputRef.current.focus();
          }

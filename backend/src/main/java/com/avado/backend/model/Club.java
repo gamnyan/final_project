@@ -36,7 +36,7 @@ public class Club {
 	@Column
 	private String Storename;
 	@Column
-	private String Clubinfo;
+	private String clubinfo;
 	
 	@Column
 	private String Category;
@@ -54,7 +54,7 @@ public class Club {
 	@OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE)
     private List<Article> articles = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "club")
+	@OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE)
     private List<ClubJoin> clubJoins = new ArrayList<>();
 
     public List<ClubJoin> getClubJoins() {
@@ -62,10 +62,10 @@ public class Club {
     }
 	
 
-	public static Club changeClub(Club club,String name,String Filename,String Clubinfo,String Category,String Address) {
+	public static Club changeClub(Club club,String name,String Filename,String clubinfo,String Category,String Address) {
 		club.name = name;
 		club.Filename=Filename;
-		club.Clubinfo=Clubinfo;
+		club.clubinfo=clubinfo;
 		club.Category=Category;
 		club.Address=Address;
 		
