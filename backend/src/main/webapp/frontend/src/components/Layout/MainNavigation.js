@@ -1,5 +1,5 @@
 import { Fragment, useContext, useEffect, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { faBars, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../css/header.css";
 
 import AuthContext from "../../Store/Auth-context";
+import { useUser } from "../ContextProvider/UserContext";
 
 export const Mobile = ({ children }) => {
    const isMobile = useMediaQuery({
@@ -36,13 +37,9 @@ export function UserProfile() {
       nickname: "",
       password: "",
    });
-   // const [email, setEmail] = useState("");
-   // const [nickname, setNickname] = useState("");
-   // const [password, setPassword] = useState("");
+
    let isLogin = authCtx.isLoggedIn;
    let isGet = authCtx.isGetSuccess;
-
-   // let userProfiles = [email, nickname, password];
 
    const updateProfile = (email, nickname, password) => {
       setUserProfile({
@@ -52,19 +49,8 @@ export function UserProfile() {
       });
    };
 
-   // const callbackNickname = str => {
-   //    setNickname(str);
-   // };
-   // const callbackEmail = str => {
-   //    setEmail(str);
-   // };
-   // const callbackPassword = str => {
-   //    setPassword(str);
-   // };
-
    useEffect(() => {
       if (isLogin) {
-         console.log("start");
          authCtx.getUser();
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -73,9 +59,6 @@ export function UserProfile() {
    useEffect(() => {
       if (isGet) {
          console.log("get start");
-         // callbackEmail(authCtx.userObj.email);
-         // callbackNickname(authCtx.userObj.nickname);
-         // callbackPassword(authCtx.userObj.password);
          const { email, nickname, password } = authCtx.userObj;
          updateProfile(email, nickname, password);
       }
@@ -87,18 +70,9 @@ export function UserProfile() {
 
 const MainNavigation = () => {
    const authCtx = useContext(AuthContext);
+   let navigate = useNavigate();
    const userProfile = UserProfile();
-   // const [nickname, setNickname] = useState("");
-   // const [email, setEmail] = useState("");
    let isLogin = authCtx.isLoggedIn;
-   // let isGet = authCtx.isGetSuccess;
-
-   // const callbackNickname = str => {
-   //    setNickname(str);
-   // };
-   // const callbackEmail = str => {
-   //    setEmail(str);
-   // };
 
    useEffect(() => {
       if (isLogin) {
@@ -108,17 +82,9 @@ const MainNavigation = () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [isLogin]);
 
-   // useEffect(() => {
-   //    if (isGet) {
-   //       console.log("get start");
-   //       callbackEmail(authCtx.userObj.email);
-   //       callbackNickname(authCtx.userObj.nickname);
-   //    }
-   //    // eslint-disable-next-line react-hooks/exhaustive-deps
-   // }, [isGet]);
-
    const toggleLogoutHandler = () => {
       authCtx.logout();
+      navigate("/", { replace: true });
    };
 
    const [isToggle, setIsToggle] = useState(false);

@@ -24,32 +24,38 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class WebSecurityConfig {
 
-    private final TokenProvider tokenProvider;
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+        private final TokenProvider tokenProvider;
+        private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+        private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+        @Bean
+        PasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
 
-    @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .httpBasic(basic -> basic.disable())
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .exceptionHandling(handling -> handling
-                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                        .accessDeniedHandler(jwtAccessDeniedHandler))
-                .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/auth/**", "/article/**", "/recommend/**", "/comment/**","/img/**","/club/**","/clubjoin/**").permitAll()
-                        .requestMatchers("/article/img/**").permitAll()  
-                        .requestMatchers("/member/me").permitAll() // 엔드포인트 추가 구글 때문에
-                        .anyRequest().authenticated())
-                .apply(new JwtSecurityConfig(tokenProvider));
-        log.info("jwt: ");        // .oauth2Login()
+        @Bean
+        SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+                http
+                                .httpBasic(basic -> basic.disable())
+                                .csrf(csrf -> csrf.disable())
+                                .sessionManagement(management -> management
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .exceptionHandling(handling -> handling
+                                                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                                                .accessDeniedHandler(jwtAccessDeniedHandler))
+                                .authorizeHttpRequests(requests -> requests
+                                                .requestMatchers("/auth/**", "/article/**", "/recommend/**",
+                                                                "/comment/**", "/img/**", "/club/**", "/clubjoin/**")
+                                                .permitAll()
+                                                .requestMatchers("/article/img/**").permitAll()
+                                                .requestMatchers("/member/me").permitAll() // 엔드포인트 추가 구글 때문에
+                                                .requestMatchers(
+                                                                "/member/check-email")
+                                                .permitAll()
+                                                .anyRequest().authenticated())
+                                .apply(new JwtSecurityConfig(tokenProvider));
+                log.info("jwt: "); // .oauth2Login()
 
-        return http.build();
-    }
+                return http.build();
+        }
 }

@@ -4,14 +4,10 @@ import java.io.File;
 
 import java.util.List;
 
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-
 import com.avado.backend.model.Attachment;
-
 
 import com.avado.backend.persistence.AttachmentRepository;
 
@@ -20,15 +16,12 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class AttachmentService {
-	private final AttachmentRepository attachmentRepository;
-	
-	
-	
+    private final AttachmentRepository attachmentRepository;
+
     public Attachment saveAttachment(Attachment attachment) {
         return attachmentRepository.save(attachment);
     }
 
-  
     @Transactional
     public void deleteAttachmentsByArticleId(Long articleId) {
         List<Attachment> attachmentsToDelete = attachmentRepository.findByArticleId(articleId);
@@ -43,5 +36,5 @@ public class AttachmentService {
 
         attachmentRepository.deleteAll(attachmentsToDelete);
     }
-   
+
 }

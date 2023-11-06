@@ -18,6 +18,8 @@ import CreateClubPage from "./Pages/club/CreateClubPage";
 import UpdateClubPage from "./Pages/club/UpdateClubPage";
 import "./css/reset.css";
 import "./css/style.css";
+import { UserProvider } from "./components/ContextProvider/UserContext";
+import { AuthContextProvider } from "./Store/Auth-context";
 
 function App() {
    const authCtx = useContext(AuthContext);

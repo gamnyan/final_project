@@ -22,13 +22,13 @@ public class ArticleResponseDto {
 	private String memberNickname;
 	private String articleTitle;
 	private String articleContent;
-	
+
 	private String createdAt;
 	private String updatedAt;
 	private boolean isWritten;
 	private List<AttachmentDto> attachment;
 	private Article article;
-	
+
 	public static ArticleResponseDto of(Article article, boolean bool) {
         ArticleResponseDto rtn =  ArticleResponseDto.builder()
                 .articleId(article.getId())

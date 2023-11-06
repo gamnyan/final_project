@@ -15,6 +15,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import AuthContext from "../../Store/Auth-context";
+import { Alert } from "@mui/material";
 
 const AuthForm = () => {
    const emailInputRef = useRef(null);
@@ -23,6 +24,7 @@ const AuthForm = () => {
    let navigate = useNavigate();
    const [isLoading, setIsLoading] = useState(false);
    const authCtx = useContext(AuthContext);
+   const [isSigninFailed, setIsSigninFailed] = useState(false);
 
    const defaultTheme = createTheme();
 
@@ -38,6 +40,9 @@ const AuthForm = () => {
 
       if (authCtx.isSuccess) {
          navigate("/", { replace: true });
+         // navigate("/", { replace: true });
+      } else {
+         setIsSigninFailed(true);
       }
    };
 
@@ -97,6 +102,13 @@ const AuthForm = () => {
                         inputRef={passwordInputRef}
                      />
                      <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
+                     <Grid item xs={12}>
+                        {isSigninFailed && (
+                           <Alert variant="outlined" style={{ fontSize: "12px" }} severity="error">
+                              로그인에 실패하셨습니다. 다시 시도해주세요.
+                           </Alert>
+                        )}
+                     </Grid>
                      <Button type="submit" fullWidth variant="contained" color="info" sx={{ mt: 3, mb: 2 }}>
                         Sign In
                      </Button>
