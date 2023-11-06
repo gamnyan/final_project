@@ -12,6 +12,7 @@ const CreateArticleForm = props => {
     const [updateArticle,setUpdateArticle] = useState({
         title: "",
         content: "",
+        clubId:"",
         attachment:[]
     })
 
@@ -20,6 +21,7 @@ const CreateArticleForm = props => {
 
     const titleRef = useRef(null);
     const contentRef = useRef(null);
+    //const clubIdRef = useRef(null);
     const fileInputRef = useRef(null);
 
      const fileInputChangeHandler = (event) => {
@@ -32,6 +34,7 @@ const CreateArticleForm = props => {
         let postArticle = {
           title: titleRef.current.value,
           content: contentRef.current.value,
+            clubId: props.clubId
         };
     
         if (props.item) {
