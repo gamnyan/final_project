@@ -27,6 +27,7 @@ import Test3 from "./components/Club/Test3";
 import ChatPage from "./Pages/chatting/ChatPage";
 import ChatRoom from "./Pages/chatting/ChatRoom";
 import ClubLayout from "./components/Layout/ClubLayout";
+import GalleryList from "./components/gallery/GalleryList";
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -80,7 +81,7 @@ function App() {
         /> */}
             <Route path="/article/:articleId" element={<ArticleOnePage />} />
             <Route path="/clubpage/:pageId" element={<ClubListPage />} />
-            <Route path="/club/:clubId" element={<ClubOnePage />} />
+            {/* <Route path="/club/:clubId" element={<ClubOnePage />} /> */}
             <Route path="/clubpage/:pageId" element={<ClubListPage />} />
             <Route path="/club/:clubId" element={<ClubOnePage />} />
             <Route
@@ -90,19 +91,22 @@ function App() {
               }
             />
             <Route
-              path="/updateclub/:clubId"
+              path="/clubpage/:clubId"
               element={
                 authCtx.isLoggedIn ? <UpdateClubPage /> : <Navigate to="/" />
               }
             />
 
-            <Route path="/moim" element={<ClubLayout />}>
-              <Route path="" element={<Test1 />} />
+            <Route path="/club" element={<ClubLayout />}>
+              <Route path="clubpage/:pageId" element={<ClubListPage />} />
+              <Route path=":clubId" element={<ClubOnePage />} />
               <Route path="chat" element={<Test2 />}>
                 <Route path="" element={<ChatPage />} />
               </Route>
-              <Route path="articlearticle" element={<Test3 />} />
+              <Route path="gallery" element={<GalleryList />} />
             </Route>
+
+            <Route path="/club" element={<ClubLayout />}></Route>
           </Routes>
         </Layout>
       </UserProvider>
