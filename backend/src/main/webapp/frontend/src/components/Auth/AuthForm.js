@@ -30,7 +30,7 @@ const AuthForm = () => {
 
    const defaultTheme = createTheme();
 
-   const submitHandler = async event => {
+   const submitHandler = event => {
       event.preventDefault();
 
       const enteredEmail = emailInputRef.current.value;
@@ -38,19 +38,24 @@ const AuthForm = () => {
 
       setIsLoading(true);
       // 데이터 베이스에 이메일이 있으면 로그인 실행
-      const duplicateCheckResponse = await checkDuplicateEmail(enteredEmail);
+      const duplicateCheckResponse = checkDuplicateEmail(enteredEmail);
       if (duplicateCheckResponse) {
          // const loginSuccess = authCtx.login(enteredEmail, enteredPassword);
          // console.log(loginSuccess);
          authCtx.login(enteredEmail, enteredPassword);
-         if (!authCtx.isSuccess) {
-            setLoginErrorMessage("비밀번호가 틀렸습니다. 다시 시도해주세요.");
-            setIsLoading(false);
-            setIsSigninFailed(true);
-         } else {
-            setIsLoading(false);
-            return navigate("/", { replace: true });
-         }
+         const loginFunction = () => {
+            if (!authCtx.isSuccess) {
+               setLoginErrorMessage("비밀번호가 틀렸습니다. 다시 시도해주세요.");
+               setIsLoading(false);
+               setIsSigninFailed(true);
+            } else {
+               setIsLoading(false);
+               return navigate("/", { replace: true });
+            }
+         };
+         loginFunction();
+         // setTimeout(() => {
+         // }, 500);
       } else {
          setLoginErrorMessage("존재하지 않는 이메일입니다. 다시 시도해주세요.");
          setIsLoading(false);
