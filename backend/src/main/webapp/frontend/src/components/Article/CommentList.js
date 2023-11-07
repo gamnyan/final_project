@@ -42,11 +42,16 @@ const CommentList = props => {
 
     const createComment = event => {
         event.preventDefault();
-        const comment = {
-            articleId: articleId,
-            text: commentRef.current.value
+        const commentText = commentRef.current.value;
+    
+        if (commentText.trim() !== "") {
+            const comment = {
+                articleId: articleId,
+                text: commentText
+            }
+            commentCtx.createComment(comment, token);
+            commentRef.current.value = "";
         }
-        commentCtx.createComment(comment,token)
     }
 
     const deleteComment = commentId => {
@@ -84,7 +89,6 @@ const CommentList = props => {
 
     return (
         <div>
-            {media}
             {isLogin && (
                 <form onSubmit={createComment} >
                     <label htmlFor="inputName" >
@@ -92,7 +96,7 @@ const CommentList = props => {
                     </label>
                     <textarea
                         name="comment"
-                       
+                        
                         cols={100}
                         row={3}
                         ref={commentRef}
@@ -100,6 +104,7 @@ const CommentList = props => {
                         <input type="submit" />
                 </form>
             )}
+            {media}
         </div>
     )
 

@@ -57,7 +57,7 @@ const ArticleList = (props) => {
   let isLogin = authCtx.isLoggedIn;
 
   const fetchListHandler = useCallback(() => {
-    articleCtx.getPageList(pageId);
+    articleCtx.getPageList(clubId,pageId);
   }, []);
 
   useEffect(() => {
