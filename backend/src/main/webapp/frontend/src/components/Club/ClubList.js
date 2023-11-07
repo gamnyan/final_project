@@ -11,7 +11,7 @@ import ClubPaing from "./ClubPaging";
 const ClubList = props => {
    let navigate = useNavigate();
    const pageId = String(props.item);
-
+   
    const columns = [
       {
          dataField: "clubId",
@@ -19,6 +19,17 @@ const ClubList = props => {
          headerStyle: () => {
             return { width: "8%" };
          },
+      },
+      {
+         dataField: "clubFilename",
+         text: "PHOTO",
+         formatter: (cell, row) => (
+            <img
+                  src={`http://localhost:80/club/img/${row.clubFilename}`}
+                  alt={`Attachment`}
+                  style={{ width: "50px", height: "50px" }}
+                  />
+               ),
       },
       {
          dataField: "clubName",
@@ -46,7 +57,7 @@ const ClubList = props => {
          text: "category",
       },
    ];
-
+   console.log(columns)
    const authCtx = useContext(AuthContext);
    const clubCtx = useContext(ClubContxt);
 

@@ -26,7 +26,9 @@ export const ArticleContextProvider = (props) => {
   const [totalPages, setTotalPages] = useState(0);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isGetUpdateSuccess, setIsGetUpdateSuccess] = useState(false);
-
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  
   /* const getPageHandlerV2 = async (pageId) => {
     setIsSuccess(false);
     const data = await articleAction.getPageList(pageId);
@@ -46,7 +48,7 @@ export const ArticleContextProvider = (props) => {
     setIsSuccess(true)
   }
 
-  const getArticleHandler2 = (param, token) => {
+  /* const getArticleHandler2 = (param, token) => {
     setIsSuccess(false);
     const data = token
       ? articleAction.getOneArticleWithImg(param, token)
@@ -59,6 +61,30 @@ export const ArticleContextProvider = (props) => {
       }
     });
     setIsSuccess(true);
+  }; */
+
+  const getArticleHandler2 = (param, token) => {
+    setIsSuccess(false);
+    setIsError(false); // 에러 상태 초기화
+    setErrorMessage(''); // 에러 메시지 초기화
+    const data = token
+      ? articleAction.getOneArticleWithImg(param, token)
+      : articleAction.getOneArticleWithImg(param);
+    data.then((result) => {
+      if (result !== null) {
+        const article = result.data;
+        //console.log(article);
+        setArticle(article);
+        setIsSuccess(true);
+      } else {
+        // 만약 result가 null이면 에러가 발생한 것입니다.
+        setIsError(true);
+        setErrorMessage("해당 게시글을 읽을 권한이 없습니다.");
+      }
+    }).catch(error => {
+      setIsError(true);
+      setErrorMessage(error.message);
+    });
   };
 
   const createArticleHandler2 = (article, token, files) => {

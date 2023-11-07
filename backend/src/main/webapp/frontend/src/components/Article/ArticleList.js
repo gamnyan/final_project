@@ -8,11 +8,14 @@ import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import ArticleContext from "../../Store/Article-context";
 import Paging from "./Paging";
 
+import JoinContext from "../../Store/Join-context";
+
 const ArticleList = (props) => {
   let navigate = useNavigate();
   const pageId = String(props.item);
   const clubId = props.clubId;
-
+  
+  
   const columns = [
     {
       dataField: "articleId",
