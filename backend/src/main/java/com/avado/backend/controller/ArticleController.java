@@ -1,8 +1,9 @@
 package com.avado.backend.controller;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.*;
+import java.util.List;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -46,8 +47,8 @@ public class ArticleController {
 	private final AttachmentService attachmentService;
 
 	@GetMapping("/page")
-	public ResponseEntity<Page<PageResponseDto>> pageArticle(@RequestParam(name = "page") int page) {
-		return ResponseEntity.ok(articleService.pageArticle(page));
+	public ResponseEntity<Page<PageResponseDto>> pageArticleByClub(@PathVariable Long clubId, @RequestParam(name = "page") int page) {
+		return ResponseEntity.ok(articleService.pageArticleByClub(clubId, page));
 	}
 
 	

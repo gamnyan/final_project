@@ -27,7 +27,7 @@ export const ArticleContextProvider = (props) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isGetUpdateSuccess, setIsGetUpdateSuccess] = useState(false);
 
-  const getPageHandlerV2 = async (pageId) => {
+  /* const getPageHandlerV2 = async (pageId) => {
     setIsSuccess(false);
     const data = await articleAction.getPageList(pageId);
     const page = data?.data.content;
@@ -35,7 +35,16 @@ export const ArticleContextProvider = (props) => {
     setPage(page);
     setTotalPages(pages);
     setIsSuccess(true);
-  };
+  }; */
+  const getPageHandlerV2 = async (clubId, pageId) => {
+    setIsSuccess(false)
+    const data = await articleAction.getPageList(clubId, pageId)
+    const page = data?.data.content
+    const pages = data?.data.totalPages
+    setPage(page)
+    setTotalPages(pages)
+    setIsSuccess(true)
+  }
 
   const getArticleHandler2 = (param, token) => {
     setIsSuccess(false);

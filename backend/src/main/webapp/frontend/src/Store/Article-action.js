@@ -8,12 +8,17 @@ const createTokenHeader = (token) => {
   };
 };
 
-export const getPageList = (param) => {
+/* export const getPageList = (param) => {
   //const URL = "/article/page?page=" + param
   const URL = `/club/one/${param}/article/page?page=${param}`;
   const response = GET(URL, {});
   return response;
-};
+}; */
+export const getPageList = (clubId, pageId) => {
+  const URL = `/club/one/${clubId}/article/page?page=${pageId}`
+  const response = GET(URL, {})
+  return response
+}
 
 export const getOneArticleWithImg = (param, token) => {
   //const URL = "/club/one/1/article/oneone?id=" + param
