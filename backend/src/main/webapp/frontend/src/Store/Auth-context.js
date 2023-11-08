@@ -58,11 +58,11 @@ export const AuthContextProvider = props => {
       return response;
    };
 
-   const loginHandler = (email, password) => {
+   const loginHandler = async (email, password) => {
       setIsSuccess(false);
 
-      const data = authAction.loginActionHandler(email, password);
-      data.then(result => {
+      const data = await authAction.loginActionHandler(email, password);
+      /*data.then(result => {
          if (result !== null) {
             const loginData = result.data;
             setToken(loginData.accessToken);
@@ -72,7 +72,18 @@ export const AuthContextProvider = props => {
             );
             setIsSuccess(true);
          }
-      });
+      });*/
+      if (data !== null) {
+         const loginData = data.data;
+         setToken(loginData.accessToken);
+         logoutTimer = setTimeout(
+            logoutHandler,
+            authAction.loginTokenHandler(loginData.accessToken, loginData.tokenExpiresIn),
+         );
+         setIsSuccess(true);
+      }
+
+      return data;
    };
 
    const logoutHandler = useCallback(() => {
@@ -105,6 +116,10 @@ export const AuthContextProvider = props => {
             setIsSuccess(true);
          }
       });
+      // if (data !== null) {
+      //    setIsSuccess(true);
+      // }
+      // return data;
    };
 
    const changePaswordHandler = (exPassword, newPassword) => {

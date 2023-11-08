@@ -33,18 +33,16 @@ public class TokenProvider {
 
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 3;
     private final Key key;
 
-
-
-    // 주의점: 여기서 @Value는 `springframework.beans.factory.annotation.Value`소속이다! lombok의 @Value와 착각하지 말것!
-    //     * @param secretKey
+    // 주의점: 여기서 @Value는 `springframework.beans.factory.annotation.Value`소속이다!
+    // lombok의 @Value와 착각하지 말것!
+    // * @param secretKey
     public TokenProvider(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
-
 
     // 토큰 생성
     public TokenDto generateTokenDto(Authentication authentication) {
@@ -54,7 +52,6 @@ public class TokenProvider {
                 .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
-
 
         Date tokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
 
@@ -79,10 +76,10 @@ public class TokenProvider {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
 
-        Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
+        Collection<? extends GrantedAuthority> authorities = Arrays
+                .stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
 
         UserDetails principal = new User(claims.getSubject(), "", authorities);
 

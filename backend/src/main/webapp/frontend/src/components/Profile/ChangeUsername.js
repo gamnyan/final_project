@@ -2,13 +2,14 @@ import React, { useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../Store/Auth-context";
 
-const ChangeUsername = () => {
+const ChangeUsername = (open, handleClose) => {
    let navigate = useNavigate();
 
    const authCtx = useContext(AuthContext);
    const nicknameInputRef = useRef(null);
 
    const submitHandler = event => {
+      handleClose();
       event.preventDefault();
       const enteredNickname = nicknameInputRef.current.value;
       console.log("change nickname start!");
@@ -33,4 +34,4 @@ const ChangeUsername = () => {
    );
 };
 
-export { ChangeUsername };
+// export { ChangeUsername };

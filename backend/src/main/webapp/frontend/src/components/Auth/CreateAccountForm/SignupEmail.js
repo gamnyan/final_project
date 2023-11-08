@@ -105,16 +105,16 @@ const SignupEmail = props => {
                인증메일 발송
             </Button>
          </Grid>
-         <Grid item xs={12}>
-            {(isEmailDuplicateWarning || isEmailDuplicateSuccese) && (
+         {(isEmailDuplicateWarning || isEmailDuplicateSuccese) && (
+            <Grid item xs={12}>
                <Alert
                   variant="outlined"
                   style={{ fontSize: "12px" }}
                   severity={isEmailDuplicateWarning ? "error" : "success"}>
                   {emailDuplicateAlertInfo.message}
                </Alert>
-            )}
-         </Grid>
+            </Grid>
+         )}
          {isCheckEmailShowAndHide && (
             <>
                <Grid item xs={8}>
@@ -143,16 +143,16 @@ const SignupEmail = props => {
                </Grid>
             </>
          )}
-         <Grid item xs={12}>
-            {(isCheckEmailWarning || isCheckEmailSuccese) && (
+         {(isCheckEmailWarning || isCheckEmailSuccese) && (
+            <Grid item xs={12}>
                <Alert
                   variant="outlined"
                   style={{ fontSize: "12px" }}
                   severity={isCheckEmailWarning ? "error" : "success"}>
                   {checkEmailAlertInfo.message}
                </Alert>
-            )}
-         </Grid>
+            </Grid>
+         )}
       </>
    );
 };

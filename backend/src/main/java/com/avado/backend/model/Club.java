@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Club {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -38,45 +38,45 @@ public class Club {
 	private String Storename;
 	@Column
 	private String clubinfo;
-	
+
 	@Column
 	private String Category;
 	@Column
 	private String Address;
-		
+
 	@CreationTimestamp
 	@Column
 	private LocalDateTime createdAt = LocalDateTime.now();
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
-	
-	@OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE)
-  private List<Article> articles = new ArrayList<>();
 
 	@OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE)
-  private List<Gallery> gallery = new ArrayList<>();
-  
+	private List<Article> articles = new ArrayList<>();
+
+	@OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE)
+	private List<Gallery> gallery = new ArrayList<>();
+
 	@OneToOne(mappedBy = "club", cascade = CascadeType.REMOVE)
-  private ChatRoom chatRoom;
-	
+	private ChatRoom chatRoom;
+
 	@OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE)
-    private List<ClubJoin> clubJoins = new ArrayList<>();
+	private List<ClubJoin> clubJoins = new ArrayList<>();
 
-    public List<ClubJoin> getClubJoins() {
-        return clubJoins;
-    }
-	
+	public List<ClubJoin> getClubJoins() {
+		return clubJoins;
+	}
 
-	public static Club changeClub(Club club,String name,String Filename,String clubinfo,String Category,String Address) {
+	public static Club changeClub(Club club, String name, String Filename, String clubinfo, String Category,
+			String Address) {
 		club.name = name;
-		club.Filename=Filename;
-		club.clubinfo=clubinfo;
-		club.Category=Category;
-		club.Address=Address;
-		
+		club.Filename = Filename;
+		club.clubinfo = clubinfo;
+		club.Category = Category;
+		club.Address = Address;
+
 		return club;
 	}
-	
+
 }
