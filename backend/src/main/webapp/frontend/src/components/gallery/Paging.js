@@ -13,7 +13,7 @@ const Paging = (props) => {
     //console.log(page)
     if (props.currentPage !== page) {
       const pageNumb = String(page);
-      navigate(`../club/${clubId}/gallery/page/${pageNumb}`);
+      navigate(`../page/${clubId}/${pageNumb}`);
     }
   };
 

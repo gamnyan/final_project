@@ -66,6 +66,30 @@ public class GalleryCommentService {
     return GalleryCommentDto.of(galleryCommentRepository.save(galleryComment), true);
   } // createGalleryComment
 
+  public GalleryComment authorizationCommentWriter(Long id) {
+    Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+      .orElseThrow(() -> new RuntimeException("로그인 하십시오"));
+    GalleryComment galleryComment = galleryCommentRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("글이 없습니다."));
+    if (!galleryComment.getMember().equals(member)) {
+      throw new RuntimeException("로그인한 유저와 작성 유저가 같지 않습니다.");
+    } // if end
+    return galleryComment;
+  } // authorizationCommentWriter
+
+  // 갤러리 코멘트 수정
+  @Transactional
+  public GalleryComment changeGalleryComment(Long id, String comment) {
+    try {
+      GalleryComment galleryComment = authorizationCommentWriter(id);
+      galleryComment.setComment(comment);
+      return galleryCommentRepository.save(galleryComment);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new RuntimeException("댓글 업데이트 중 오류가 발생했습니다.");
+    }
+  } // changeGalleryComment
+
   // 갤러리 코멘트 삭제
   @Transactional
   public void removeGalleryComment(Long id) {

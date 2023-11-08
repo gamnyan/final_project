@@ -1,6 +1,6 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
 
-import * as recommendAction from "./Recommend-action"
+import * as recommendAction from "./Recommend-action";
 
 const RecommendContext = React.createContext({
   recommends: undefined,
@@ -8,50 +8,50 @@ const RecommendContext = React.createContext({
   isChangeSuccess: false,
   getRecommends: () => {},
   postRecommend: () => {},
-  deleteRecommend: () => {}
-})
+  deleteRecommend: () => {},
+});
 
-export const RecommendContextProvider = props => {
-  const [recommends, setRecommends] = useState()
-  const [isSuccess, setIsSuccess] = useState(false)
-  const [isChangeSuccess, setIsChangeSuccess] = useState(false)
+export const RecommendContextProvider = (props) => {
+  const [recommends, setRecommends] = useState();
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isChangeSuccess, setIsChangeSuccess] = useState(false);
 
   const getRecommendsHandler = (param, token) => {
-    setIsSuccess(false)
+    setIsSuccess(false);
     const data = token
       ? recommendAction.getRecommends(param, token)
-      : recommendAction.getRecommends(param)
-    data.then(result => {
+      : recommendAction.getRecommends(param);
+    data.then((result) => {
       if (result !== null) {
-        const recommends = result.data
-        setRecommends(recommends)
+        const recommends = result.data;
+        setRecommends(recommends);
       }
-    })
-    setIsSuccess(true)
-  }
+    });
+    setIsSuccess(true);
+  };
 
   const postRecommendHandler = async (id, token) => {
-    setIsChangeSuccess(false)
-    const postData = await recommendAction.makeRecommend(id, token)
-    const msg = await postData?.data
-    console.log(msg)
+    setIsChangeSuccess(false);
+    const postData = await recommendAction.makeRecommend(id, token);
+    const msg = await postData?.data;
+    console.log(msg);
 
-    const getData = await recommendAction.getRecommends(id, token)
-    const recommends = getData?.data
-    setRecommends(recommends)
-    setIsChangeSuccess(true)
-  }
+    const getData = await recommendAction.getRecommends(id, token);
+    const recommends = getData?.data;
+    setRecommends(recommends);
+    setIsChangeSuccess(true);
+  };
 
   const deleteRecommendHancler = async (param, token) => {
-    setIsChangeSuccess(false)
-    const deleteData = await recommendAction.deleteRecommend(param, token)
-    const msg = await deleteData?.data
+    setIsChangeSuccess(false);
+    const deleteData = await recommendAction.deleteRecommend(param, token);
+    const msg = await deleteData?.data;
 
-    const getData = await recommendAction.getRecommends(param, token)
-    const recommends = getData?.data
-    setRecommends(recommends)
-    setIsChangeSuccess(true)
-  }
+    const getData = await recommendAction.getRecommends(param, token);
+    const recommends = getData?.data;
+    setRecommends(recommends);
+    setIsChangeSuccess(true);
+  };
 
   const contextValue = {
     recommends,
@@ -59,14 +59,14 @@ export const RecommendContextProvider = props => {
     isChangeSuccess,
     getRecommends: getRecommendsHandler,
     postRecommend: postRecommendHandler,
-    deleteRecommend: deleteRecommendHancler
-  }
+    deleteRecommend: deleteRecommendHancler,
+  };
 
   return (
     <RecommendContext.Provider value={contextValue}>
       {props.children}
     </RecommendContext.Provider>
-  )
-}
+  );
+};
 
-export default RecommendContext
+export default RecommendContext;

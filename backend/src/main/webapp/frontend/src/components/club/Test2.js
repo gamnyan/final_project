@@ -8,6 +8,7 @@ const Test2 = () => {
     <Fragment>
       <Col xs={12}>
         <ClubItemNavigation />
+        <h2>efewfew</h2>
         <Outlet />
       </Col>
     </Fragment>

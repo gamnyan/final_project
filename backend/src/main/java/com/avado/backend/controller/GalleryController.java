@@ -31,16 +31,16 @@ public class GalleryController {
   private final AttachmentService attachmentService;
   
   // 갤러리 목록
-  @GetMapping("/feed")
+  @GetMapping("/page")
   @ResponseBody
-  public ResponseEntity<Page<GalleryResponseDto>> getGalleryList(@RequestParam(name = "page") int page) {
-    return ResponseEntity.ok(galleryService.pageGallery(page));
+  public ResponseEntity<Page<GalleryResponseDto>> getGalleryListByClub(@PathVariable("clubId") Long clubId, @RequestParam(name = "page") int page) {
+    return ResponseEntity.ok(galleryService.pageGalleryByClub(clubId, page));
   } // pageGallery
 
   // 특정 갤러리 조회
-  @GetMapping("/feed/{galleryid}")
+  @GetMapping("/feed")
   @ResponseBody
-  public ResponseEntity<GalleryResponseDto> getGallery(@PathVariable("galleryid") Long galleryid) {
+  public ResponseEntity<GalleryResponseDto> getGallery(@RequestParam("id") Long galleryid) {
     return ResponseEntity.ok(galleryService.findOne(galleryid));
   } // getGellery
 
@@ -72,7 +72,9 @@ public class GalleryController {
       gallery.setContent(galleryRequestDto.getContent());
       galleryService.createGallery(gallery, clubId);
       // 파일 저장
-      String uploadDir = "C:\\Temp\\img";
+      // /Users/diaz/java/Temp/img/
+      // C:\\Temp\\img
+      String uploadDir = "/Users/diaz/java/Temp/img/";
       if (files != null && !files.isEmpty()) {
               System.out.println(files);
 
@@ -101,15 +103,15 @@ public class GalleryController {
 		}
   } // createGalleryHasImg
   
-  @GetMapping("/change/{galleryid}")
-  @ResponseBody
-  public ResponseEntity<GalleryResponseDto> changeGallery(@PathVariable("galleryid") Long id) {
-    return ResponseEntity.ok(galleryService.findOne(id));
-  } // changeGallery
+  // @GetMapping("/change")
+  // @ResponseBody
+  // public ResponseEntity<GalleryResponseDto> changeGallery(@PathVariable("galleryid") Long id) {
+  //   return ResponseEntity.ok(galleryService.findOne(id));
+  // } // changeGallery
   
-  @GetMapping("/changeF/{galleryid}")
+  @GetMapping("/changef")
   @ResponseBody
-  public ResponseEntity<GalleryResponseDto> changeGalleryHasImg(@PathVariable("galleryid") Long id) {
+  public ResponseEntity<GalleryResponseDto> changeGalleryHasImg(@RequestParam(name = "id") Long id) {
     try {
       GalleryResponseDto galleryResponseDto = galleryService.findOne(id);
       return ResponseEntity.ok(galleryResponseDto);
@@ -129,7 +131,9 @@ public class GalleryController {
       Gallery gallery = galleryService.changeGalleryF(galleryRequestDto.getId(), galleryRequestDto.getContent());
 
       // 파일 저장
-      String uploadDir = "C:\\Temp\\img";
+      // /Users/diaz/java/Temp/img/
+      // C:\\Temp\\img
+      String uploadDir = "/Users/diaz/java/Temp/img/";
       if (files != null && !files.isEmpty() && !files.get(0).isEmpty()) {
         attachmentService.deleteAttachmentsByGalleryId(galleryRequestDto.getId());
         for (MultipartFile file : files) {
@@ -156,9 +160,9 @@ public class GalleryController {
   } // changeGallery
 
   // 갤러리 삭제
-  @DeleteMapping("/delete/{gelleryid}")
+  @DeleteMapping("/delete")
   @ResponseBody
-  public ResponseEntity<String> deleteGallery(@PathVariable("galleryid") Long galleryid) {
+  public ResponseEntity<String> deleteGallery(@RequestParam(name = "id") Long galleryid) {
     galleryService.deleteGallery(galleryid);
     return ResponseEntity.ok("Success");
   } // deleteGallery

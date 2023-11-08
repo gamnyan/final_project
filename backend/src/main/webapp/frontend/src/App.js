@@ -21,13 +21,15 @@ import "./css/style.css";
 import { UserProvider } from "./components/ContextProvider/UserContext";
 import { AuthContextProvider } from "./Store/Auth-context";
 
-import Test1 from "./components/Club/Test1";
-import Test2 from "./components/Club/Test2";
-import Test3 from "./components/Club/Test3";
 import ChatPage from "./Pages/chatting/ChatPage";
 import ChatRoom from "./Pages/chatting/ChatRoom";
 import ClubLayout from "./components/Layout/ClubLayout";
-import GalleryList from "./components/gallery/GalleryList";
+
+// 갤러리 페이지
+import GalleryListPage from "./Pages/gallery/GalleryListPage";
+import GalleryOnePage from "./components/gallery/GalleryOne";
+import CreateGalleryPage from "./Pages/gallery/CreateGalleryPage";
+import UpdateGalleryPage from "./Pages/gallery/UpdateGalleryPage";
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -54,6 +56,7 @@ function App() {
                 !authCtx.isLoggedIn ? <Navigate to="/" /> : <ProfilePage />
               }
             />
+
             <Route path="/page/:clubId/:pageId" element={<ArticleListPage />} />
             <Route
               path="/createarticle/:clubId"
@@ -84,6 +87,7 @@ function App() {
             {/* <Route path="/club/:clubId" element={<ClubOnePage />} /> */}
             <Route path="/clubpage/:pageId" element={<ClubListPage />} />
             <Route path="/club/:clubId" element={<ClubOnePage />} />
+
             <Route
               path="createclub"
               element={
@@ -97,16 +101,39 @@ function App() {
               }
             />
 
+            {/* club */}
             <Route path="/club" element={<ClubLayout />}>
               <Route path="clubpage/:pageId" element={<ClubListPage />} />
               <Route path=":clubId" element={<ClubOnePage />} />
-              <Route path="chat" element={<Test2 />}>
-                <Route path="" element={<ChatPage />} />
-              </Route>
-              <Route path="gallery" element={<GalleryList />} />
-            </Route>
 
-            <Route path="/club" element={<ClubLayout />}></Route>
+              {/* gallery */}
+              <Route
+                path="createGallery/:clubId"
+                element={<CreateGalleryPage />}
+              />
+              <Route
+                path="updateGallery/:clubId/:galleryId"
+                element={
+                  authCtx.isLoggedIn ? (
+                    <UpdateGalleryPage />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path=":clubId/gallery/page/:pageId"
+                element={<GalleryListPage />}
+              />
+              <Route
+                path=":clubId/gallery/:galleryId"
+                element={<GalleryOnePage />}
+              />
+              {/* <Route
+                path="/page/:clubId/:pageId"
+                element={<ArticleListPage />}
+              /> */}
+            </Route>
           </Routes>
         </Layout>
       </UserProvider>

@@ -13,11 +13,13 @@ import lombok.*;
 @Builder
 public class GalleryRequestDto {
   private Long id;
-	private Long memberId;
+  private Long memberId;
+  private Long clubId;
   private String content;
- 
+
+  
 
 
   
 
-} 
+} // GalleryRequestDto

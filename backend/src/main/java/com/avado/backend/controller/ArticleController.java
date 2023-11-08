@@ -1,8 +1,9 @@
 package com.avado.backend.controller;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.*;
+import java.util.List;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -46,8 +47,8 @@ public class ArticleController {
 	private final AttachmentService attachmentService;
 
 	@GetMapping("/page")
-	public ResponseEntity<Page<PageResponseDto>> pageArticle(@RequestParam(name = "page") int page) {
-		return ResponseEntity.ok(articleService.pageArticle(page));
+	public ResponseEntity<Page<PageResponseDto>> pageArticleByClub(@PathVariable Long clubId, @RequestParam(name = "page") int page) {
+		return ResponseEntity.ok(articleService.pageArticleByClub(clubId, page));
 	}
 
 	
@@ -99,8 +100,10 @@ public class ArticleController {
 	        // 클럽과 연결
 	        articleService.postArticle(article, clubId);
 
-	        // 파일 저장
-	        String uploadDir = "C:\\Temp\\img";
+          // 파일 저장
+          // /Users/diaz/java/Temp/img/
+          // C:\\Temp\\img
+	        String uploadDir = "/Users/diaz/java/Temp/img/";
 	        if (files != null && !files.isEmpty()) {
 	            for (MultipartFile file : files) {
 	                String originalFilename = file.getOriginalFilename();
@@ -152,9 +155,10 @@ public class ArticleController {
 		
 			Article article = articleService.changeArticleF(changeArticlePostDto.getId(),changeArticlePostDto.getTitle(),changeArticlePostDto.getContent());
 			
-			
+			// /Users/diaz/java/Temp/img/
+      // C:\\Temp\\img
 			// 파일 저장
-			String uploadDir = "C:\\Temp\\img";
+			String uploadDir = "/Users/diaz/java/Temp/img/";
 			 if (files != null && !files.isEmpty() && !files.get(0).isEmpty()) {
 					
 					attachmentService.deleteAttachmentsByArticleId(changeArticlePostDto.getId());

@@ -36,8 +36,8 @@ public class GalleryService {
   } // findAllGallery
 
   // 갤러리 불러오기
-  public Page<GalleryResponseDto> pageGallery(int pageNum) {
-    return galleryRepository.findAll(PageRequest.of(pageNum - 1, 20)).map(GalleryResponseDto::load);
+  public Page<GalleryResponseDto> pageGalleryByClub(Long clubId, int pageNum) {
+    return galleryRepository.findByClubId(clubId, PageRequest.of(pageNum - 1, 20)).map(GalleryResponseDto::load);
   }
 
 
