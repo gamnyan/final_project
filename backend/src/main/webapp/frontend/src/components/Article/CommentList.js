@@ -8,8 +8,12 @@ import Comment from "./Comment";
 const CommentList = props => {
     const [comments,setComments] = useState()
     const [isLoading,setIsLoading] = useState(false)
+    const [updatecomment,setUpdateComment] = useState({
+        commentText:""
+    })
 
     const commentRef = useRef(null);
+    const textRef = useRef(null);
 
     const authCtx = useContext(AuthContext)
     const commentCtx = useContext(CommentContext)
@@ -39,6 +43,8 @@ const CommentList = props => {
 
         }
     },[isSuccess])
+
+   
 
     const createComment = event => {
         event.preventDefault();
@@ -100,6 +106,7 @@ const CommentList = props => {
                         cols={100}
                         row={3}
                         ref={commentRef}
+                        defaultValue={updatecomment && updatecomment.commentText}
                         />
                         <input type="submit" />
                 </form>

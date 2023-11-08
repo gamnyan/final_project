@@ -1,13 +1,15 @@
 package com.avado.backend.dto;
 
 import java.time.format.DateTimeFormatter;
+
 import com.avado.backend.model.Comment;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

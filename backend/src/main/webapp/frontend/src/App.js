@@ -12,6 +12,7 @@ import ArticleListPage from "./Pages/article/ArticleListPage";
 import ArticleOnePage from "./Pages/article/ArticleOnePage";
 import CreateArticlePage from "./Pages/article/CreateArticlePage";
 import UpdateArticlePage from "./Pages/article/UpdateArticlePage";
+import UpdateCommentPage from "./Pages/article/UpdateCommentPage";
 import ClubListPage from "./Pages/club/ClubListPage";
 import ClubOnePage from "./Pages/club/ClubOnePage";
 import CreateClubPage from "./Pages/club/CreateClubPage";
@@ -79,6 +80,7 @@ function App() {
           element={!authCtx.isLoggedIn ? <Navigate to="/" /> : <ChatRoom />}
         /> */}
             <Route path="/article/:articleId" element={<ArticleOnePage />} />
+            <Route path="/updatecomment/:commentId" element={<UpdateCommentPage />} />
             <Route path="/clubpage/:pageId" element={<ClubListPage />} />
             <Route path="/club/:clubId" element={<ClubOnePage />} />
             <Route path="/clubpage/:pageId" element={<ClubListPage />} />

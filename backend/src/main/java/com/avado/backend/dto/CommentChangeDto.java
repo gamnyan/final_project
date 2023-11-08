@@ -3,7 +3,8 @@ package com.avado.backend.dto;
 import lombok.Data;
 
 @Data
-public class CommentRequestDto {
-	private Long articleId;
+public class CommentChangeDto {
+	private Long id;
 	private String text;
+	
 }
