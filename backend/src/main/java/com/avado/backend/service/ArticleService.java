@@ -6,18 +6,18 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import com.avado.backend.config.SecurityUtil;
 import com.avado.backend.dto.ArticleResponseDto;
+import com.avado.backend.dto.ClubJoinDto;
 import com.avado.backend.dto.PageResponseDto;
 import com.avado.backend.model.Article;
 import com.avado.backend.model.Club;
-
 import com.avado.backend.model.Member;
 import com.avado.backend.persistence.ArticleRepository;
 import com.avado.backend.persistence.ClubJoinRepository;
@@ -47,7 +47,7 @@ public class ArticleService {
 	
 
 	
-	public ArticleResponseDto oneArticle(Long id) {
+	/*public ArticleResponseDto oneArticle(Long id) {
 	    Article article = articleRepository.findById(id).orElseThrow(() -> new RuntimeException("글이 없습니다."));
 	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	    if (authentication == null || authentication.getPrincipal() == "anonymousUser") {
@@ -65,6 +65,72 @@ public class ArticleService {
 	            throw new RuntimeException("해당 게시글을 읽을 권한이 없습니다.");
 	        }
 	    }
+	}*/
+	/*
+	public ArticleResponseDto oneArticle(Long id) {
+	    Article article = articleRepository.findById(id).orElseThrow(() -> new RuntimeException("글이 없습니다."));
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+	    if (authentication == null || authentication.getPrincipal() instanceof AnonymousAuthenticationToken) {
+	        ClubJoinDto clubJoinDto = getClubJoinDto(article.getClub().getId()); // 클럽 가입 정보를 가져옴
+	        return ArticleResponseDto.of(article, false, clubJoinDto);
+	    } else {
+	        Member member = memberRepository.findById(Long.parseLong(authentication.getName())).orElseThrow();
+
+	        // 클럽에 가입한 회원인지 확인
+	        boolean isMemberOfClub = clubJoinRepository.existsByClubIdAndMemberId(article.getClub().getId(), member.getId());
+
+	        if (isMemberOfClub) {
+	            boolean result = article.getMember().equals(member);
+	            ClubJoinDto clubJoinDto = getClubJoinDto(article.getClub().getId()); // 클럽 가입 정보를 가져옴
+	            return ArticleResponseDto.of(article, result, clubJoinDto);
+	        } else {
+	            throw new RuntimeException("해당 게시글을 읽을 권한이 없습니다.");
+	        }
+	    }
+	}*/
+	
+	public ArticleResponseDto oneArticle(Long id) {
+	    try {
+	        Article article = articleRepository.findById(id).orElseThrow(() -> new RuntimeException("글이 없습니다."));
+	        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+	        if (authentication == null || authentication.getPrincipal() instanceof AnonymousAuthenticationToken) {
+	            ClubJoinDto clubJoinDto = getClubJoinDto(article.getClub().getId()); // 클럽 가입 정보를 가져옴
+	            return ArticleResponseDto.of(article, false, clubJoinDto);
+	        } else {
+	            Member member = memberRepository.findById(Long.parseLong(authentication.getName())).orElseThrow();
+
+	            // 클럽에 가입한 회원인지 확인
+	            boolean isMemberOfClub = clubJoinRepository.existsByClubIdAndMemberId(article.getClub().getId(), member.getId());
+
+	            if (isMemberOfClub) {
+	                boolean result = article.getMember().equals(member);
+	                ClubJoinDto clubJoinDto = getClubJoinDto(article.getClub().getId()); // 클럽 가입 정보를 가져옴
+	                return ArticleResponseDto.of(article, result, clubJoinDto);
+	            } else {
+	                throw new RuntimeException("해당 게시글을 읽을 권한이 없습니다.");
+	            }
+	        }
+	    } catch (Exception e) {
+	        ArticleResponseDto responseDto = new ArticleResponseDto();
+	        responseDto.setErrorMessage(e.getMessage()); // 에러 메시지 설정
+	        return responseDto;
+	    }
+	}
+
+	
+	
+	
+	private ClubJoinDto getClubJoinDto(Long clubId) {
+	    // 가상의 예시 데이터를 사용한 코드입니다. 실제 데이터 조회 로직을 여기에 구현해야 합니다.
+	    int joinedNum = 0; // 예시: 클럽에 현재 10명이 가입되어 있는 상황
+	    boolean isJoined = true; // 예시: 현재 사용자가 클럽에 가입되어 있는 상황
+
+	    return ClubJoinDto.builder()
+	            .joinedNum(joinedNum)
+	            .isJoined(isJoined)
+	            .build();
 	}
 
 	

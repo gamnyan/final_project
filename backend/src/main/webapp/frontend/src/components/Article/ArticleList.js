@@ -8,6 +8,8 @@ import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import ArticleContext from "../../Store/Article-context";
 import Paging from "./Paging";
 
+import JoinContext from "../../Store/Join-context";
+
 const ArticleList = props => {
    let navigate = useNavigate();
    const pageId = String(props.item);
@@ -58,7 +60,6 @@ const ArticleList = props => {
 
    const fetchListHandler = useCallback(() => {
       articleCtx.getPageList(clubId, pageId);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
    useEffect(() => {

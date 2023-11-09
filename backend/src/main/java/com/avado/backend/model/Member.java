@@ -56,10 +56,13 @@ public class Member {
     @JsonIgnoreProperties({ "member" })
     private List<Gallery> gallery;
 
-    // gallery_heart
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties({ "member" })
-    private List<GalleryHeart> galleryHeart;
+    private List<GalleryComment> galleryComment;
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties({ "member" })
+    private List<GalleryRecommend> galleryRecommend;
 
     public void setNickname(String nickname) {
         this.nickname = nickname;

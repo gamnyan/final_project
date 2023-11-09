@@ -45,10 +45,24 @@ public class CommentController {
 		return ResponseEntity.ok(new MessageDto("Success"));
 	}
 	
+	@GetMapping("/changec")
+	public ResponseEntity<CommentResponseDto> getChangeComment(@RequestParam(name="id")Long id ){
+		try {
+			CommentResponseDto responseDto = commentService.oneComment(id);
+			
+			return ResponseEntity.ok(responseDto);
+			
+		}
+	catch(Exception e) {
+		e.printStackTrace();
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+	}
+	
 	@PutMapping("/change")
 	public ResponseEntity<CommentResponseDto> changeComment(@RequestBody ChangeCommentRequestDto requestDto) {
 	    try {
-	        Comment comment = commentService.changeComment(requestDto.getId(), requestDto.getText());
+	        Comment comment = commentService.changeComment(requestDto.getCommentId(), requestDto.getCommentText());
 	        CommentResponseDto responseDto = CommentResponseDto.of(comment, true);
 	        return ResponseEntity.ok(responseDto);
 	    } catch (Exception e) {

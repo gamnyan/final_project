@@ -42,11 +42,16 @@ const ArticleOne = props => {
    useEffect(() => {
       if (articleCtx.isSuccess) {
          setArticle(articleCtx.article);
-         console.log(article);
-         console.log(article?.createAt);
+
          setIsLoading(true);
       }
    }, [articleCtx, article]);
+   useEffect(() => {
+      if (articleCtx.isError && articleCtx.errorMessage === "해당 게시글을 읽을 권한이 없습니다.") {
+         alert("클럽에 가입해 주세요");
+         navigate(`/page/1`);
+      }
+   }, [articleCtx.isError, articleCtx.errorMessage, navigate]);
 
    let content = <p>Loading</p>;
 

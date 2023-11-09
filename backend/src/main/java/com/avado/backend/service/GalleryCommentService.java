@@ -1,8 +1,12 @@
 package com.avado.backend.service;
 
-import java.time.*;
-import java.util.*;
-import java.util.stream.*;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +22,7 @@ import com.avado.backend.persistence.GalleryRepository;
 import com.avado.backend.persistence.MemberRepository;
 
 import jakarta.transaction.Transactional;
-import lombok.*;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional
@@ -43,7 +47,7 @@ public class GalleryCommentService {
       Map<Boolean, List<GalleryComment>> collect = galleryComments.stream()
           .collect(Collectors.partitioningBy(comment -> comment.getMember().equals(member)));
       List<GalleryCommentDto> tCollect = collect.get(true).stream().map(t -> GalleryCommentDto.of(t, true)).toList();
-      List<GalleryCommentDto> fCollect = collect.get(true).stream().map(f -> GalleryCommentDto.of(f, false)).toList();
+      List<GalleryCommentDto> fCollect = collect.get(false).stream().map(f -> GalleryCommentDto.of(f, false)).toList();
       return Stream.concat(tCollect.stream(), fCollect.stream())
           .sorted(Comparator.comparing(GalleryCommentDto::getId))
           .collect(Collectors.toList());
@@ -65,6 +69,33 @@ public class GalleryCommentService {
       .build();
     return GalleryCommentDto.of(galleryCommentRepository.save(galleryComment), true);
   } // createGalleryComment
+
+  public GalleryComment authorizationCommentWriter(Long id) {
+	Member member = isMemberCurrent();
+    GalleryComment galleryComment = galleryCommentRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("글이 없습니다."));
+    if (!galleryComment.getMember().equals(member)) {
+      throw new RuntimeException("로그인한 유저와 작성 유저가 같지 않습니다.");
+    } // if end
+    return galleryComment;
+  } // authorizationCommentWriter
+  public Member isMemberCurrent() {
+		return memberRepository.findById(SecurityUtil.getCurrentMemberId())
+				.orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+	}
+
+  // 갤러리 코멘트 수정
+  @Transactional
+  public GalleryComment changeGalleryComment(Long id, String comment) {
+    try {
+      GalleryComment galleryComment = authorizationCommentWriter(id);
+      galleryComment.setComment(comment);
+      return galleryCommentRepository.save(galleryComment);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new RuntimeException("댓글 업데이트 중 오류가 발생했습니다.");
+    }
+  } // changeGalleryComment
 
   // 갤러리 코멘트 삭제
   @Transactional

@@ -1,10 +1,28 @@
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate} from "react-router-dom";
+import { useEffect } from "react";
 const Article = (props) => {
   let navigate = useNavigate();
+ 
+  let id;
+  
+ 
+  useEffect(() => {
+    try {
+      if (props.item.articleId) {
+        id = props.item.articleId.toString();
+      } else {
+        alert("클럽에 가입해 주세요.");
+        navigate(`/clubpage/1`);
+      }
+    } catch (error) {
+      alert("클럽에 가입해 주세요.");
+      navigate(`/clubpage/1`);
+    }
+  }, [props.item.articleId]);
+  
 
-  const id = props.item.articleId.toString();
-
+  
+ 
   const backHandler = (event) => {
     event.preventDefault();
     navigate(`/page/${props.item.clubId}/1`);

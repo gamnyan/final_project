@@ -1,8 +1,8 @@
 package com.avado.backend.dto;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class CommentRequestDto {
 	private Long articleId;
 	private String text;

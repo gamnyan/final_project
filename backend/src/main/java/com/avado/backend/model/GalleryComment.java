@@ -14,6 +14,7 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name = "gallery_comment")
 @Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GalleryComment {
 
   @Id
@@ -36,5 +37,12 @@ public class GalleryComment {
   @Column(name = "created_at")
   private LocalDateTime createdAt;
 
+  
+  @Builder
+  public GalleryComment(String comment, Member member, Gallery gallery) {
+	  this.comment = comment;
+	  this.member = member;
+	  this.gallery = gallery;
+  }
   
 } // GalleryComment

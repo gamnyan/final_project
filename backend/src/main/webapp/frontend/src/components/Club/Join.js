@@ -29,10 +29,11 @@ const ClubJoin = props => {
    useEffect(() => {
       if (joinCtx.isSuccess) {
          setJoins(joinCtx.joins);
+         console.log(joins+"joins.joined");
          setIsLoading(true);
       }
    }, [joinCtx, joins]);
-
+   
    useEffect(() => {
       if (joinCtx.isChangeSuccess) {
          setJoins(joinCtx.joins);
@@ -40,7 +41,7 @@ const ClubJoin = props => {
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [joinCtx.isChangeSuccess]);
-
+   
    const changeClubjoin = () => {
       if (!isLogin) {
          return alert("로그인 하세요");
@@ -48,6 +49,7 @@ const ClubJoin = props => {
          joins.joined ? joinCtx.deleteclubjoin(id, authCtx.token) : joinCtx.postclubjoin(id, authCtx.token);
       }
    };
+
 
    let media = <h3>is Loading...</h3>;
 
@@ -59,7 +61,7 @@ const ClubJoin = props => {
                style={{ color: joins.joined ? "#ff0000" : "#000000" }}
                onClick={changeClubjoin}
             />
-            <h4>좋아요 {joins.joinedNum}</h4>
+            <h4>가입하기 {joins.joinedNum}</h4>
          </div>
       );
    }

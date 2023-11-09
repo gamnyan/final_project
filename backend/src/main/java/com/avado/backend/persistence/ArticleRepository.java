@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.avado.backend.model.Article;
 
-public interface ArticleRepository extends JpaRepository<Article, Long>/* , ArticleRepositoryCustom */ {
+public interface ArticleRepository extends JpaRepository<Article, Long> {
 	Page<Article> findByClubId(Long clubId, Pageable pageable);
 
 }

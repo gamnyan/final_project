@@ -18,24 +18,14 @@ public class AttachmentDto {
     private String originFilename;
     private String storeFilename;
     private Long galleryId;
-    private Long articleId; 
-    
-    /* public static AttachmentDto convertToDto(Attachment attachment) {
-        return AttachmentDto.builder()
-                .id(attachment.getId())
-                .originFilename(attachment.getOriginFilename())
-                .storeFilename(attachment.getStoreFilename())
-                .galleryId(attachment.getGallery().getId())
-                .articleId(attachment.getArticle().getId())
-                .build();
-    } */
+    private Long articleId;
 
     public static AttachmentDto convertToDto(Attachment attachment) {
         AttachmentDto attachmentDto = AttachmentDto.builder()
-                .id(attachment.getId())
-                .originFilename(attachment.getOriginFilename())
-                .storeFilename(attachment.getStoreFilename())
-                .build();
+          .id(attachment.getId())
+          .originFilename(attachment.getOriginFilename())
+          .storeFilename(attachment.getStoreFilename())
+          .build();
         
         if (attachment.getGallery() != null) {
             attachmentDto.setGalleryId(attachment.getGallery().getId());

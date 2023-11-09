@@ -67,6 +67,13 @@ public class CommentService {
 		
 	}
 	
+	public CommentResponseDto oneComment(Long id) {
+	    Comment comment = commentRepository.findById(id)
+	            .orElseThrow(() -> new RuntimeException("해당하는 댓글을 찾을 수 없습니다."));
+	    
+	    return CommentResponseDto.of(comment, true);
+	}
+	
 	@Transactional
 	public CommentResponseDto createComment(Long id,String text) {
 		Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
@@ -87,7 +94,7 @@ public class CommentService {
 		try {
 			Comment comment = authorizationCommentWriter(id);
 			comment.setText(text);
-			
+		
 			return commentRepository.save(comment);
 		}catch(Exception e) {
 			 e.printStackTrace();

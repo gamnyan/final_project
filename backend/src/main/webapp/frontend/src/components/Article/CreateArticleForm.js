@@ -131,8 +131,8 @@ const CreateArticleForm = (props) => {
             </div>
           ))}
 
-        <Button varient="primary">취소</Button>
-        <Button varient="primary" type="submit">
+        <Button variant="primary">취소</Button>
+        <Button variant="primary" type="submit">
           작성
         </Button>
       </Form>

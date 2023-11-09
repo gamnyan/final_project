@@ -96,7 +96,7 @@ const MainNavigation = () => {
 
    const clupPageHandler = () => {
       let num = 1;
-      return "/clubpage/" + num;
+      return "/club/clubpage/" + num;
    };
 
    return (
@@ -117,7 +117,7 @@ const MainNavigation = () => {
                               <Nav.Link href={clupPageHandler()}>클럽</Nav.Link>
                            </li>
                            <li className="linkStyled">
-                              <Nav.Link href="/moim">Moim</Nav.Link>
+                              <Nav.Link href="/moim/clubpage/1">Moim</Nav.Link>
                            </li>
                            <li className="linkStyled">
                               <Nav.Link href="/chat">Chat</Nav.Link>

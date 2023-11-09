@@ -47,13 +47,14 @@ public class WebSecurityConfig {
                                 .requestMatchers("/ws/chat/**").permitAll()
                 .requestMatchers("/chat/**").permitAll()
                                                 .requestMatchers("/auth/**", "/article/**", "/recommend/**",
-                                                                "/comment/**", "/img/**", "/club/**", "/clubjoin/**")
+                                                                "/comment/**", "/img/**", "/club/**", "/clubjoin/**", "/gallery/comment/**", "/galleryRecommend/**")
                                                 .permitAll()
                                                 .requestMatchers("/article/img/**").permitAll()
                                                 .requestMatchers("/member/me").permitAll() // 엔드포인트 추가 구글 때문에
                                                 .requestMatchers(
                                                                 "/member/check-email")
                                                 .permitAll()
+                                                .requestMatchers("/gallery/**").permitAll()
                                                 .anyRequest().authenticated())
                                 .apply(new JwtSecurityConfig(tokenProvider));
                 log.info("jwt: "); // .oauth2Login()
