@@ -5,7 +5,7 @@ import { GalleryContextProvider } from "../../Store/Gallery-context";
 //import CreateGalleryPage from "CreateGalleryPage";
 
 const GalleryListPage = () => {
-  let { pageId, clubId } = useParams;
+  let { clubId, pageId } = useParams();
 
   return (
     <>

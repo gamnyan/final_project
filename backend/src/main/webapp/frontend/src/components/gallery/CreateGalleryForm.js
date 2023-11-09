@@ -76,7 +76,7 @@ const CreateGalleryForm = (props) => {
 
   useEffect(() => {
     if (galleryCtx.isSuccess) {
-      console.log("wring success");
+      console.log("wrting success");
       navigate(`/club/${props.clubId}/gallery/page/1`, { replace: true });
     }
   }, [galleryCtx.isSuccess]);
@@ -107,15 +107,15 @@ const CreateGalleryForm = (props) => {
             />
           </Form.Group>
           {updateGallery.attachment &&
-            updateGallery.attachment.map((image, index) => {
+            updateGallery.attachment.map((image, index) => (
               <div key={index}>
                 <img
                   src={`http://localhost:80/club/one/${clubId}/gallery/img/${image.storeFilename}`}
                   alt={`Attachment ${index}`}
                   style={{ maxWidth: "100%" }}
                 />
-              </div>;
-            })}
+              </div>
+            ))}
           <Button variant="primary">취소</Button>
           <Button variant="primary" type="submit">
             작성

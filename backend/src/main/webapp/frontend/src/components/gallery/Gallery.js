@@ -2,12 +2,11 @@ import { useNavigate } from "react-router-dom";
 
 const Gallery = (props) => {
   let navigate = useNavigate();
-
-  const id = props.item.galleryId.toString();
+  const id = props.item.id.toString();
 
   const backHandler = (event) => {
     event.preventDefault();
-    navigate(`/${props.item.clubId}/gallery/page/1`);
+    navigate(`/club/${props.item.clubId}/gallery/page/1`);
   }; // backHandler
 
   const updateHandler = (event) => {
@@ -26,17 +25,17 @@ const Gallery = (props) => {
     <div>
       <header>
         <div>
-          <span>{props.item.galleryContent}</span>
-          <span>{props.item.createdAt}</span>
+          <span>{props.item.content}</span>
+          <span>{props.item.updatedAt}</span>
         </div>
       </header>
       {props.item.attachment &&
-        props.item.attachmemt.map((image, index) => {
-          if (image.storeFileName.length >= 4) {
+        props.item.attachment.map((image, index) => {
+          if (image.storeFilename.length >= 4) {
             return (
               <div key={index}>
                 <img
-                  src={`http://localhost:80/club/one/${props.item.clubId}/gallery/img/${image.storeFileName}`}
+                  src={`http://localhost:80/club/one/${props.item.clubId}/gallery/img/${image.storeFilename}`}
                   alt={`Attachment ${index}`}
                   style={{ maxWidth: "100%" }}
                 />

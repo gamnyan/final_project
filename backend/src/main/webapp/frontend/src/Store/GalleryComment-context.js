@@ -74,3 +74,5 @@ export const GalleryCommentContextProvider = (props) => {
     </GalleryCommentContext.Provider>
   );
 }; // GalleryCommentContextProvider
+
+export default GalleryCommentContext;

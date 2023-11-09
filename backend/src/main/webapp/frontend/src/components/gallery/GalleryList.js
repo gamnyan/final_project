@@ -30,12 +30,12 @@ const GalleryList = (props) => {
       headerStyle: () => {
         return { width: "65%" };
       },
-      /* events: {
+      events: {
         onClick: (e, column, columnIndex, row, rowIndex) => {
-          const galleryIdNum = row.galleryId;
-          navigate(`../gallery/${galleryIdNum}`);
+          const galleryIdNum = row.id;
+          navigate(`/club/${clubId}/gallery/${galleryIdNum}`);
         },
-      }, */
+      },
     },
   ]; // columns
 
@@ -64,7 +64,11 @@ const GalleryList = (props) => {
   return (
     <Fragment>
       <ClubItemNavigation clubId={props.clubId} />
+      <br />
       <BootStrapTable keyField="id" data={GalleryList} columns={columns} />
+      {/* {GalleryList.map((gallery) => {
+        return <div>{gallery.content}</div>;
+      })} */}
       <h3>fwefew</h3>
       <div>
         {isLogin && (

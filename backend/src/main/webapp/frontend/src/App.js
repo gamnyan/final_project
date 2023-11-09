@@ -27,7 +27,7 @@ import ClubLayout from "./components/Layout/ClubLayout";
 
 // 갤러리 페이지
 import GalleryListPage from "./Pages/gallery/GalleryListPage";
-import GalleryOnePage from "./components/gallery/GalleryOne";
+import GalleryOnePage from "./Pages/gallery/GalleryOnePage";
 import CreateGalleryPage from "./Pages/gallery/CreateGalleryPage";
 import UpdateGalleryPage from "./Pages/gallery/UpdateGalleryPage";
 

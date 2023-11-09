@@ -34,6 +34,7 @@ public class GalleryResponseDto {
       .nickName(gallery.getMember().getNickname())
       .content(gallery.getContent())
       .viewCount(gallery.getViewCount())
+      .createdAt(gallery.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
       .updatedAt(gallery.getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
       .isWrite(isWrite)
       .build();
@@ -50,7 +51,7 @@ public class GalleryResponseDto {
     return GalleryResponseDto.builder()
       .id(gallery.getId())
       .memberId(gallery.getMember().getId())
-      .clubId(gallery.getId())
+      .clubId(gallery.getClub().getId())
       .nickName(gallery.getMember().getNickname())
       .content(gallery.getContent())
       .viewCount(gallery.getViewCount())

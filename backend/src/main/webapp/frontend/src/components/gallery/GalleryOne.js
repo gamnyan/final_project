@@ -25,8 +25,8 @@ const GalleryOne = (props) => {
   const getContext = useCallback(() => {
     setIsLoading(false);
     isLogin
-      ? galleryCtx.getGalleryWithImg(id, authCtx.token)
-      : galleryCtx.getGalleryWithImg(id);
+      ? galleryCtx.getGalleryWithImg(props.clubId, id, authCtx.token)
+      : galleryCtx.getGalleryWithImg(props.clubId, id);
   }, [isLogin]);
 
   useEffect(() => {

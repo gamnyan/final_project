@@ -1,10 +1,4 @@
-import Recat, {
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  useRef,
-} from "react";
+import { useCallback, useContext, useEffect, useState, useRef } from "react";
 import AuthContext from "../../Store/Auth-context";
 import GalleryCommentContext from "../../Store/GalleryComment-context";
 import GalleryComment from "./GalleryComment";
@@ -24,8 +18,8 @@ const GalleryCommentList = (props) => {
   const getContext = useCallback(() => {
     setIsLoading(false);
     isLogin
-      ? galleryCommentCtx.getComments(galleryId, authCtx.token)
-      : galleryCommentCtx.getComments(galleryId);
+      ? galleryCommentCtx.getGalleryComments(galleryId, authCtx.token)
+      : galleryCommentCtx.getGalleryComments(galleryId);
     console.log("get galleryComment");
   }, [isLogin]);
 

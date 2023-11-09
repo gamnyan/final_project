@@ -18,7 +18,7 @@ public class GalleryRecommend {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "gallery_id")
-  Gallery gallery;
+  private Gallery gallery;
 
   public GalleryRecommend(Member member, Gallery gallery) {
     this.member = member;

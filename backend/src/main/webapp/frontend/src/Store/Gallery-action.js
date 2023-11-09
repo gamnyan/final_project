@@ -11,14 +11,14 @@ const createTokenHeader = (token) => {
 
 // get galleryList
 export const getGalleryPageList = (clubId, pageId) => {
-  const URL = `club/one/${clubId}/gallery/page?page=${pageId}`;
+  const URL = `/club/one/${clubId}/gallery/page?page=${pageId}`;
   const response = GET(URL, {});
   return response;
 }; // getGalleryPageList
 
 // 특정 갤러리 불러오기 with img
-export const getOneGalleryWithImg = (param, token) => {
-  const URL = `/club/one/${param}/gallery/feed?id=${param}`;
+export const getOneGalleryWithImg = (clubId, param, token) => {
+  const URL = `/club/one/${clubId}/gallery/feed?id=${param}`;
   if (!token) {
     const response = GET(URL, {});
     return response;
