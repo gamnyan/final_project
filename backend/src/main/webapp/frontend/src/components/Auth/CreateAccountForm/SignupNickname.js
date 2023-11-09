@@ -1,21 +1,27 @@
-import { Grid, TextField } from "@mui/material";
+import { Grid, TextField, Tooltip } from "@mui/material";
 import { useState } from "react";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 const SignupNickname = props => {
    const [nicknameColor, setNicknameColor] = useState("primary");
+   const nicknameConditions = (
+      <>
+         1. 4 ~ 24 이내(한글은 두글자 취급) <br />
+         2. 한글 자음 모음 단독 사용 불가(ㄱ,ㄴ,ㄷ,ㅏ,ㅓ,ㅗ 등) <br />
+         3. 특수문자 사용 불가
+      </>
+   );
    const nicknameInputRef = props.nicknameInputRef;
    const validateNickname = nickname => {
       // 특수문자 사용 여부 체크
       const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
       if (specialCharRegex.test(nickname)) {
-         console.log("특수문자 사용 불가");
          return false;
       }
 
       // 한글 자음 모음 단독 사용 불가
       const koreanCharRegex = /[ㄱ-ㅎㅏ-ㅣ]/;
       if (koreanCharRegex.test(nickname)) {
-         console.log("한글 자음 모음 단독 사용 불가");
          return false;
       }
 
@@ -26,12 +32,10 @@ const SignupNickname = props => {
 
       // 글자수가 4글자 이상 24글자 이하인지 체크
       if (totalLength < 4 || totalLength > 24) {
-         console.log("글자수는 4글자 이상 24글자 이하 사용 가능");
          return false;
       }
 
       // 모든 조건을 만족하면 유효한 닉네임
-      console.log("유효한 닉네임");
       return true;
    };
 
@@ -45,8 +49,9 @@ const SignupNickname = props => {
    };
    return (
       <>
-         <Grid item xs={12}>
+         <Grid item xs={11}>
             <TextField
+               variant="standard"
                autoComplete="nickname"
                name="nickname"
                required
@@ -57,6 +62,11 @@ const SignupNickname = props => {
                onChange={handleInputChange}
                color={nicknameColor}
             />
+         </Grid>
+         <Grid item xs={1}>
+            <Tooltip title={nicknameConditions} placement="right">
+               <HelpOutlineIcon style={{ height: "56px" }} />
+            </Tooltip>
          </Grid>
       </>
    );

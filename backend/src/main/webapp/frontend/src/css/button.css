@@ -30,8 +30,9 @@ p {
     text-align: center;
 }
 
-button#button-css {
-    margin: 20px;
+button#btn-css {
+    width: 100%;
+    margin: 20px auto;
 }
 
 .custom-btn {
@@ -898,7 +899,7 @@ button#button-css {
 /* 16 */
 .btn-16 {
     border: none;
-    color: #000;
+    color: rgb(0 0 0 / 54%);
 }
 
 .btn-16:after {
@@ -919,7 +920,7 @@ button#button-css {
 }
 
 .btn-16:hover {
-    color: #000;
+    color: rgb(0 0 0 / 54%);
 }
 
 .btn-16:hover:after {
