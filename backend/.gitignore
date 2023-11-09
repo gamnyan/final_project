@@ -35,3 +35,10 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+## h2 경로가 C드라이브라서
+application.yaml
+
+## @Value 경로가 C드라이브라서 
+FileStore.java

@@ -25,8 +25,8 @@ export const GalleryRecommendContextProvider = (props) => {
       : galleryRecommendAction.getGalleryRecommends(param);
     data.then((result) => {
       if (result !== null) {
-        const galleryRecommend = result.date;
-        setGalleryRecommends(galleryRecommend);
+        const galleryRecommends = result.data;
+        setGalleryRecommends(galleryRecommends);
       } // if end
     });
     setIsSuccess(true);
@@ -34,6 +34,7 @@ export const GalleryRecommendContextProvider = (props) => {
 
   // 갤러리 리코멘드 생성
   const postGalleryRecommendHandler = async (id, token) => {
+    setIsChangeSuccess(false);
     const postData = await galleryRecommendAction.createGalleryRecommend(
       id,
       token
@@ -54,11 +55,12 @@ export const GalleryRecommendContextProvider = (props) => {
   const deleteGalleryRecommendHandler = async (param, token) => {
     setIsChangeSuccess(false);
 
-    // const deleteData = await galleryRecommendAction.removeGalleryRecommend(
-    //   param,
-    //   token
-    // );
-    // const msg = await deleteData?.data;
+    const deleteData = await galleryRecommendAction.removeGalleryRecommend(
+      param,
+      token
+    );
+    const msg = await deleteData?.data;
+    console.log(msg);
 
     const getData = await galleryRecommendAction.getGalleryRecommends(
       param,
@@ -66,6 +68,7 @@ export const GalleryRecommendContextProvider = (props) => {
     );
     const galleryRecommends = getData?.data;
     setGalleryRecommends(galleryRecommends);
+    console.log(galleryRecommends);
     setIsChangeSuccess(true);
   }; // deleteGalleryRecommendHandler
 
@@ -84,4 +87,5 @@ export const GalleryRecommendContextProvider = (props) => {
     </GalleryRecommendContext.Provider>
   );
 }; // GalleryRecommendContextProvider
+
 export default GalleryRecommendContext;
