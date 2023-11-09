@@ -1,6 +1,6 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
 
-import * as commentAction from "./Comment-action"
+import * as commentAction from "./Comment-action";
 
 const CommentContext = React.createContext({
   comment: undefined,
@@ -11,8 +11,8 @@ const CommentContext = React.createContext({
   getComment: () => {},
   updateComment: () => {},
   createComment: () => {},
-  deleteComment: () => {}
-})
+  deleteComment: () => {},
+});
 
 export const CommentContextProvider = props => {
   const [commentList, setCommentList] = useState([])
@@ -21,7 +21,7 @@ export const CommentContextProvider = props => {
   const [comment,setComment] = useState();
 
   const getCommentsHandler = async (param, token) => {
-    setIsSuccess(false)
+    setIsSuccess(false);
     const data = token
       ? await commentAction.getComments(param, token)
       : await commentAction.getComments(param)
@@ -53,26 +53,26 @@ export const CommentContextProvider = props => {
 
 
   const createCommentHandler = async (comment, token) => {
-    setIsSuccess(false)
-    const postData = await commentAction.makeComment(comment, token)
-    const msg = await postData?.data
+    setIsSuccess(false);
+    const postData = await commentAction.makeComment(comment, token);
+    const msg = await postData?.data;
 
-    const getData = await commentAction.getComments(comment.articleId, token)
-    const comments = getData?.data
-    setCommentList(comments)
-    setIsSuccess(true)
-  }
+    const getData = await commentAction.getComments(comment.articleId, token);
+    const comments = getData?.data;
+    setCommentList(comments);
+    setIsSuccess(true);
+  };
 
   const deleteCommentHandler = async (param, id, token) => {
-    setIsSuccess(false)
-    const deleteData = await commentAction.deleteComment(param, token)
-    const msg = deleteData?.data
+    setIsSuccess(false);
+    const deleteData = await commentAction.deleteComment(param, token);
+    const msg = deleteData?.data;
 
-    const getData = await commentAction.getComments(id, token)
-    const comments = getData?.data
-    setCommentList(comments)
-    setIsSuccess(true)
-  }
+    const getData = await commentAction.getComments(id, token);
+    const comments = getData?.data;
+    setCommentList(comments);
+    setIsSuccess(true);
+  };
 
   const contextValue = {
     commentList,
@@ -83,14 +83,14 @@ export const CommentContextProvider = props => {
     getComment:getOneCommentHandler,
     updateComment:updateCommentHandler,
     createComment: createCommentHandler,
-    deleteComment: deleteCommentHandler
-  }
+    deleteComment: deleteCommentHandler,
+  };
 
   return (
     <CommentContext.Provider value={contextValue}>
       {props.children}
     </CommentContext.Provider>
-  )
-}
+  );
+};
 
-export default CommentContext
+export default CommentContext;

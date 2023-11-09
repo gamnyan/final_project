@@ -8,7 +8,7 @@ import { GalleryCommentContextProvider } from "../../Store/GalleryComment-contex
 import { GalleryRecommendContextProvider } from "../../Store/GalleryRecommend-context";
 
 const GalleryOnePage = () => {
-  let { galleryId, clubId } = useParams();
+  let { clubId, galleryId } = useParams();
 
   return (
     <Fragment>
@@ -16,9 +16,9 @@ const GalleryOnePage = () => {
         <GalleryOne item={galleryId} clubId={clubId} />
       </GalleryContextProvider>
 
-     {/*  <GalleryRecommendContextProvider>
+      <GalleryRecommendContextProvider>
         <GalleryRecommend item={galleryId} clubId={clubId} />
-      </GalleryRecommendContextProvider> */}
+      </GalleryRecommendContextProvider>
 
       <GalleryCommentContextProvider>
         <GalleryComment item={galleryId} clubId={clubId} />

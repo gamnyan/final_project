@@ -1,10 +1,4 @@
-import React, {
-  Fragment,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import AuthContext from "../../Store/Auth-context";
 import GalleryRecommendContext from "../../Store/GalleryRecommend-context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,7 +6,7 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 const GalleryRecommend = (props) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [galleryRecommends, setGalleryRecommends] = useState();
+  const [galleryRecommends, setGalleryRecommends] = useState({});
   const authCtx = useContext(AuthContext);
   const galleryRecommendCtx = useContext(GalleryRecommendContext);
 
@@ -33,8 +27,15 @@ const GalleryRecommend = (props) => {
   useEffect(() => {
     if (galleryRecommendCtx.isSuccess) {
       setGalleryRecommends(galleryRecommendCtx.galleryRecommends);
-      console.log(galleryRecommends);
       console.log("set");
+      setIsLoading(true);
+    }
+  }, [galleryRecommendCtx, galleryRecommends]);
+
+  useEffect(() => {
+    if (galleryRecommendCtx.isChangeSuccess) {
+      setGalleryRecommends(galleryRecommendCtx.recommends);
+      console.log("change set");
       setIsLoading(true);
     }
   }, [galleryRecommendCtx.isChangeSuccess]);
@@ -44,7 +45,7 @@ const GalleryRecommend = (props) => {
     if (!isLogin) {
       return alert("로그인이 필요합니다.");
     } else {
-      galleryRecommends.galleryRecommended
+      galleryRecommends.isRecommended
         ? galleryRecommendCtx.deleteGalleryRecommend(id, authCtx.token)
         : galleryRecommendCtx.postGalleryRecommend(id, authCtx.token);
     }
@@ -58,11 +59,11 @@ const GalleryRecommend = (props) => {
         <FontAwesomeIcon
           icon={faHeart}
           style={{
-            color: galleryRecommends.recommended ? "#ff0000" : "#000000",
+            color: galleryRecommends.isRecommended ? "#ff0000" : "#000000",
           }}
           onClick={changeGalleryRecommend}
         />
-        <h4>좋아요 {galleryRecommends.recommendNum}</h4>
+        <h4>좋아요 {galleryRecommends.galleryRecommendNum}</h4>
       </div>
     );
   }

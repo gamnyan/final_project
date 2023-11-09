@@ -33,7 +33,7 @@ const GalleryList = (props) => {
       events: {
         onClick: (e, column, columnIndex, row, rowIndex) => {
           const galleryIdNum = row.id;
-          navigate(`../${clubId}/gallery/${galleryIdNum}`);
+          navigate(`/club/${clubId}/gallery/${galleryIdNum}`);
         },
       },
     },
@@ -64,7 +64,11 @@ const GalleryList = (props) => {
   return (
     <Fragment>
       <ClubItemNavigation clubId={props.clubId} />
+      <br />
       <BootStrapTable keyField="id" data={GalleryList} columns={columns} />
+      {/* {GalleryList.map((gallery) => {
+        return <div>{gallery.content}</div>;
+      })} */}
       <h3>fwefew</h3>
       <div>
         {isLogin && (

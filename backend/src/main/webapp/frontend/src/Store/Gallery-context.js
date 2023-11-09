@@ -8,7 +8,7 @@ const GalleryContext = React.createContext({
   isSuccess: false,
   isGetUpdateSuccess: false,
   totalPages: 0,
-  getPageList: () => {},
+  getGalleryPageList: () => {},
 
   getGalleryWithImg: () => {},
   createGalleryWithFiles: () => {},
@@ -38,11 +38,11 @@ export const GalleryContextProvider = (props) => {
   }; // getGalleryPageHandler
 
   // 특정 갤러리 조회
-  const getGalleryHandler = (param, token) => {
+  const getGalleryHandler = (clubId, param, token) => {
     SetIsSuccess(false);
     const data = token
-      ? galleryAction.getOneGalleryWithImg(param, token)
-      : galleryAction.getOneGalleryWithImg(param);
+      ? galleryAction.getOneGalleryWithImg(clubId, param, token)
+      : galleryAction.getOneGalleryWithImg(clubId, param);
     data.then((result) => {
       if (result !== null) {
         const gallery = result.data;
@@ -76,6 +76,7 @@ export const GalleryContextProvider = (props) => {
         console.log(isSuccess);
       } // if end
     });
+    SetIsSuccess(true);
   }; // createGalleryHandler
 
   // 갤러리 수정(불러오기)
