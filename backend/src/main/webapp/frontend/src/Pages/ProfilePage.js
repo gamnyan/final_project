@@ -1,16 +1,12 @@
 import { Fragment } from "react";
-// import { ChangeUsername } from "../components/Profile/ChangeUsername";
-// import { ChangePassword } from "../components/Profile/ChangePassword";
-import Profiles from "../components/Profile/Profile";
+import Profiles from "../components/MyPage/Profile";
 
 const ProfilePage = () => {
-  return (
-    <Fragment>
-      <Profiles />
-      {/* <ChangePassword />
-         <ChangeUsername /> */}
-    </Fragment>
-  );
+   return (
+      <Fragment>
+         <Profiles />
+      </Fragment>
+   );
 };
 
 export default ProfilePage;

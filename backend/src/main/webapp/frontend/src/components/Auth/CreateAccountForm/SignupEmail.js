@@ -40,25 +40,45 @@ const SignupEmail = props => {
 
    const emailInputRef = props.emailInputRef;
    const checkEmailInputRef = useRef(null);
+   const isEmailValid = email => {
+      // 간단한 이메일 형식 정규표현식 사용
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+   };
    const checkDuplicateEmailHandler = async () => {
       // 현재 입력된 이메일 가져오기
       const enteredEmail = emailInputRef.current.value;
       // 이메일 중복 체크를 위한 비동기 함수 호출
       const duplicateCheckResponse = await checkDuplicateEmail(enteredEmail);
-      // 중복 여부에 따라 메시지 업데이트
-      if (!duplicateCheckResponse) {
-         // 중복된 이메일이 없는 경우
-         const emailCode = authCtx.sendEmail(enteredEmail);
-         setCheckEmailCode(emailCode);
-         showEmailDuplicateAlert("success", "인증메일이 발송되었습니다. 인증번호를 적어주세요.");
-         setIsCheckEmailShowAndHide(true);
-      }
-      if (duplicateCheckResponse) {
-         // 중복된 이메일이 있는 경우
-         showEmailDuplicateAlert("error", "이미 사용중인 이메일 주소입니다.");
-         // setIsEmailDuplicateWarning(true);
-         // setIsDuplicateMessage("이미 가입된 이메일입니다.");
-         emailInputRef.current.focus();
+      if (!isEmailValid(enteredEmail)) {
+         setIsCheckEmailShowAndHide(false);
+         setCheckEmailAlertInfo({
+            isCheckEmailWarning: false,
+            isCheckEmailSuccese: false,
+         });
+         showEmailDuplicateAlert("error", "올바른 이메일 주소를 입력해주세요.");
+         return;
+      } else {
+         // 중복 여부에 따라 메시지 업데이트
+         if (!duplicateCheckResponse) {
+            // 중복된 이메일이 없는 경우
+            const emailCode = authCtx.sendEmail(enteredEmail);
+            setCheckEmailCode(emailCode);
+            showEmailDuplicateAlert("success", "인증메일이 발송되었습니다. 인증번호를 적어주세요.");
+            setIsCheckEmailShowAndHide(true);
+         }
+         if (duplicateCheckResponse) {
+            // 중복된 이메일이 있는 경우
+            showEmailDuplicateAlert("error", "이미 사용중인 이메일 주소입니다.");
+            setCheckEmailAlertInfo({
+               isCheckEmailWarning: false,
+               isCheckEmailSuccese: false,
+            });
+            setIsCheckEmailShowAndHide(false);
+            // setIsEmailDuplicateWarning(true);
+            // setIsDuplicateMessage("이미 가입된 이메일입니다.");
+            emailInputRef.current.focus();
+         }
       }
    };
    const checkEmailHandler = () => {
@@ -80,8 +100,9 @@ const SignupEmail = props => {
    };
    return (
       <>
-         <Grid item xs={8}>
+         <Grid item xs={7}>
             <TextField
+               variant="standard"
                autoComplete="email"
                name="email"
                disabled={isEmailDisabled}
@@ -91,12 +112,12 @@ const SignupEmail = props => {
                label="이메일"
                type="email"
                inputRef={emailInputRef}
-               autoFocus
+               // autoFocus
             />
          </Grid>
          <Grid item xs={4}>
             <Button
-               variant="outlined"
+               variant="text"
                disabled={isEmailDuplicateButtonDisabled}
                fullWidth
                onClick={checkDuplicateEmailHandler}
@@ -105,20 +126,21 @@ const SignupEmail = props => {
                인증메일 발송
             </Button>
          </Grid>
-         <Grid item xs={12}>
-            {(isEmailDuplicateWarning || isEmailDuplicateSuccese) && (
+         {(isEmailDuplicateWarning || isEmailDuplicateSuccese) && (
+            <Grid item xs={11}>
                <Alert
                   variant="outlined"
                   style={{ fontSize: "12px" }}
                   severity={isEmailDuplicateWarning ? "error" : "success"}>
                   {emailDuplicateAlertInfo.message}
                </Alert>
-            )}
-         </Grid>
+            </Grid>
+         )}
          {isCheckEmailShowAndHide && (
             <>
-               <Grid item xs={8}>
+               <Grid item xs={7}>
                   <TextField
+                     variant="standard"
                      autoComplete="check-email"
                      name="checkEmail"
                      required
@@ -132,7 +154,7 @@ const SignupEmail = props => {
                </Grid>
                <Grid item xs={4}>
                   <Button
-                     variant="outlined"
+                     variant="text"
                      disabled={isCheckEmailButtonDisabled}
                      fullWidth
                      onClick={checkEmailHandler}
@@ -143,16 +165,16 @@ const SignupEmail = props => {
                </Grid>
             </>
          )}
-         <Grid item xs={12}>
-            {(isCheckEmailWarning || isCheckEmailSuccese) && (
+         {(isCheckEmailWarning || isCheckEmailSuccese) && (
+            <Grid item xs={11}>
                <Alert
                   variant="outlined"
                   style={{ fontSize: "12px" }}
                   severity={isCheckEmailWarning ? "error" : "success"}>
                   {checkEmailAlertInfo.message}
                </Alert>
-            )}
-         </Grid>
+            </Grid>
+         )}
       </>
    );
 };

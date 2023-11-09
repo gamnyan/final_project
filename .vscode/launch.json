@@ -2,6 +2,13 @@
    "configurations": [
       {
          "type": "java",
+         "name": "JwtProvider",
+         "request": "launch",
+         "mainClass": "com.avado.backend.provider.JwtProvider",
+         "projectName": "backend"
+      },
+      {
+         "type": "java",
          "name": "BackendApplication",
          "request": "launch",
          "mainClass": "com.avado.backend.BackendApplication"

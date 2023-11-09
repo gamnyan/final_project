@@ -42,7 +42,6 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
-
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties({ "member" })
     private List<Comment> comment;
@@ -62,7 +61,7 @@ public class Member {
     private List<GalleryComment> galleryComment;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties({"member"})
+    @JsonIgnoreProperties({ "member" })
     private List<GalleryRecommend> galleryRecommend;
 
     public void setNickname(String nickname) {

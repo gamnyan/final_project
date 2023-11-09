@@ -1,10 +1,5 @@
 package com.avado.backend.dto;
 
-import java.util.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.avado.backend.model.Gallery;
-
 import lombok.*;
 
 @Data
@@ -16,10 +11,5 @@ public class GalleryRequestDto {
   private Long memberId;
   private Long clubId;
   private String content;
-
-  
-
-
-  
 
 } // GalleryRequestDto
