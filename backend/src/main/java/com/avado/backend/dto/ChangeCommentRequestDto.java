@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class ChangeCommentRequestDto {
-    private Long id;
-    private String text;
+    private Long commentId;
+    private String commentText;
 }

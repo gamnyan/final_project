@@ -3,9 +3,13 @@ import React, { useState } from "react"
 import * as commentAction from "./Comment-action"
 
 const CommentContext = React.createContext({
+  comment: undefined,
   commentList: [],
   isSuccess: false,
+  isGetUpdateSuccess: false,
   getComments: () => {},
+  getComment: () => {},
+  updateComment: () => {},
   createComment: () => {},
   deleteComment: () => {}
 })
@@ -13,6 +17,8 @@ const CommentContext = React.createContext({
 export const CommentContextProvider = props => {
   const [commentList, setCommentList] = useState([])
   const [isSuccess, setIsSuccess] = useState(false)
+  const [isGetUpdateSuccess, setIsGetUpdateSuccess] = useState(false);
+  const [comment,setComment] = useState();
 
   const getCommentsHandler = async (param, token) => {
     setIsSuccess(false)
@@ -23,6 +29,28 @@ export const CommentContextProvider = props => {
     setCommentList(comments)
     setIsSuccess(true)
   }
+
+  const getOneCommentHandler = async (param, token) =>{
+    setIsGetUpdateSuccess(false);
+    const updateData = await commentAction.getComment(param,token);
+    const comment = updateData?.data;
+    setComment(comment);
+    setIsGetUpdateSuccess(true);
+  }
+
+  const updateCommentHandler = (comment,token) => {
+    setIsSuccess(false);
+
+    const data = commentAction.changeComment(comment,token);
+    data.then(result => {
+      if(result !== null){
+
+      }
+    })
+    setIsSuccess(true);
+  }
+
+
 
   const createCommentHandler = async (comment, token) => {
     setIsSuccess(false)
@@ -48,8 +76,12 @@ export const CommentContextProvider = props => {
 
   const contextValue = {
     commentList,
+    comment,
     isSuccess,
+    isGetUpdateSuccess,
     getComments: getCommentsHandler,
+    getComment:getOneCommentHandler,
+    updateComment:updateCommentHandler,
     createComment: createCommentHandler,
     deleteComment: deleteCommentHandler
   }

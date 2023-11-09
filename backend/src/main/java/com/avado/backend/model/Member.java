@@ -60,7 +60,7 @@ public class Member {
     // gallery_heart
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties({ "member" })
-    private List<GalleryHeart> galleryHeart;
+    private List<GalleryRecommend> galleryRecommend;
 
 
     public void setNickname(String nickname) {

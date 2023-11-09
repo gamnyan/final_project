@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -28,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.avado.backend.dto.ArticlePostDto;
 import com.avado.backend.dto.ArticleResponseDto;
 import com.avado.backend.dto.ChangeArticleRequestDto;
+import com.avado.backend.dto.ClubJoinDto;
 import com.avado.backend.dto.MessageDto;
 import com.avado.backend.dto.PageResponseDto;
 import com.avado.backend.model.Article;
@@ -52,7 +52,7 @@ public class ArticleController {
 	}
 
 	
-	
+	/*
 	@GetMapping("/oneone")
 	public ResponseEntity<ArticleResponseDto> getOneArticleWithFiles(@RequestParam(name = "id") Long id) {
 	    try {
@@ -64,7 +64,22 @@ public class ArticleController {
 	        e.printStackTrace();
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	    }
+	}*/
+	@GetMapping("/oneone")
+	public ResponseEntity<ArticleResponseDto> getOneArticleWithFiles(@RequestParam(name = "id") Long id) {
+	    try {
+	        ArticleResponseDto responseDto = articleService.oneArticle(id);
+	        if (responseDto.getErrorMessage() != null) {
+	            return ResponseEntity.ok().body(responseDto); // 200 OK로 설정
+	        }
+	        return ResponseEntity.ok(responseDto);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	    }
 	}
+
+	
 	
 	
 	@ResponseBody
@@ -120,12 +135,24 @@ public class ArticleController {
 	                attachmentService.saveAttachment(attachment);
 	            }
 	        }
+	        ClubJoinDto clubJoinDto = getClubJoinDto(clubId);
 
-	        return ResponseEntity.ok(ArticleResponseDto.of(article, true));
+	        return ResponseEntity.ok(ArticleResponseDto.of(article, true, clubJoinDto));
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	    }
+	}
+	
+	private ClubJoinDto getClubJoinDto(Long clubId) {
+	    // 가상의 예시 데이터를 사용한 코드입니다. 실제 데이터 조회 로직을 여기에 구현해야 합니다.
+	    int joinedNum = 0; // 예시: 클럽에 현재 10명이 가입되어 있는 상황
+	    boolean isJoined = true; // 예시: 현재 사용자가 클럽에 가입되어 있는 상황
+
+	    return ClubJoinDto.builder()
+	            .joinedNum(joinedNum)
+	            .isJoined(isJoined)
+	            .build();
 	}
 
 
@@ -181,7 +208,9 @@ public class ArticleController {
 				}
 
 			}
-			return ResponseEntity.ok(ArticleResponseDto.of(article, true));
+			
+
+		        return ResponseEntity.ok(ArticleResponseDto.of2(article, true));
 		} catch (IOException e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

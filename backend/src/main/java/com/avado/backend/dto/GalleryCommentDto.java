@@ -3,9 +3,14 @@ package com.avado.backend.dto;
 
 import java.time.format.DateTimeFormatter;
 
+import com.avado.backend.model.Gallery;
 import com.avado.backend.model.GalleryComment;
+import com.avado.backend.model.Member;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
@@ -13,8 +18,8 @@ import lombok.*;
 @Builder
 public class GalleryCommentDto {
   private Long id;
-  private Long memberId;
   private Long galleryId;
+  private String memberNickname;
   private String comment;
   private String createdAt;
   private Boolean isWrite;
@@ -22,8 +27,8 @@ public class GalleryCommentDto {
   public static GalleryCommentDto of(GalleryComment galleryComment, Boolean isWrite) {
     return GalleryCommentDto.builder()
     .id(galleryComment.getId())
-    .memberId(galleryComment.getMember().getId())
     .galleryId(galleryComment.getGallery().getId())
+    .memberNickname(galleryComment.getMember().getNickname())
     .comment(galleryComment.getComment())
     .createdAt(galleryComment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
     .isWrite(isWrite)

@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { Nav, Navbar } from "react-bootstrap";
 import styled from "styled-components";
 
-const ClubItemNavigation = () => {
+const ClubItemNavigation = ({ clubId }) => {
   const SideUl = styled.ul`
     display: flex;
     justify-content: space-around;
@@ -20,10 +20,10 @@ const ClubItemNavigation = () => {
       <Navbar>
         <SideUl>
           <SideLi>
-            <Nav.Link href="/moim">Main</Nav.Link>
+            <Nav.Link href={`/club/${clubId}`}>Main</Nav.Link>
           </SideLi>
           <SideLi>
-            <Nav.Link href="/moim/chat">Gallery</Nav.Link>
+            <Nav.Link href={`/club/${clubId}/gallery/page/1`}>Gallery</Nav.Link>
           </SideLi>
           <SideLi>
             <Nav.Link href="/moim/articlearticle">Article</Nav.Link>

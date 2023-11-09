@@ -145,6 +145,7 @@ const CreateClubForm = props => {
                         type="file"
                         ref={fileInputRef} // 추가된 부분
                         multiple // 여러 파일을 선택할 수 있도록 설정
+                        required
                         defaultValue={updateClub.Filename}
                         onChange={fileInputChangeHandler}
                         />
