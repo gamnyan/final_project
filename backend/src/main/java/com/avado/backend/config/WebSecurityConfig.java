@@ -54,6 +54,7 @@ public class WebSecurityConfig {
                                                 .requestMatchers(
                                                                 "/member/check-email")
                                                 .permitAll()
+                                                .requestMatchers("/gallery/**").permitAll()
                                                 .anyRequest().authenticated())
                                 .apply(new JwtSecurityConfig(tokenProvider));
                 log.info("jwt: "); // .oauth2Login()

@@ -22,12 +22,15 @@ import "./css/style.css";
 import { UserProvider } from "./components/ContextProvider/UserContext";
 import { AuthContextProvider } from "./Store/Auth-context";
 
-import Test1 from "./components/Club/Test1";
-import Test2 from "./components/Club/Test2";
-import Test3 from "./components/Club/Test3";
 import ChatPage from "./Pages/chatting/ChatPage";
 import ChatRoom from "./Pages/chatting/ChatRoom";
 import ClubLayout from "./components/Layout/ClubLayout";
+
+// 갤러리 페이지
+import GalleryListPage from "./Pages/gallery/GalleryListPage";
+import GalleryOnePage from "./Pages/gallery/GalleryOnePage";
+import CreateGalleryPage from "./Pages/gallery/CreateGalleryPage";
+import UpdateGalleryPage from "./Pages/gallery/UpdateGalleryPage";
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -54,6 +57,7 @@ function App() {
                 !authCtx.isLoggedIn ? <Navigate to="/" /> : <ProfilePage />
               }
             />
+
             <Route path="/page/:clubId/:pageId" element={<ArticleListPage />} />
             <Route
               path="/createarticle/:clubId"
@@ -67,6 +71,7 @@ function App() {
                 authCtx.isLoggedIn ? <UpdateArticlePage /> : <Navigate to="/" />
               }
             />
+            <Route path="/updatecomment/:articleId/:commentId" element={<UpdateCommentPage />} />
             <Route
               path="/chat/"
               element={!authCtx.isLoggedIn ? <Navigate to="/" /> : <ChatPage />}
@@ -80,11 +85,11 @@ function App() {
           element={!authCtx.isLoggedIn ? <Navigate to="/" /> : <ChatRoom />}
         /> */}
             <Route path="/article/:articleId" element={<ArticleOnePage />} />
-            <Route path="/updatecomment/:commentId" element={<UpdateCommentPage />} />
+            <Route path="/clubpage/:pageId" element={<ClubListPage />} />
+            {/* <Route path="/club/:clubId" element={<ClubOnePage />} /> */}
             <Route path="/clubpage/:pageId" element={<ClubListPage />} />
             <Route path="/club/:clubId" element={<ClubOnePage />} />
-            <Route path="/clubpage/:pageId" element={<ClubListPage />} />
-            <Route path="/club/:clubId" element={<ClubOnePage />} />
+
             <Route
               path="createclub"
               element={
@@ -92,18 +97,44 @@ function App() {
               }
             />
             <Route
-              path="/updateclub/:clubId"
+              path="/clubpage/:clubId"
               element={
                 authCtx.isLoggedIn ? <UpdateClubPage /> : <Navigate to="/" />
               }
             />
 
-            <Route path="/moim" element={<ClubLayout />}>
-              <Route path="" element={<Test1 />} />
-              <Route path="chat" element={<Test2 />}>
-                <Route path="" element={<ChatPage />} />
-              </Route>
-              <Route path="articlearticle" element={<Test3 />} />
+            {/* club */}
+            <Route path="/club" element={<ClubLayout />}>
+              <Route path="clubpage/:pageId" element={<ClubListPage />} />
+              <Route path=":clubId" element={<ClubOnePage />} />
+
+              {/* gallery */}
+              <Route
+                path="createGallery/:clubId"
+                element={<CreateGalleryPage />}
+              />
+              <Route
+                path="updateGallery/:clubId/:galleryId"
+                element={
+                  authCtx.isLoggedIn ? (
+                    <UpdateGalleryPage />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path=":clubId/gallery/page/:pageId"
+                element={<GalleryListPage />}
+              />
+              <Route
+                path=":clubId/gallery/:galleryId"
+                element={<GalleryOnePage />}
+              />
+              {/* <Route
+                path="/page/:clubId/:pageId"
+                element={<ArticleListPage />}
+              /> */}
             </Route>
           </Routes>
         </Layout>

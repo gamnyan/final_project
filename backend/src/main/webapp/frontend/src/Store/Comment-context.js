@@ -10,7 +10,7 @@ const CommentContext = React.createContext({
   getComments: () => {},
   getComment: () => {},
   updateComment: () => {},
-  changeComment: () => {},
+  createComment: () => {},
   deleteComment: () => {}
 })
 

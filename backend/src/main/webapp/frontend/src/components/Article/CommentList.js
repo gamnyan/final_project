@@ -6,12 +6,12 @@ import Comment from "./Comment";
 
 
 const CommentList = props => {
-    const [comments,setComments] = useState()
-    const [isLoading,setIsLoading] = useState(false)
     const [updatecomment,setUpdateComment] = useState({
         commentText:""
     })
-
+    
+    const [comments,setComments] = useState()
+    const [isLoading,setIsLoading] = useState(false)
     const commentRef = useRef(null);
     const textRef = useRef(null);
 
@@ -77,6 +77,7 @@ const CommentList = props => {
                             <Comment
                             key ={comment.commentId}
                             commentId={comment.commentId}
+                            articleId={comment.articleId}
                             memberNickname={comment.memberNickname}
                             commentText={comment.commentText}
                             createdAt={comment.createdAt.toString()}

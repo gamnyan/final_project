@@ -56,9 +56,9 @@ public class Gallery {
   @OneToMany(mappedBy = "gallery", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
   private List<GalleryComment> galleryComment;
 
-  @OneToMany(mappedBy = "gallery", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-  private List<GalleryHeart> galleryHeart;
-
+  @OneToMany(mappedBy = "gallery", cascade = CascadeType.REMOVE)
+  private List<GalleryRecommend> galleryRecomments;
+  
   public static Gallery changeGallery(Gallery gallery, String content) {
     gallery.content = content;
     return gallery;

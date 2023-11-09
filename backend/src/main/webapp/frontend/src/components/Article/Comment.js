@@ -6,7 +6,8 @@ const Comment = props => {
     const deleteIdRef = useRef(null);
     const updateIdRef = useRef(null);
     let navigate = useNavigate();
-
+    
+    console.log(props.articleId+" articleId");
     const submitDeleteHandler = event => {
         event.preventDefault();
         const deleteId = deleteIdRef.current.value;
@@ -17,7 +18,7 @@ const Comment = props => {
     const submitUpdateHandler = event => {
         event.preventDefault();
         const deleteId = deleteIdRef.current.value;
-        navigate(`../updatecomment/${deleteId}/`);
+        navigate(`../updatecomment/${props.articleId}/${deleteId}`);
     }
 
     return (

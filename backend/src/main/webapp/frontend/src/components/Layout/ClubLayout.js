@@ -9,7 +9,7 @@ const ClubLayout = (props) => {
   return (
     <Fragment>
       <Container style={{ width: "90%" }}>
-        <Row>
+        <Row style={{ width: "100%" }}>
           <Outlet />
         </Row>
       </Container>

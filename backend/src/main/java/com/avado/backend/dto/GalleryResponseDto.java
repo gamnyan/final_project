@@ -15,7 +15,9 @@ import lombok.*;
 @Builder
 public class GalleryResponseDto {
 	private Long id;
-	private Long memberId;
+  private Long memberId;
+  private Long clubId;
+  private String nickName;
   private String content;
   private Integer viewCount;
   private String createdAt;
@@ -28,6 +30,8 @@ public class GalleryResponseDto {
     GalleryResponseDto rtn = GalleryResponseDto.builder()
       .id(gallery.getId())
       .memberId(gallery.getMember().getId())
+      .clubId(gallery.getClub().getId())
+      .nickName(gallery.getMember().getNickname())
       .content(gallery.getContent())
       .viewCount(gallery.getViewCount())
       .updatedAt(gallery.getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
@@ -46,6 +50,8 @@ public class GalleryResponseDto {
     return GalleryResponseDto.builder()
       .id(gallery.getId())
       .memberId(gallery.getMember().getId())
+      .clubId(gallery.getId())
+      .nickName(gallery.getMember().getNickname())
       .content(gallery.getContent())
       .viewCount(gallery.getViewCount())
       .createdAt(gallery.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))

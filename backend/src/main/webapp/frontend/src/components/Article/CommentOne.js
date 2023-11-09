@@ -1,12 +1,16 @@
 import React, { useContext, useEffect, useCallback, useState, useRef } from "react";
 import AuthContext from "../../Store/Auth-context";
 import CommentContext from "../../Store/Comment-context";
+import { useNavigate } from "react-router-dom";
+
 
 const CommentOne = props => {
+    const articleId=props.articleId;
     const commentId = null;
     const commentCtx = useContext(CommentContext);
     const authCtx = useContext(AuthContext);
-    console.log(props.item+"pi");
+    
+    const navigate = useNavigate();
 
 
     const commentTextRef = useRef(null);
@@ -45,7 +49,7 @@ const CommentOne = props => {
         try {
           
             const response = commentCtx.updateComment(updatedComment, authCtx.token);
-
+            navigate(`/article/${articleId}`);
            
             if (response ) {
                 console.log("댓글이 성공적으로 수정되었습니다.");
