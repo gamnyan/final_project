@@ -6,6 +6,18 @@ import { faBars, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/header.css";
+// yh
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import Button from "@mui/material/Button";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
 
 import AuthContext from "../../Store/Auth-context";
 
@@ -99,6 +111,44 @@ const MainNavigation = () => {
       return "/club/clubpage/" + num;
    };
 
+   // yh
+   const [state, setState] = useState(false);
+   const toggleDrawer = (anchor, open) => event => {
+      if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
+         return;
+      }
+      setState({ ...state, [anchor]: open });
+   };
+   const list = anchor => (
+      <Box
+         sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+         role="presentation"
+         onClick={toggleDrawer(anchor, false)}
+         onKeyDown={toggleDrawer(anchor, false)}>
+         <List>
+            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+               <ListItem key={text} disablePadding>
+                  <ListItemButton>
+                     <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                     <ListItemText primary={text} />
+                  </ListItemButton>
+               </ListItem>
+            ))}
+         </List>
+         <Divider />
+         <List>
+            {["All mail", "Trash", "Spam"].map((text, index) => (
+               <ListItem key={text} disablePadding>
+                  <ListItemButton>
+                     <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                     <ListItemText primary={text} />
+                  </ListItemButton>
+               </ListItem>
+            ))}
+         </List>
+      </Box>
+   );
+
    return (
       <Fragment>
          <header id="header-area">
@@ -134,10 +184,10 @@ const MainNavigation = () => {
                   {isLogin === false ? (
                      <ul className="nav-user nav-logouted">
                         <li className="linkStyled">
-                           <Nav.Link href="/login">Login</Nav.Link>
+                           <Nav.Link href="/login">로그인</Nav.Link>
                         </li>
                         <li className="linkStyled">
-                           <Nav.Link href="/signup">Sign-Up</Nav.Link>
+                           <Nav.Link href="/signup">회원가입</Nav.Link>
                         </li>
                      </ul>
                   ) : (
@@ -156,65 +206,77 @@ const MainNavigation = () => {
                </Navbar>
             </PC>
             <Mobile>
-               <Navbar className="nav-gnb">
-                  <Container>
-                     <Navbar.Brand href="/" className="logoStyled">
-                        Logo
-                     </Navbar.Brand>
+               <div>
+                  {["left", "right", "top", "bottom"].map(anchor => (
+                     <Fragment key={anchor}>
+                        <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+                        <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
+                           {list(anchor)}
+                        </Drawer>
+                     </Fragment>
+                  ))}
+               </div>
+               <Container className={btnToggle ? "overlay-active" : ""}>
+                  <Navbar className="nav-gnb">
+                     <Container>
+                        <Navbar.Brand href="/" className="logoStyled">
+                           Logo
+                        </Navbar.Brand>
 
-                     <div className={btnToggle ? "mobileMenuWrap active" : "mobileMenuWrap"}>
-                        {isLogin === false ? (
-                           <ul className="nav-user nav-logouted">
-                              <li className="linkStyled">
-                                 <Nav.Link href="/login">Login</Nav.Link>
-                              </li>
-                              <li className="linkStyled">
-                                 <Nav.Link href="/signup">Sign-Up</Nav.Link>
-                              </li>
-                           </ul>
-                        ) : (
-                           <ul className="nav-user nav-logined">
-                              <li>
-                                 <NavLink to="/profile">{userProfile.nickname}</NavLink>
-                              </li>
-                              <li>
-                                 <button onClick={toggleLogoutHandler}>Logout</button>
-                              </li>
-                           </ul>
-                        )}
-                        <div className="menuWrap">
-                           <ul className="nav-menu">
-                              <li className="linkStyled">
-                                 <Nav.Link href="/">Home</Nav.Link>
-                              </li>
-                              <li className="linkStyled">
-                                 <Nav.Link href="moim">Moim</Nav.Link>
-                              </li>
-                              <li className="linkStyled">
-                                 <Nav.Link href="/chat">Chat</Nav.Link>
-                              </li>
-                              <li className="linkStyled">
-                                 <Nav.Link href="/gallery">Gallery</Nav.Link>
-                              </li>
-                              <li className="linkStyled">
-                                 <Nav.Link href="#">Community</Nav.Link>
-                              </li>
-                           </ul>
+                        <div className={btnToggle ? "mobileMenuWrap active" : "mobileMenuWrap"}>
+                           {isLogin === false ? (
+                              <ul className="nav-user nav-logouted">
+                                 <li className="linkStyled">
+                                    <Nav.Link href="/login">Login</Nav.Link>
+                                 </li>
+                                 <li className="linkStyled">
+                                    <Nav.Link href="/signup">Sign-Up</Nav.Link>
+                                 </li>
+                              </ul>
+                           ) : (
+                              <ul className="nav-user nav-logined">
+                                 <li>
+                                    <NavLink to="/profile">{userProfile.nickname}</NavLink>
+                                 </li>
+                                 <li>
+                                    <button onClick={toggleLogoutHandler}>Logout</button>
+                                 </li>
+                              </ul>
+                           )}
+                           <div className="menuWrap">
+                              <ul className="nav-menu">
+                                 <li className="linkStyled">
+                                    <Nav.Link href="/">Home</Nav.Link>
+                                 </li>
+                                 <li className="linkStyled">
+                                    <Nav.Link href="moim">Moim</Nav.Link>
+                                 </li>
+                                 <li className="linkStyled">
+                                    <Nav.Link href="/chat">Chat</Nav.Link>
+                                 </li>
+                                 <li className="linkStyled">
+                                    <Nav.Link href="/gallery">Gallery</Nav.Link>
+                                 </li>
+                                 <li className="linkStyled">
+                                    <Nav.Link href="#">Community</Nav.Link>
+                                 </li>
+                              </ul>
+                           </div>
                         </div>
-                     </div>
 
-                     <button
-                        className="nav-btn"
-                        onClick={() => setBtnToggle(!btnToggle)}
-                        style={btnToggle ? { color: "#fff" } : { color: "#000" }}>
-                        {btnToggle ? (
-                           <FontAwesomeIcon icon={faXmark} size="2x" />
-                        ) : (
-                           <FontAwesomeIcon icon={faBars} size="2x" />
-                        )}
-                     </button>
-                  </Container>
-               </Navbar>
+                        <button
+                           className="nav-btn"
+                           onClick={() => setBtnToggle(!btnToggle)}
+                           style={btnToggle ? { color: "#fff" } : { color: "#000" }}>
+                           {btnToggle ? (
+                              <FontAwesomeIcon icon={faXmark} size="2x" />
+                           ) : (
+                              <FontAwesomeIcon icon={faBars} size="2x" />
+                           )}
+                        </button>
+                     </Container>
+                  </Navbar>
+               </Container>
             </Mobile>
          </header>
       </Fragment>
