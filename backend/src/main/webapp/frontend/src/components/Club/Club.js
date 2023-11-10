@@ -10,12 +10,12 @@ const Club = (props) => {
 
   const backHandler = (event) => {
     event.preventDefault();
-    navigate("/clubpage/1");
+    navigate("/club/clubpage/1");
   };
 
   const updateHandler = (event) => {
     event.preventDefault();
-    navigate("../updateclub/" + id);
+    navigate("/club/updateclub/" + id);
   };
 
   const deleteHandler = (event) => {
@@ -26,7 +26,7 @@ const Club = (props) => {
   };
   const movetoArticle = (event) => {
     event.preventDefault();
-    navigate(`/page/${props.item.clubId}/1`);
+    navigate(`/club/${props.item.clubId}/article/page/1`);
   };
 
   return (
@@ -55,7 +55,7 @@ const Club = (props) => {
         )}
         <button onClick={backHandler}>뒤로</button>
         <br />
-        <button onClick={movetoArticle}>게시판</button>
+        {/*         <button onClick={movetoArticle}>게시판</button> */}
         {/* {props.item.joined && (
 
       )} */}
