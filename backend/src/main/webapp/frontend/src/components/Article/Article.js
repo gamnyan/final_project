@@ -11,12 +11,12 @@ const Article = (props) => {
       if (props.item.articleId) {
         id = props.item.articleId.toString();
       } else {
-        alert("클럽에 가입해 주세요.");
-        navigate(`/clubpage/1`);
+        alert("클럽에 가입해 주세요.2");
+        navigate(`club/clubpage/1`);
       }
     } catch (error) {
-      alert("클럽에 가입해 주세요.");
-      navigate(`/clubpage/1`);
+      alert("클럽에 가입해 주세요.3");
+      navigate(`club/clubpage/1`);
     }
   }, [props.item.articleId]);
   

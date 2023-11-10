@@ -49,7 +49,7 @@ const ArticleOne = props => {
     },[articleCtx, article])
     useEffect(() => {
         if (articleCtx.isError && articleCtx.errorMessage === "해당 게시글을 읽을 권한이 없습니다.") {
-          alert("클럽에 가입해 주세요");
+          alert("클럽에 가입해 주세요1");
           navigate(`/page/1`);
         }
       }, [articleCtx.isError, articleCtx.errorMessage, navigate]);

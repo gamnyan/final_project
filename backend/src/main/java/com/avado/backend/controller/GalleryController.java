@@ -38,11 +38,27 @@ public class GalleryController {
   } // pageGallery
 
   // 특정 갤러리 조회
-  @GetMapping("/feed")
+  /* @GetMapping("/feed")
   @ResponseBody
   public ResponseEntity<GalleryResponseDto> getGallery(@RequestParam("id") Long galleryid) {
     return ResponseEntity.ok(galleryService.findOne(galleryid));
-  } // getGellery
+  }  */// getGellery
+
+  @GetMapping("/feed")
+  @ResponseBody
+  public ResponseEntity<GalleryResponseDto> getGallery(@RequestParam("id") Long galleryid) {
+    try {
+        GalleryResponseDto responseDto = galleryService.findOne(galleryid);
+        if (responseDto.getErrorMessage() != null) {
+            return ResponseEntity.ok().body(responseDto); // 200 OK로 설정
+        }
+        return ResponseEntity.ok(responseDto);
+    } catch (Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    }
+}
+
 
 
   // 이미지 로딩
