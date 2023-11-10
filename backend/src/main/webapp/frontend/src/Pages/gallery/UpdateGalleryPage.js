@@ -1,4 +1,4 @@
-import { useParams } from "react";
+import { useParams } from "react-router-dom";
 import CreateGalleryForm from "../../components/gallery/CreateGalleryForm";
 import { GalleryContextProvider } from "../../Store/Gallery-context";
 

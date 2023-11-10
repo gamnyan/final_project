@@ -56,7 +56,7 @@ const CreateGalleryForm = (props) => {
   const setUpdateGalleryHandler = useCallback(() => {
     if (galleryCtx.isGetUpdateSuccess) {
       setUpdateGallery({
-        content: galleryCtx.gallery.galleryContent,
+        content: galleryCtx.gallery.content,
         attachment: galleryCtx.gallery.attachment,
         clubId: props.clubid,
       });

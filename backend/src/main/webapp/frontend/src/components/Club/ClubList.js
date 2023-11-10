@@ -15,6 +15,7 @@ import ClubContxt from "../../Store/Club-context";
 import ClubPaing from "./ClubPaging";
 import SideNavigation from "../Layout/SideNavigation";
 
+
 const ClubList = props => {
    let navigate = useNavigate();
    const pageId = String(props.item);
@@ -47,7 +48,7 @@ const ClubList = props => {
          events: {
             onClick: (e, column, columnIndex, row, rowIndex) => {
                const clubIdNum = row.clubId;
-               navigate(`../club/${clubIdNum}`);
+               navigate(`/club/${clubIdNum}`);
             },
          },
       },
@@ -91,6 +92,7 @@ const ClubList = props => {
 
   return (
     <Fragment>
+       
       <Col xs={2}>
         <SideNavigation />
       </Col>

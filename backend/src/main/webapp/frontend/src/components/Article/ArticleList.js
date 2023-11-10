@@ -9,6 +9,7 @@ import ArticleContext from "../../Store/Article-context";
 import Paging from "./Paging";
 
 import JoinContext from "../../Store/Join-context";
+import ClubItemNavigation from "../Layout/ClubItemNavigation";
 
 const ArticleList = props => {
    let navigate = useNavigate();
@@ -74,18 +75,19 @@ const ArticleList = props => {
       }
    }, [articleCtx]);
 
-   return (
+  return (
+    <div>
+      <ClubItemNavigation clubId={props.clubId} />
+      <BootStrapTable keyField="id" data={AList} columns={columns} />
       <div>
-         <BootStrapTable keyField="id" data={AList} columns={columns} />
-         <div>
-            {isLogin && (
-               <Link to={`/createarticle/${clubId}`} state={{ clubId: clubId }}>
-                  <Button>글 작성</Button>
-               </Link>
-            )}
-         </div>
-         <Paging currentPage={Number(pageId)} maxPage={maxNum} clubId={clubId} />
+        {isLogin && (
+          <Link to={`/createarticle/${clubId}`} state={{ clubId: clubId }}>
+            <Button>글 작성</Button>
+          </Link>
+        )}
       </div>
-   );
+      <Paging currentPage={Number(pageId)} maxPage={maxNum} clubId={clubId} />
+    </div>
+  );
 };
 export default ArticleList;

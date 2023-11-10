@@ -1,4 +1,4 @@
-import { GET, POST, DELETE } from "./Fetch-auth-action";
+import { GET, POST, PUT, DELETE } from "./Fetch-auth-action";
 
 // token 생성
 const createTokenHeader = (token) => {
@@ -29,3 +29,17 @@ export const deleteGalleryComment = (param, token) => {
   const response = DELETE(URL, createTokenHeader(token));
   return response;
 }; // deleteGalleryComment
+
+// 수정할 갤러리 코멘트 가져오기
+export const getGalleryComment = (param,token) => {
+  const URL = `/gallery/comment/changec?id=${param}`;
+  const response =token ?  GET(URL, createTokenHeader(token)) :GET(URL,{})
+  return response;
+}; // getGalleryComment
+
+// 갤러리 코멘트 수정
+export const changeGalleryComment = (comment,token) => {
+  const URL = `/gallery/comment/change`;
+  const response = PUT(URL, comment, createTokenHeader(token))
+  return response;
+}; // changeGalleryComment

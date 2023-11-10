@@ -26,7 +26,7 @@ const ClubItemNavigation = ({ clubId }) => {
             <Nav.Link href={`/club/${clubId}/gallery/page/1`}>Gallery</Nav.Link>
           </SideLi>
           <SideLi>
-            <Nav.Link href="/moim/articlearticle">Article</Nav.Link>
+            <Nav.Link href={`/page/${clubId}/1`}>Article</Nav.Link>
           </SideLi>
         </SideUl>
       </Navbar>

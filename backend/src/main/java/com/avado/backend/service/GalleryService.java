@@ -1,14 +1,16 @@
 package com.avado.backend.service;
 
-import java.util.*;
-import java.time.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.avado.backend.config.SecurityUtil;
+import com.avado.backend.dto.ClubJoinDto;
 import com.avado.backend.dto.GalleryResponseDto;
 import com.avado.backend.model.Club;
 import com.avado.backend.model.Gallery;
@@ -43,10 +45,12 @@ public class GalleryService {
 
   // 특정 갤러리 불러오기
   public GalleryResponseDto findOne(Long id) {
+    try{
     Gallery gallery = galleryRepository.findById(id).orElseThrow(() -> new RuntimeException("갤러리가 없습니다."));
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication == null || authentication.getPrincipal() == "anonymousUser") {
-      return GalleryResponseDto.of(gallery, false);
+      ClubJoinDto clubJoinDto = getClubJoinDto(gallery.getClub().getId());
+      return GalleryResponseDto.of2(gallery, false,clubJoinDto);
     } else {
       Member member = memberRepository.findById(Long.parseLong(authentication.getName())).orElseThrow();
       // 클럽에 가입한 회원인지 확인
@@ -54,12 +58,28 @@ public class GalleryService {
 
       if (isMemberOfClub) {
         Boolean result = gallery.getMember().equals(member);
-        return GalleryResponseDto.of(gallery, result);
+        ClubJoinDto clubJoinDto = getClubJoinDto(gallery.getClub().getId());
+        return GalleryResponseDto.of2(gallery, result, clubJoinDto);
       } else {
         throw new RuntimeException("해당 게시글을 읽을 권한이 없습니다.");
       } // if end
-    } // if end
+    }} catch (Exception e) {
+      GalleryResponseDto responseDto = new GalleryResponseDto();
+      responseDto.setErrorMessage(e.getMessage()); // 에러 메시지 설정
+      return responseDto;
+  } // if end
   } // findOne
+
+  private ClubJoinDto getClubJoinDto(Long clubId) {
+    // 가상의 예시 데이터를 사용한 코드입니다. 실제 데이터 조회 로직을 여기에 구현해야 합니다.
+    int joinedNum = 0; // 예시: 클럽에 현재 10명이 가입되어 있는 상황
+    boolean isJoined = true; // 예시: 현재 사용자가 클럽에 가입되어 있는 상황
+
+    return ClubJoinDto.builder()
+            .joinedNum(joinedNum)
+            .isJoined(isJoined)
+            .build();
+}
 
   // 유저 정보 확인
   public Member isMemberCurrent() {
