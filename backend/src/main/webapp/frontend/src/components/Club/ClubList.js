@@ -8,6 +8,8 @@ import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import ClubContxt from "../../Store/Club-context";
 import ClubPaing from "./ClubPaging";
 import SideNavigation from "../Layout/SideNavigation";
+import ClubJoin from "./Join";
+
 
 const ClubList = props => {
   let navigate = useNavigate();
@@ -54,6 +56,7 @@ const ClubList = props => {
                       <h5>{item.clubName}</h5>
                       <BootstrapCard.Text>{item.clubAddress}</BootstrapCard.Text>
                       <Button variant="primary" onClick={() => navigate(`/club/${item.clubId}`)}>자세히 보기</Button>
+                    
                     </BootstrapCard.Body>
                   </BootstrapCard>
                 </Col>
