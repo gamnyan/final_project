@@ -13,7 +13,6 @@ export const UserProvider = ({ children }) => {
 
    useEffect(() => {
       if (authCtx.isLoggedIn) {
-         console.log("Fetching user data...");
          authCtx.getUser();
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -21,7 +20,6 @@ export const UserProvider = ({ children }) => {
 
    useEffect(() => {
       if (authCtx.isGetSuccess) {
-         console.log("Updating user profile...");
          const { email, nickname, password } = authCtx.userObj;
          setUserProfile({ email, nickname, password });
       }

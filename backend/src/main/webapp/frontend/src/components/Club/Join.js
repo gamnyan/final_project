@@ -19,6 +19,7 @@ const ClubJoin = props => {
    const getContext = useCallback(() => {
       setIsLoading(false);
       isLogin ? joinCtx.getclubjoin(id, authCtx.token) : joinCtx.getclubjoin(id);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [isLogin]);
 
    useEffect(() => {
@@ -38,6 +39,7 @@ const ClubJoin = props => {
          setJoins(joinCtx.joins);
          setIsLoading(true);
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [joinCtx.isChangeSuccess]);
    
    const changeClubjoin = () => {
