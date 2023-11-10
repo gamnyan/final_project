@@ -4,12 +4,14 @@ import * as authAction from "./Auth-action";
 let logoutTimer;
 
 const AuthContext = React.createContext({
+   member: undefined,
+   isGetUpdateSuccess: false,
    token: "",
    userObj: { email: "", nickname: "" },
    isLoggedIn: false,
    isSuccess: false,
    isGetSuccess: false,
-   signup: (email, password, nickname) => {},
+   signup: (email, password, nickname,filename) => {},
    sendEmail: email => {},
    checkEmail: email => {},
    login: (email, password) => {},
@@ -17,9 +19,12 @@ const AuthContext = React.createContext({
    getUser: () => {},
    changeNickname: nickname => {},
    changePassword: (exPassword, newPassword) => {},
+   changePhoto: () => {}
 });
 
 export const AuthContextProvider = props => {
+   const [isGetUpdateSuccess, setIsGetUpdateSuccess] = useState(false);
+   const [member,setMember] = useState();
    const tokenData = authAction.retrieveStoredToken();
 
    let initialToken;
@@ -38,9 +43,9 @@ export const AuthContextProvider = props => {
 
    const userIsLoggedIn = !!token;
 
-   const signupHandler = (email, password, nickname) => {
+   const signupHandler = (email, password, nickname,filename) => {
       setIsSuccess(false);
-      const response = authAction.signupActionHandler(email, password, nickname);
+      const response = authAction.signupActionHandler(email, password, nickname,filename);
       response.then(result => {
          if (result !== null) {
             setIsSuccess(true);
@@ -133,6 +138,22 @@ export const AuthContextProvider = props => {
       });
    };
 
+   const changeMemPhotoHandler = (token,file) =>{
+      setIsSuccess(false);
+
+      const formData = new FormData();
+      formData.append("file",file);
+      
+      const data = authAction.changePhoto(token,formData);
+
+      data.then(result => {
+         if (result !== null) {
+            console.log(isSuccess);
+         }
+      });
+      setIsSuccess(true);
+   }
+
    useEffect(() => {
       if (tokenData) {
          logoutTimer = setTimeout(logoutHandler, tokenData.duration);
@@ -140,6 +161,8 @@ export const AuthContextProvider = props => {
    }, [tokenData, logoutHandler]);
 
    const contextValue = {
+      member,
+      isGetUpdateSuccess,
       token,
       userObj,
       isLoggedIn: userIsLoggedIn,
@@ -153,6 +176,7 @@ export const AuthContextProvider = props => {
       getUser: getUserHandler,
       changeNickname: changeNicknameHandler,
       changePassword: changePaswordHandler,
+      changePhoto: changeMemPhotoHandler
    };
 
    return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>;

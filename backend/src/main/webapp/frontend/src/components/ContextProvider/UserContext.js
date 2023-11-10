@@ -9,6 +9,7 @@ export const UserProvider = ({ children }) => {
       email: "",
       nickname: "",
       password: "",
+      filename:""
    });
 
    useEffect(() => {
@@ -20,8 +21,8 @@ export const UserProvider = ({ children }) => {
 
    useEffect(() => {
       if (authCtx.isGetSuccess) {
-         const { email, nickname, password } = authCtx.userObj;
-         setUserProfile({ email, nickname, password });
+         const { email, nickname, password,filename } = authCtx.userObj;
+         setUserProfile({ email, nickname, password,filename });
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [authCtx.isGetSuccess]);
