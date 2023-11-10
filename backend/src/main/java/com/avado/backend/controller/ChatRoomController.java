@@ -66,22 +66,27 @@ public class ChatRoomController {
   // 채팅방 목록
   @GetMapping("/chat/room")
   @ResponseBody
-  public List<ChatRoomDto> getRoomList() {
-    return chatService.findAllRoom();
+  public ResponseEntity<List<ChatRoomDto>> getRoomList() {
+    return ResponseEntity.ok(chatService.findAllRoom());
   } // getRoomList
 
   // 특정 채팅방 조회
   @GetMapping("/chat/room/{roomid}")
   @ResponseBody
-  public ChatRoomDto getRoom(@PathVariable("roomid") Long roomid) {
-    return chatService.findOne(roomid);
+  public ResponseEntity<ChatRoomDto> getRoom(@PathVariable("roomid") Long roomid) {
+    try {
+      return ResponseEntity.ok().body(chatService.findOne(roomid));
+    } catch (Exception e) {
+      e.printStackTrace();
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    }
   } // getRoom
 
   // 특정 채팅방의 메세지 목록
   @GetMapping("/chat/room/{roomid}/message")
   @ResponseBody
-  public List<ChatMessageDto> getMessageList(@PathVariable("roomid") Long roomid) {
-    return chatService.findAllChatByRoomId(roomid);
+  public ResponseEntity<List<ChatMessageDto>> getMessageList(@PathVariable("roomid") Long roomid) {
+    return ResponseEntity.ok(chatService.findAllChatByRoomId(roomid));
   } // getMessageList
 
   // 특정 채팅방 수정 (roomName)

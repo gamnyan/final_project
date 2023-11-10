@@ -1,12 +1,6 @@
-import BootstrapTable from "react-bootstrap-table-next";
-import { Button, Col } from "react-bootstrap";
-import React, {
-  Fragment,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import BootstrapCard from "react-bootstrap/Card"; 
+import { Button, Col, Container, Row } from "react-bootstrap";
+import React, { Fragment, useCallback, useContext, useEffect, useState } from "react";
 import AuthContext from "../../Store/Auth-context";
 import { Link, useNavigate } from "react-router-dom";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
@@ -14,60 +8,15 @@ import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import ClubContxt from "../../Store/Club-context";
 import ClubPaing from "./ClubPaging";
 import SideNavigation from "../Layout/SideNavigation";
+import ClubJoin from "./Join";
 
 
 const ClubList = props => {
-   let navigate = useNavigate();
-   const pageId = String(props.item);
-   
-   const columns = [
-      {
-         dataField: "clubId",
-         text: "#",
-         headerStyle: () => {
-            return { width: "8%" };
-         },
-      },
-      {
-         dataField: "clubFilename",
-         text: "PHOTO",
-         formatter: (cell, row) => (
-            <img
-                  src={`http://localhost:80/club/img/${row.clubFilename}`}
-                  alt={`Attachment`}
-                  style={{ width: "50px", height: "50px" }}
-                  />
-               ),
-      },
-      {
-         dataField: "clubName",
-         text: "이름",
-         headerStyle: () => {
-            return { width: "65%" };
-         },
-         events: {
-            onClick: (e, column, columnIndex, row, rowIndex) => {
-               const clubIdNum = row.clubId;
-               navigate(`/club/${clubIdNum}`);
-            },
-         },
-      },
-      {
-         dataField: "clubAddress",
-         text: "지역",
-      },
-      {
-         dataField: "createdAt",
-         text: "생성일",
-      },
-      {
-         dataField: "clubCategory",
-         text: "category",
-      },
-   ];
-   console.log(columns)
-   const authCtx = useContext(AuthContext);
-   const clubCtx = useContext(ClubContxt);
+  let navigate = useNavigate();
+  const pageId = String(props.item);
+  
+  const authCtx = useContext(AuthContext);
+  const clubCtx = useContext(ClubContxt);
 
   const [AList, setAList] = useState([]);
   const [maxNum, setMaxNum] = useState(1);
@@ -85,29 +34,47 @@ const ClubList = props => {
   useEffect(() => {
     if (clubCtx.isSuccess) {
       setAList(clubCtx.page);
-      console.log(AList);
       setMaxNum(clubCtx.totalPages);
     }
   }, [clubCtx]);
 
   return (
     <Fragment>
-       
-      <Col xs={2}>
-        <SideNavigation />
-      </Col>
-      <Col xs={10}>
-        <BootstrapTable keyField="id" data={AList} columns={columns} />
-        <div>
-          {isLogin && (
-            <Link to="/createclub">
-              <Button>클럽 만들기</Button>
-            </Link>
-          )}
-        </div>
-        <ClubPaing currentPage={Number(pageId)} maxPage={maxNum} />
-      </Col>
+      <Container fluid>
+        <Row className="mt-5">
+          <Col xs={2}>
+            <SideNavigation />
+          </Col>
+          <Col xs={10}>
+            <Row className="card-container">
+              {AList.map(item => (
+                <Col xs={3} key={item.clubId}>
+                  <BootstrapCard className="club-card">
+                    <BootstrapCard.Img variant="top" src={`http://localhost:80/club/img/${item.clubFilename}`} style={{ width: "100%", height: "auto" }} />
+                    <BootstrapCard.Body>
+                      <p style={{ fontSize: "0.8rem", color: "#6c757d" }}>{item.clubCategory}</p> {/* 추가: 작은 글자로 카테고리 표시 */}
+                      <h5>{item.clubName}</h5>
+                      <BootstrapCard.Text>{item.clubAddress}</BootstrapCard.Text>
+                      <Button variant="primary" onClick={() => navigate(`/club/${item.clubId}`)}>자세히 보기</Button>
+                    
+                    </BootstrapCard.Body>
+                  </BootstrapCard>
+                </Col>
+              ))}
+            </Row>
+            <div className="my-3">
+              {isLogin && (
+                <Link to="/createclub">
+                  <Button variant="success">클럽 만들기</Button>
+                </Link>
+              )}
+            </div>
+            <ClubPaing currentPage={Number(pageId)} maxPage={maxNum} />
+          </Col>
+        </Row>
+      </Container>
     </Fragment>
   );
 };
+
 export default ClubList;

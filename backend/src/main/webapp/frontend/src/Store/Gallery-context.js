@@ -150,6 +150,8 @@ export const GalleryContextProvider = (props) => {
     deleteGallery: deleteGalleryHandler,
   };
 
+  console.log(contextValue);
+
   return (
     <GalleryContext.Provider value={contextValue}>
       {props.children}

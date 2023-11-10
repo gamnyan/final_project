@@ -50,7 +50,7 @@ public class WebSecurityConfig {
                                                                 "/comment/**", "/img/**", "/club/**", "/clubjoin/**", "/gallery/comment/**", "/galleryRecommend/**")
                                                 .permitAll()
                                                 .requestMatchers("/article/img/**").permitAll()
-                                                .requestMatchers("/member/me").permitAll() // 엔드포인트 추가 구글 때문에
+                                                .requestMatchers("/member/**").permitAll() // 엔드포인트 추가 구글 때문에
                                                 .requestMatchers(
                                                                 "/member/check-email")
                                                 .permitAll()

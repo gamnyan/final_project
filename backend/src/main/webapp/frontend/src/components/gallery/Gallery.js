@@ -1,12 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-
+import ClubItemNavigation from "../Layout/ClubItemNavigation";
 
 const Gallery = (props) => {
   let navigate = useNavigate();
 
   let id;
-
 
   useEffect(() => {
     try {
@@ -41,13 +40,16 @@ const Gallery = (props) => {
 
   return (
     <div>
+      <ClubItemNavigation clubId={props.item.clubId} />
       <header>
         <div>
           <span>{props.item.content}</span>
           <span>{props.item.updatedAt}</span>
         </div>
       </header>
-      {props.item.attachment && Array.isArray(props.item.attachment) && props.item.attachment.length > 0 &&
+      {props.item.attachment &&
+        Array.isArray(props.item.attachment) &&
+        props.item.attachment.length > 0 &&
         props.item.attachment.map((image, index) => {
           if (image.storeFilename.length >= 4) {
             return (

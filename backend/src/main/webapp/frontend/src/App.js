@@ -32,6 +32,7 @@ import GalleryOnePage from "./Pages/gallery/GalleryOnePage";
 import CreateGalleryPage from "./Pages/gallery/CreateGalleryPage";
 import UpdateGalleryPage from "./Pages/gallery/UpdateGalleryPage";
 import UpdateGalleryCommentPage from "./Pages/gallery/UpdateGalleryCommentPage";
+import ChatOnePage from "./Pages/chatting/ChatOnePage";
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -59,21 +60,6 @@ function App() {
               }
             />
 
-            <Route path="/page/:clubId/:pageId" element={<ArticleListPage />} />
-            <Route
-              path="/createarticle/:clubId"
-              element={
-                authCtx.isLoggedIn ? <CreateArticlePage /> : <Navigate to="/" />
-              }
-            />
-            <Route
-              path="/updatearticle/:clubId/:articleId"
-              element={
-                authCtx.isLoggedIn ? <UpdateArticlePage /> : <Navigate to="/" />
-              }
-            />
-
-            <Route path="/updatecomment/:articleId/:commentId" element={<UpdateCommentPage />} />
             <Route
               path="/chat/"
               element={!authCtx.isLoggedIn ? <Navigate to="/" /> : <ChatPage />}
@@ -82,36 +68,23 @@ function App() {
               path="/chat/room/:id"
               element={!authCtx.isLoggedIn ? <Navigate to="/" /> : <ChatRoom />}
             />
-            {/* <Route
-          path="/gallery"
-          element={!authCtx.isLoggedIn ? <Navigate to="/" /> : <ChatRoom />}
-        /> */}
-            <Route path="/article/:articleId" element={<ArticleOnePage />} />
-            <Route path="/clubpage/:pageId" element={<ClubListPage />} />
-            {/* <Route path="/club/:clubId" element={<ClubOnePage />} /> */}
-            <Route path="/clubpage/:pageId" element={<ClubListPage />} />
-            <Route path="/club/:clubId" element={<ClubOnePage />} />
-
-            <Route
-              path="createclub"
-              element={
-                authCtx.isLoggedIn ? <CreateClubPage /> : <Navigate to="/" />
-              }
-              />
-            <Route
-              path="/updateclub/:clubId"
-              element={
-                authCtx.isLoggedIn ? <UpdateClubPage /> : <Navigate to="/" />
-              }
-              />
-
-              <Route path="/updategallerycomment/:galleryId/:id" element={<UpdateGalleryCommentPage />} />   
-
 
             {/* club */}
             <Route path="/club" element={<ClubLayout />}>
               <Route path="clubpage/:pageId" element={<ClubListPage />} />
               <Route path=":clubId" element={<ClubOnePage />} />
+              <Route
+                path="createclub"
+                element={
+                  authCtx.isLoggedIn ? <CreateClubPage /> : <Navigate to="/" />
+                }
+              />
+              <Route
+                path="updateclub/:clubId"
+                element={
+                  authCtx.isLoggedIn ? <UpdateClubPage /> : <Navigate to="/" />
+                }
+              />
 
               {/* gallery */}
               <Route
@@ -129,6 +102,10 @@ function App() {
                 }
               />
               <Route
+                path="updategallerycomment/:galleryId/:id"
+                element={<UpdateGalleryCommentPage />}
+              />
+              <Route
                 path=":clubId/gallery/page/:pageId"
                 element={<GalleryListPage />}
               />
@@ -136,10 +113,43 @@ function App() {
                 path=":clubId/gallery/:galleryId"
                 element={<GalleryOnePage />}
               />
-              {/* <Route
-                path="/page/:clubId/:pageId"
+
+              {/* article */}
+              <Route
+                path="createarticle/:clubId"
+                element={
+                  authCtx.isLoggedIn ? (
+                    <CreateArticlePage />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="updatearticle/:clubId/:articleId"
+                element={
+                  authCtx.isLoggedIn ? (
+                    <UpdateArticlePage />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route
+                path="updatecomment/:articleId/:commentId"
+                element={<UpdateCommentPage />}
+              />
+              <Route
+                path=":clubId/article/page/:pageId"
                 element={<ArticleListPage />}
-              /> */}
+              />
+              <Route
+                path=":clubId/article/:articleId"
+                element={<ArticleOnePage />}
+              />
+
+              {/* chat */}
+              <Route path=":clubId/chat/:roomId" element={<ChatOnePage />} />
             </Route>
           </Routes>
         </Layout>

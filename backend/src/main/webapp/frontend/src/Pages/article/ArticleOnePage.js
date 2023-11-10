@@ -8,18 +8,18 @@ import { CommentContextProvider } from "../../Store/Comment-context";
 import { RecommendContextProvider } from "../../Store/Recommend-context";
 
 const ArticleOnePage = () => {
-  let { articleId } = useParams();
+  let { articleId, clubId } = useParams();
 
   return (
     <Fragment>
       <ArticleContextProvider>
-        <ArticleOne item={articleId} />
+        <ArticleOne item={articleId} clubId={clubId} />
       </ArticleContextProvider>
       <RecommendContextProvider>
-        <Recommend item={articleId} />
+        <Recommend item={articleId} clubId={clubId} />
       </RecommendContextProvider>
       <CommentContextProvider>
-        <CommentList item={articleId} />
+        <CommentList item={articleId} clubId={clubId} />
       </CommentContextProvider>
     </Fragment>
   );
