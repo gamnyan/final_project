@@ -90,9 +90,9 @@ sourceSets{
 
 
 // 안켜지면 아래코드 전부 주석처리 후 터미널에서 ./gradlew build 실행 후 시작
-// processResources{
-//   dependsOn "copyReactBuildFiles"
-// }
+/* processResources{
+  dependsOn "copyReactBuildFiles"
+} */
 
 // task installReact(type:Exec){
 //     //workingDir "$reactDir"

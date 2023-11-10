@@ -40,7 +40,7 @@ const CommentOne = props => {
     const submitUpdateHandler = async event => {
         event.preventDefault();
 
-        const updatedComment = {
+        const updatecomment = {
             commentId: props.item,
             commentText: commentTextRef.current.value
            
@@ -48,7 +48,7 @@ const CommentOne = props => {
 
         try {
           
-            const response = commentCtx.updateComment(updatedComment, authCtx.token);
+            const response = commentCtx.updateComment(updatecomment, authCtx.token);
             navigate(`/article/${articleId}`);
            
             if (response ) {

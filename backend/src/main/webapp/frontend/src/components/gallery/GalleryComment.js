@@ -1,7 +1,10 @@
 import React, { useRef } from "react";
+import { useNavigate} from "react-router-dom";
+
 
 const GalleryComment = (props) => {
   const deleteIdRef = useRef(null);
+  let navigate = useNavigate();
 
   const submitDeleteHandler = (event) => {
     event.preventDefault();
@@ -9,7 +12,11 @@ const GalleryComment = (props) => {
     props.onDelete(deleteId);
   };
 
-
+  const submitUpdateHandler = event => {
+    event.preventDefault();
+    const deleteId = deleteIdRef.current.value;
+    navigate(`/updategallerycomment/${props.galleryId}/${deleteId}`);
+}
 
   return (
     <li>
@@ -24,6 +31,7 @@ const GalleryComment = (props) => {
           ref={deleteIdRef}
         />
         {props.isWrite && <button type="submit">삭제</button>}
+        {props.isWrite && <button type="button" onClick={submitUpdateHandler}>수정</button>}
       </form>
     </li>
   );

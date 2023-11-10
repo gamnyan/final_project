@@ -3,9 +3,12 @@ import React, { useState } from "react";
 import * as galleryCommentAction from "./GalleryComment-action";
 
 const GalleryCommentContext = React.createContext({
-  
+  galleryComment: undefined,
   galleryCommentList: [],
   isSuccess: false,
+  isGetUpdateSuccess: false,
+  getOneGalleryComment:() => {},
+  updateGalleryComment:() => {},
   getGalleryComments1: () => {},
   createGalleryComment1: () => {},
   deleteGalleryComment: () => {},
@@ -14,7 +17,9 @@ const GalleryCommentContext = React.createContext({
 export const GalleryCommentContextProvider = (props) => {
   const [galleryCommentList, setGalleryCommentList] = useState([]);
   const [isSuccess, setIsSuccess] = useState(false);
-  //const [galleryComment,setGalleryComment] = useState();
+  const [galleryComment,setGalleryComment] = useState();
+  const [isGetUpdateSuccess, setIsGetUpdateSuccess] = useState(false);
+
 
   // 갤러리 코멘트 목록
   const getGalleryCommentsHandler = async (param, token) => {
@@ -62,12 +67,37 @@ export const GalleryCommentContextProvider = (props) => {
     setIsSuccess(true);
   }; // deleteGalleryComment
 
+  // 수정할 갤러리 코멘트 겟
+  const getOneGalleryCommentHandler = async (param, token) => {
+    setIsGetUpdateSuccess(false);
+    const updateData = await galleryCommentAction.getGalleryComment(param,token);
+    const galleryComment = updateData?.data;
+    setGalleryComment(galleryComment);
+    setIsGetUpdateSuccess(true);
+  } // getOneGalleryCommentHandler
+
+  // 갤러리 코멘트 수정
+  const updateGalleryCommentHandler = (comment, token) => {
+    setIsSuccess(false);
+    const data = galleryCommentAction.changeGalleryComment(comment,token);
+    data.then(result =>{
+      if(result !== null){
+
+      }
+    })
+    setIsSuccess(true);
+  } // updateGalleryCommentHandler
+
   const contextValue = {
+    galleryComment,
     galleryCommentList,
     isSuccess,
+    isGetUpdateSuccess,
     getGalleryComments1: getGalleryCommentsHandler,
     createGalleryComment1: createGalleryCommentHandler,
     deleteGalleryComment: deleteGalleryCommentHandler,
+    getOneGalleryComment: getOneGalleryCommentHandler,
+    updateGalleryComment: updateGalleryCommentHandler
   }; // contextValue
 
   return (

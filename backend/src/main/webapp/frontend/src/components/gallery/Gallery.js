@@ -1,13 +1,30 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
 
 const Gallery = (props) => {
   let navigate = useNavigate();
 
-  const id = props.item.id.toString();
+  let id;
+
+
+  useEffect(() => {
+    try {
+      if (props.item.id) {
+        id = props.item.id.toString();
+      } else {
+        alert("클럽에 가입해 주세요.2");
+        navigate(`/club/clubpage/1`);
+      }
+    } catch (error) {
+      alert("클럽에 가입해 주세요.3");
+      navigate(`/club/clubpage/1`);
+    }
+  }, [props.item.id]);
 
   const backHandler = (event) => {
     event.preventDefault();
-    navigate(`/${props.item.clubId}/gallery/page/1`);
+    navigate(`/club/${props.item.clubId}/gallery/page/1`);
   }; // backHandler
 
   const updateHandler = (event) => {
@@ -47,7 +64,7 @@ const Gallery = (props) => {
           }
         })}
       <button onClick={backHandler}>뒤로</button>
-      {props.item.write && (
+      {props.item.isWrite && (
         <div>
           <button onClick={updateHandler}>수정</button>
           <br />

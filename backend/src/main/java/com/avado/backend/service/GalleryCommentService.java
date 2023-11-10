@@ -97,6 +97,13 @@ public class GalleryCommentService {
     }
   } // changeGalleryComment
 
+  public GalleryCommentDto oneGalleryComment(Long id){
+    GalleryComment galleryComment = galleryCommentRepository.findById(id)
+    .orElseThrow(() -> new RuntimeException("해당하는 댓글을 찾을 수 없습니다."));
+
+    return GalleryCommentDto.of(galleryComment,true);
+  }
+
   // 갤러리 코멘트 삭제
   @Transactional
   public void removeGalleryComment(Long id) {

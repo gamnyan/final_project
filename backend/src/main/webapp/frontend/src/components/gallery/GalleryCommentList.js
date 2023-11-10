@@ -10,6 +10,11 @@ import GalleryCommentContext from "../../Store/GalleryComment-context";
 import GalleryComment from "./GalleryComment";
 
 const GalleryCommentList = (props) => {
+
+  const [updateGalleryComment,setUpdateGalleryComment] = useState({
+    comment:""
+  })
+
   const [galleryComments, setGalleryComments] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const galleryCommentRef = useRef(null);
@@ -76,6 +81,7 @@ const GalleryCommentList = (props) => {
               <GalleryComment
                 key={comment.id}
                 id={comment.id}
+                galleryId={comment.galleryId}
                 memberNickname={comment.memberNickname}
                 comment={comment.comment}
                 createdAt={comment.createdAt.toString()}

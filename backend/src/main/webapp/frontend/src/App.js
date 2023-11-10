@@ -31,6 +31,7 @@ import GalleryListPage from "./Pages/gallery/GalleryListPage";
 import GalleryOnePage from "./Pages/gallery/GalleryOnePage";
 import CreateGalleryPage from "./Pages/gallery/CreateGalleryPage";
 import UpdateGalleryPage from "./Pages/gallery/UpdateGalleryPage";
+import UpdateGalleryCommentPage from "./Pages/gallery/UpdateGalleryCommentPage";
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -71,6 +72,7 @@ function App() {
                 authCtx.isLoggedIn ? <UpdateArticlePage /> : <Navigate to="/" />
               }
             />
+
             <Route path="/updatecomment/:articleId/:commentId" element={<UpdateCommentPage />} />
             <Route
               path="/chat/"
@@ -95,13 +97,16 @@ function App() {
               element={
                 authCtx.isLoggedIn ? <CreateClubPage /> : <Navigate to="/" />
               }
-            />
+              />
             <Route
-              path="/clubpage/:clubId"
+              path="/updateclub/:clubId"
               element={
                 authCtx.isLoggedIn ? <UpdateClubPage /> : <Navigate to="/" />
               }
-            />
+              />
+
+              <Route path="/updategallerycomment/:galleryId/:id" element={<UpdateGalleryCommentPage />} />   
+
 
             {/* club */}
             <Route path="/club" element={<ClubLayout />}>
