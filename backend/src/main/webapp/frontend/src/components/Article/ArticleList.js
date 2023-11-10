@@ -11,69 +11,69 @@ import Paging from "./Paging";
 import JoinContext from "../../Store/Join-context";
 import ClubItemNavigation from "../Layout/ClubItemNavigation";
 
-const ArticleList = props => {
-   let navigate = useNavigate();
-   const pageId = String(props.item);
-   const clubId = props.clubId;
+const ArticleList = (props) => {
+  let navigate = useNavigate();
+  const pageId = String(props.item);
+  const clubId = props.clubId;
 
-   const columns = [
-      {
-         dataField: "articleId",
-         text: "#",
-         headerStyle: () => {
-            return { width: "8%" };
-         },
+  const columns = [
+    {
+      dataField: "articleId",
+      text: "#",
+      headerStyle: () => {
+        return { width: "8%" };
       },
-      {
-         dataField: "clubId",
-         text: "clubId",
+    },
+    {
+      dataField: "clubId",
+      text: "clubId",
+    },
+    {
+      dataField: "articleTitle",
+      text: "제목",
+      headerStyle: () => {
+        return { width: "65%" };
       },
-      {
-         dataField: "articleTitle",
-         text: "제목",
-         headerStyle: () => {
-            return { width: "65%" };
-         },
-         events: {
-            onClick: (e, column, columnIndex, row, rowIndex) => {
-               const articleIdNum = row.articleId;
-               navigate(`../article/${articleIdNum}`);
-            },
-         },
+      events: {
+        onClick: (e, column, columnIndex, row, rowIndex) => {
+          const articleIdNum = row.articleId;
+          navigate(`/club/${clubId}/article/${articleIdNum}`);
+        },
       },
-      {
-         dataField: "memberNickname",
-         text: "닉네임",
-      },
-      {
-         dataField: "createdAt",
-         text: "작성일",
-      },
-   ];
+    },
+    {
+      dataField: "memberNickname",
+      text: "닉네임",
+    },
+    {
+      dataField: "createdAt",
+      text: "작성일",
+    },
+  ];
 
-   const authCtx = useContext(AuthContext);
-   const articleCtx = useContext(ArticleContext);
+  const authCtx = useContext(AuthContext);
+  const articleCtx = useContext(ArticleContext);
 
-   const [AList, setAList] = useState([]);
-   const [maxNum, setMaxNum] = useState(1);
+  const [AList, setAList] = useState([]);
+  const [maxNum, setMaxNum] = useState(1);
 
-   let isLogin = authCtx.isLoggedIn;
+  let isLogin = authCtx.isLoggedIn;
 
-   const fetchListHandler = useCallback(() => {
-      articleCtx.getPageList(clubId, pageId);
-   }, []);
+  const fetchListHandler = useCallback(() => {
+    articleCtx.getPageList(clubId, pageId);
+  }, []);
 
-   useEffect(() => {
-      fetchListHandler();
-   }, [fetchListHandler]);
+  useEffect(() => {
+    fetchListHandler();
+  }, [fetchListHandler]);
 
-   useEffect(() => {
-      if (articleCtx.isSuccess) {
-         setAList(articleCtx.page);
-         //console.log(AList)
-         setMaxNum(articleCtx.totalPages);
-      }
-   }, [articleCtx]);
+  useEffect(() => {
+    if (articleCtx.isSuccess) {
+      setAList(articleCtx.page);
+      //console.log(AList)
+      setMaxNum(articleCtx.totalPages);
+    }
+  }, [articleCtx]);
 
   return (
     <div>
@@ -81,7 +81,7 @@ const ArticleList = props => {
       <BootStrapTable keyField="id" data={AList} columns={columns} />
       <div>
         {isLogin && (
-          <Link to={`/createarticle/${clubId}`} state={{ clubId: clubId }}>
+          <Link to={`/club/createarticle/${clubId}`} state={{ clubId: clubId }}>
             <Button>글 작성</Button>
           </Link>
         )}

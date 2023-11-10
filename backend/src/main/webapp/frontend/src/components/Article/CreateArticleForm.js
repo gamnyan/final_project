@@ -80,7 +80,7 @@ const CreateArticleForm = (props) => {
   useEffect(() => {
     if (articleCtx.isSuccess) {
       console.log("wrting success");
-      navigate(`/page/${props.clubId}/1`, { replace: true });
+      navigate(`/club/${props.clubId}/article/page/1`, { replace: true });
     }
   }, [articleCtx.isSuccess]);
 

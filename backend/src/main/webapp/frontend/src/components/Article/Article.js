@@ -1,36 +1,33 @@
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import ClubItemNavigation from "../Layout/ClubItemNavigation";
 const Article = (props) => {
   let navigate = useNavigate();
- 
+
   let id;
-  
- 
+
   useEffect(() => {
     try {
       if (props.item.articleId) {
         id = props.item.articleId.toString();
       } else {
         alert("클럽에 가입해 주세요.2");
-        navigate(`club/clubpage/1`);
+        navigate(`/club/clubpage/1`);
       }
     } catch (error) {
       alert("클럽에 가입해 주세요.3");
-      navigate(`club/clubpage/1`);
+      navigate(`/club/clubpage/1`);
     }
   }, [props.item.articleId]);
-  
 
-  
- 
   const backHandler = (event) => {
     event.preventDefault();
-    navigate(`/page/${props.item.clubId}/1`);
+    navigate(`/club/${props.item.clubId}/article/page/1`);
   };
 
   const updateHandler = (event) => {
     event.preventDefault();
-    navigate(`../updatearticle/${props.item.clubId}/${id}`);
+    navigate(`/club/updatearticle/${props.item.clubId}/${id}`);
   };
 
   const deleteHandler = (event) => {
@@ -42,6 +39,7 @@ const Article = (props) => {
 
   return (
     <div>
+      <ClubItemNavigation clubId={props.item.clubId} />
       <header>
         <h4>{props.item.articleTitle}</h4>
         <div>
