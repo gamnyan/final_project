@@ -16,10 +16,6 @@ public final class JwtProvider {
     /** export JWT_KEY=JSDFSDFSDFASJDHASDASDdfa32dJHASFDA67765asda123dsdsw */
     private static final String JWT_KEY = System.getenv("JWT_KEY"); // 환경 변수 사용
 
-    public static void main(String[] args) {
-        System.out.println("JWT Key: " + JWT_KEY);
-    }
-
     private static final long DEFAULT_TTL = 60 * 60 * 1000L * 24 * 14;
 
     private JwtProvider() {

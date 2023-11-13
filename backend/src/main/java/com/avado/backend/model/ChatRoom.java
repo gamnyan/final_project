@@ -13,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @Table(name = "chat_room")
 @Entity
-//@Builder
+// @Builder
 @JsonAutoDetect
 public class ChatRoom {
 
@@ -21,21 +21,20 @@ public class ChatRoom {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "member_id")
-	@JsonIgnoreProperties("chat_room")
+  @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @JoinColumn(name = "member_id")
+  @JsonIgnoreProperties("chat_room")
   private Member member;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
   @JoinColumn(name = "club_id")
   private Club club;
-  
+
   @Column(name = "room_name", nullable = false)
   private String roomName;
 
   @OneToMany(mappedBy = "chatRoom", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
   @JsonIgnoreProperties({ "chatRoom" })
   private List<ChatMessage> chatMessagae;
-
 
 } // ChatRoom

@@ -49,4 +49,29 @@ public class MemberService {
         member.setPassword(passwordEncoder.encode((newPassword)));
         return MemberResponseDto.of(memberRepository.save(member));
     }
+
+    @Transactional
+    public MemberResponseDto withdrawMember(String email, String password) {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+        if (!passwordEncoder.matches(password, member.getPassword())) {
+            throw new RuntimeException("비밀번호가 맞지 않습니다");
+        }
+        memberRepository.delete(member);
+        return MemberResponseDto.of(member);
+        // 회원 정보를 가져와서 비밀번호 일치 여부를 확인
+        // Member member = memberRepository.findByEmail(email)
+        // .orElseThrow(() -> new RuntimeException("해당 이메일의 회원이 존재하지 않습니다"));
+
+        // if (!passwordEncoder.matches(password, member.getPassword())) {
+        // throw new RuntimeException("비밀번호가 일치하지 않습니다");
+        // }
+
+        // // 회원 삭제
+        // memberRepository.delete(member);
+
+        // // 회원 탈퇴 후 응답할 정보를 MemberResponseDto로 생성
+        // return MemberResponseDto.of(member);
+    }
+
 }

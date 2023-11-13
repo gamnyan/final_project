@@ -1,6 +1,5 @@
 import { Grid, TextField, Tooltip } from "@mui/material";
 import { useRef, useState } from "react";
-import "../../../css/tooltip.css";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 const SignupPassword = props => {

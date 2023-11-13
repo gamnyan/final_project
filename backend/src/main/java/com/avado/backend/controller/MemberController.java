@@ -13,6 +13,7 @@ import com.avado.backend.dto.ChangePasswordRequestDto;
 import com.avado.backend.dto.EmailCheckRequestDto;
 import com.avado.backend.dto.MemberRequestDto;
 import com.avado.backend.dto.MemberResponseDto;
+import com.avado.backend.dto.WithdrawRequestDto;
 import com.avado.backend.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -50,4 +51,16 @@ public class MemberController {
         return ResponseEntity.ok(isDuplicate);
     }
 
+    @PostMapping("/withdraw")
+    public ResponseEntity<MemberResponseDto> withdrawMember(@RequestBody WithdrawRequestDto request) {
+        return ResponseEntity.ok(memberService.withdrawMember(request.getEmail(), request.getPassword()));
+        // String email = request.getEmail();
+        // String password = request.getPassword();
+
+        // // 회원 탈퇴 로직을 호출하고 결과를 받아옴
+        // MemberResponseDto withdrawnMember = memberService.withdrawMember(email,
+        // password);
+
+        // return ResponseEntity.ok(withdrawnMember);
+    }
 }
