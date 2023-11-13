@@ -2,9 +2,12 @@ package com.avado.backend.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -42,13 +45,38 @@ public class GalleryService {
     return galleryRepository.findByClubId(clubId, PageRequest.of(pageNum - 1, 20)).map(GalleryResponseDto::load);
   }
 
+  //내가 가입한 클럽의 갤러리 10개만 가져요기
+  public List<GalleryResponseDto> getGalleryForClub(Long clubId) {
+    try {
+        Member member = isMemberCurrent();
+
+        // 클럽에 가입한 회원인지 확인
+        boolean isMemberOfClub = clubJoinRepository.existsByClubIdAndMemberId(clubId, member.getId());
+        if (!isMemberOfClub) {
+            throw new RuntimeException("클럽에 가입한 멤버만 갤러리를 조회할 수 있습니다.");
+        }
+
+        List<Gallery> galleryItems = galleryRepository.findByClubId(clubId, PageRequest.of(0, 10)).getContent();
+        return galleryItems.stream()
+                .map(galleryItem -> {
+                    boolean isAuthor = galleryItem.getMember().equals(member);
+                    ClubJoinDto clubJoinDto = getClubJoinDto(clubId);
+                    return GalleryResponseDto.of2(galleryItem, isAuthor, clubJoinDto);
+                })
+                .collect(Collectors.toList());
+    } catch (Exception e) {
+        return List.of(GalleryResponseDto.error(e.getMessage()));
+    }
+  }//getGalleryForClub
+
+
 
   // 특정 갤러리 불러오기
   public GalleryResponseDto findOne(Long id) {
     try{
     Gallery gallery = galleryRepository.findById(id).orElseThrow(() -> new RuntimeException("갤러리가 없습니다."));
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (authentication == null || authentication.getPrincipal() == "anonymousUser") {
+    if (authentication == null || authentication.getPrincipal() instanceof AnonymousAuthenticationToken) {
       ClubJoinDto clubJoinDto = getClubJoinDto(gallery.getClub().getId());
       return GalleryResponseDto.of2(gallery, false,clubJoinDto);
     } else {

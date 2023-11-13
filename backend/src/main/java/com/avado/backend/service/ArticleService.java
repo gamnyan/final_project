@@ -18,6 +18,7 @@ import com.avado.backend.dto.ClubJoinDto;
 import com.avado.backend.dto.PageResponseDto;
 import com.avado.backend.model.Article;
 import com.avado.backend.model.Club;
+import com.avado.backend.model.ClubJoin;
 import com.avado.backend.model.Member;
 import com.avado.backend.persistence.ArticleRepository;
 import com.avado.backend.persistence.ClubJoinRepository;
@@ -44,8 +45,30 @@ public class ArticleService {
 		return articleRepository.findByClubId(clubId, PageRequest.of(pageNum - 1, 20))
 				.map(PageResponseDto::of);
 	}
+	public List<ArticleResponseDto> getArticlesForClub(Long clubId) {
+		try {
+			Member member = isMemberCurrent();
 	
-
+			// 클럽에 가입한 회원인지 확인
+			boolean isMemberOfClub = clubJoinRepository.existsByClubIdAndMemberId(clubId, member.getId());
+			if (!isMemberOfClub) {
+				throw new RuntimeException("클럽에 가입한 멤버만 게시글을 조회할 수 있습니다.");
+			}
+	
+			List<Article> articles = articleRepository.findByClubId(clubId, PageRequest.of(0, 10)).getContent();
+			return articles.stream()
+					.map(article -> {
+						boolean isAuthor = article.getMember().equals(member);
+						ClubJoinDto clubJoinDto = getClubJoinDto(clubId);
+						return ArticleResponseDto.of(article, isAuthor, clubJoinDto);
+					})
+					.collect(Collectors.toList());
+		} catch (Exception e) {
+			return List.of(ArticleResponseDto.error(e.getMessage()));
+		}
+	}
+	
+	
 	
 	/*public ArticleResponseDto oneArticle(Long id) {
 	    Article article = articleRepository.findById(id).orElseThrow(() -> new RuntimeException("글이 없습니다."));

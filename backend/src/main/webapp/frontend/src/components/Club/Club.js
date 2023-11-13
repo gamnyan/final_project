@@ -49,6 +49,8 @@ const Club = (props) => {
             <span>카테고리: {props.item.clubCategory}</span>
             <br />
             <span>클럽개설일: {props.item.createdAt}</span>
+            <br />
+            <span>지역: {props.item.clubAddress}</span>
           </div>
         </header>
         <div className="club-info"> {/* 새로운 클래스 추가 */}

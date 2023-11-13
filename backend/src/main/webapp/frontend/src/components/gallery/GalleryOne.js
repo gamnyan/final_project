@@ -40,6 +40,16 @@ const GalleryOne = (props) => {
     }
   }, [galleryCtx, gallery]);
 
+  useEffect(() => {
+    if (
+      galleryCtx.isError &&
+      galleryCtx.errorMessage === "해당 게시글을 읽을 권한이 없습니다."
+    ) {
+      alert("클럽에 가입해 주세요1");
+      navigate(`/club/clubpage/1`);
+    }
+  }, [galleryCtx.isError, galleryCtx.errorMessage, navigate]);
+
   let content = <p>Loading</p>;
 
   if (isLoading && gallery) {

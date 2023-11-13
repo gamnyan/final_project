@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
 import Slider from "react-slick";
-import HomeVisualItem from "./HomeVisualItme";
+import HomeVisualItem from "./HomeVisualItem";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 

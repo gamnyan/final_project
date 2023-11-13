@@ -42,7 +42,7 @@ function App() {
       <UserProvider>
         <Layout>
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/:clubId/:pageId" element={<HomePage />} />
             <Route
               path="/signup/"
               element={

@@ -1,17 +1,15 @@
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button, ListItem, Typography, TextField, Divider } from "@mui/material";
 
 const Comment = (props) => {
   const deleteIdRef = useRef(null);
-  const updateIdRef = useRef(null);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
-  console.log(props.articleId + " articleId");
   const submitDeleteHandler = (event) => {
     event.preventDefault();
     const deleteId = deleteIdRef.current.value;
     props.onDelete(deleteId);
-    console.log(deleteId);
   };
 
   const submitUpdateHandler = (event) => {
@@ -21,10 +19,10 @@ const Comment = (props) => {
   };
 
   return (
-    <li>
-      <h4>{props.memberNickname}</h4>
-      <p>{props.commentText}</p>
-      <p>{props.createdAt}</p>
+    <ListItem>
+      <Typography variant="h6">{props.memberNickname}</Typography>
+      <Typography variant="body1">{props.commentText}</Typography>
+      <Typography variant="body2">{props.createdAt}</Typography>
       <form onSubmit={submitDeleteHandler}>
         <input
           type="hidden"
@@ -32,31 +30,28 @@ const Comment = (props) => {
           value={props.commentId}
           ref={deleteIdRef}
         />
-        {props.written && <button type="submit">삭제</button>}
         {props.written && (
-          <button type="button" onClick={submitUpdateHandler}>
-            수정
-          </button>
+          <>
+            <Button
+              type="submit"
+              variant="contained"
+              color="error"
+              sx={{ mr: 1 }}
+            >
+              삭제
+            </Button>
+            <Button
+              type="button"
+              onClick={submitUpdateHandler}
+              variant="contained"
+            >
+              수정
+            </Button>
+          </>
         )}
       </form>
-
-      {/* 추가: 수정 폼 */}
-      {/*  {props.isEditing && (
-                <form onSubmit={submitUpdateHandler}>
-                    <input 
-                        type="hidden"
-                        name="commentId"
-                        value={props.commentId}
-                        ref={updateIdRef}
-                    />
-                    <textarea
-                        name="updatedCommentText"
-                        defaultValue={props.commentText} // 현재 코멘트 내용을 기본값으로 설정
-                    />
-                    <button type="submit">저장</button>
-                </form>
-            )} */}
-    </li>
+    </ListItem>
   );
 };
+
 export default Comment;

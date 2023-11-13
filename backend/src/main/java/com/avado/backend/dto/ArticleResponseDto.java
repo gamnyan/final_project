@@ -88,5 +88,9 @@ public class ArticleResponseDto {
         return errorMessage;
     }
 	
-	
+	public static ArticleResponseDto error(String errorMessage) {
+		return ArticleResponseDto.builder()
+				.errorMessage(errorMessage)
+				.build();
+	}
 }
