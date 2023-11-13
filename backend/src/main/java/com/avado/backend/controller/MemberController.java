@@ -28,6 +28,7 @@ import com.avado.backend.dto.MemberRequestDto;
 import com.avado.backend.dto.MemberResponseDto;
 import com.avado.backend.model.Attachment.AttachmentType;
 import com.avado.backend.model.FileStore;
+import com.avado.backend.dto.WithdrawRequestDto;
 import com.avado.backend.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -64,29 +65,28 @@ public class MemberController {
         boolean isDuplicate = memberService.isEmailDuplicate(request);
         return ResponseEntity.ok(isDuplicate);
     }
-    
+
     @ResponseBody
-	@GetMapping("/img/{filename}")
-	public ResponseEntity<Resource> processImg(@PathVariable String filename) throws MalformedURLException {
-		FileStore fileStore = new FileStore();
-		Resource resource = new UrlResource("file:" + fileStore.createPath(filename, AttachmentType.IMAGE));
-		// System.out.println(resource);
+    @GetMapping("/img/{filename}")
+    public ResponseEntity<Resource> processImg(@PathVariable String filename) throws MalformedURLException {
+        FileStore fileStore = new FileStore();
+        Resource resource = new UrlResource("file:" + fileStore.createPath(filename, AttachmentType.IMAGE));
+        // System.out.println(resource);
 
-		if (resource.exists() && resource.isReadable()) {
-			return ResponseEntity.ok()
-					.contentType(MediaType.IMAGE_JPEG)
-					.body(resource);
-		} else {
+        if (resource.exists() && resource.isReadable()) {
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(resource);
+        } else {
 
-			return ResponseEntity.notFound().build();
-		}
-	}
-    
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PutMapping("/changep")
     public ResponseEntity<MemberResponseDto> changeMemPhoto(
-        @ModelAttribute MemberResponseDto requestDto,
-        @RequestPart(name = "file", required = false) MultipartFile file
-    ) {
+            @ModelAttribute MemberResponseDto requestDto,
+            @RequestPart(name = "file", required = false) MultipartFile file) {
         try {
             FileStore fileStore = new FileStore();
 
@@ -97,9 +97,8 @@ public class MemberController {
             }
 
             MemberResponseDto responseDto = memberService.changeMemberPhoto2(
-                requestDto.getEmail(),
-                filename
-            );
+                    requestDto.getEmail(),
+                    filename);
             return ResponseEntity.ok(responseDto);
 
         } catch (IOException e) {
@@ -108,5 +107,16 @@ public class MemberController {
         }
     }
 
+    @PostMapping("/withdraw")
+    public ResponseEntity<MemberResponseDto> withdrawMember(@RequestBody WithdrawRequestDto request) {
+        return ResponseEntity.ok(memberService.withdrawMember(request.getEmail(), request.getPassword()));
+        // String email = request.getEmail();
+        // String password = request.getPassword();
 
+        // // 회원 탈퇴 로직을 호출하고 결과를 받아옴
+        // MemberResponseDto withdrawnMember = memberService.withdrawMember(email,
+        // password);
+
+        // return ResponseEntity.ok(withdrawnMember);
+    }
 }
