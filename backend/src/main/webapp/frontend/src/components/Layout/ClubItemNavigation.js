@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { Nav, Navbar } from "react-bootstrap";
 import styled from "styled-components";
+import "../../css/layout.css";
 
 const ClubItemNavigation = ({ clubId }) => {
   const SideUl = styled.ul`
@@ -17,7 +18,7 @@ const ClubItemNavigation = ({ clubId }) => {
 
   return (
     <Fragment>
-      <Navbar>
+      <Navbar id="clubItemNav">
         <SideUl>
           <SideLi>
             <Nav.Link href={`/club/${clubId}`}>Main</Nav.Link>

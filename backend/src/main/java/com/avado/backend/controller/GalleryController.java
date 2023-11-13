@@ -90,7 +90,7 @@ public class GalleryController {
       // 파일 저장
       // /Users/diaz/java/Temp/img/
       // C:\\Temp\\img
-      String uploadDir = "C:\\Temp\\img";
+      String uploadDir = "/Users/diaz/java/Temp/img/";
       if (files != null && !files.isEmpty()) {
               System.out.println(files);
 
@@ -149,7 +149,7 @@ public class GalleryController {
       // 파일 저장
       // /Users/diaz/java/Temp/img/
       // C:\\Temp\\img
-      String uploadDir = "C:\\Temp\\img";
+      String uploadDir = "/Users/diaz/java/Temp/img/";
       if (files != null && !files.isEmpty() && !files.get(0).isEmpty()) {
         attachmentService.deleteAttachmentsByGalleryId(galleryRequestDto.getId());
         for (MultipartFile file : files) {

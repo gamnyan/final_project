@@ -116,7 +116,7 @@ public class ArticleController {
 	        articleService.postArticle(article, clubId);
 
 	        // 파일 저장
-	        String uploadDir = "C:\\Temp\\img";
+	        String uploadDir = "/Users/diaz/java/Temp/img/";
 	        if (files != null && !files.isEmpty()) {
 	            for (MultipartFile file : files) {
 	                String originalFilename = file.getOriginalFilename();
@@ -182,7 +182,7 @@ public class ArticleController {
 			
 			
 			// 파일 저장
-			String uploadDir = "C:\\Temp\\img";
+			String uploadDir = "/Users/diaz/java/Temp/img/";
 			 if (files != null && !files.isEmpty() && !files.get(0).isEmpty()) {
 					
 					attachmentService.deleteAttachmentsByArticleId(changeArticlePostDto.getId());

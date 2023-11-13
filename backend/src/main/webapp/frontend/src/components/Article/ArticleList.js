@@ -70,7 +70,6 @@ const ArticleList = (props) => {
   useEffect(() => {
     if (articleCtx.isSuccess) {
       setAList(articleCtx.page);
-      //console.log(AList)
       setMaxNum(articleCtx.totalPages);
     }
   }, [articleCtx]);

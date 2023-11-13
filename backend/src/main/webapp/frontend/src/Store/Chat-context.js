@@ -20,19 +20,33 @@ export const ChatContextProvider = (props) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isGetUpdateSuccess, setIsGetUpdateSuccess] = useState(false);
 
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   // 특정 채팅방 조회
   const getOneChatRoomHandler = (roomId, token) => {
     setIsSuccess(false);
+    setIsError(false); // 에러 상태 초기화
+    setErrorMessage(""); // 에러 메시지 초기화
 
     const data = token
       ? chatAction.getOneChatRoomByClub(roomId, token)
       : chatAction.getOneChatRoomByClub(roomId);
-    data.then((result) => {
-      if (result != null) {
-        const chat = result.data;
-        setChatRoom(chat);
-      } // if end
-    });
+    data
+      .then((result) => {
+        if (result != null) {
+          const chat = result.data;
+          setChatRoom(chat);
+          setIsSuccess(true);
+        } else {
+          setIsError(true);
+          setErrorMessage("해당 채팅방에 입장할 수 없습니다.");
+        } // if end
+      })
+      .catch((error) => {
+        setIsError(true);
+        setErrorMessage(error.message);
+      });
     setIsSuccess(true);
   }; // getOneChatRoomHandler
 

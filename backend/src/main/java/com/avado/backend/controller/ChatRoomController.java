@@ -75,7 +75,11 @@ public class ChatRoomController {
   @ResponseBody
   public ResponseEntity<ChatRoomDto> getRoom(@PathVariable("roomid") Long roomid) {
     try {
-      return ResponseEntity.ok().body(chatService.findOne(roomid));
+      ChatRoomDto chatRoomDto = chatService.findOne(roomid);
+      if (chatRoomDto.getErrorMessage() != null) {
+        return ResponseEntity.ok().body(chatRoomDto);
+      }
+      return ResponseEntity.ok(chatRoomDto);
     } catch (Exception e) {
       e.printStackTrace();
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

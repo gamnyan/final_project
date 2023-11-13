@@ -18,43 +18,25 @@ const SideNavigation = () => {
   `;
 
   return (
-    <Fragment>
-      <Navbar style={{ marginTop: "100px" }}>
-        <SideUl style={{ padding: "70px 0", paddingLeft: "30px" }}>
-          <SideLi>
-            <SideBtn href="#">All</SideBtn>
-          </SideLi>
-          <SideLi>
-            <Nav.Link href="#">Category</Nav.Link>
-            <SideUl>
-              <SideLi>
-                <SideBtn href="#">카테고리 1</SideBtn>
-              </SideLi>
-              <SideLi>
-                <SideBtn href="#">카테고리 2</SideBtn>
-              </SideLi>
-              <SideLi>
-                <SideBtn href="#">카테고리 3</SideBtn>
-              </SideLi>
-            </SideUl>
-          </SideLi>
-          <SideLi>
-            <Nav.Link href="#">Address</Nav.Link>
-            <SideUl>
-              <SideLi>
-                <SideBtn href="#">주소 1</SideBtn>
-              </SideLi>
-              <SideLi>
-                <SideBtn href="#">주소 2</SideBtn>
-              </SideLi>
-              <SideLi>
-                <SideBtn href="#">주소 3</SideBtn>
-              </SideLi>
-            </SideUl>
-          </SideLi>
-        </SideUl>
-      </Navbar>
-    </Fragment>
+    <Navbar expand="lg" style={{ marginTop: "100px" }}>
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="flex-column">
+          <Nav.Link href="#">All</Nav.Link>
+          <Nav.Link href="#">Category</Nav.Link>
+          <Nav className="ml-3 flex-column">
+            <Nav.Link href="#">카테고리 1</Nav.Link>
+            <Nav.Link href="#">카테고리 2</Nav.Link>
+            <Nav.Link href="#">카테고리 3</Nav.Link>
+          </Nav>
+          <Nav.Link href="#">Address</Nav.Link>
+          <Nav className="ml-3 flex-column">
+            <Nav.Link href="#">주소 1</Nav.Link>
+            <Nav.Link href="#">주소 2</Nav.Link>
+            <Nav.Link href="#">주소 3</Nav.Link>
+          </Nav>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   );
 };
 

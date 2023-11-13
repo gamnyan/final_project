@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -48,8 +49,9 @@ public class GalleryService {
     try{
     Gallery gallery = galleryRepository.findById(id).orElseThrow(() -> new RuntimeException("갤러리가 없습니다."));
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (authentication == null || authentication.getPrincipal() == "anonymousUser") {
-      ClubJoinDto clubJoinDto = getClubJoinDto(gallery.getClub().getId());
+
+    if (authentication == null || authentication.getPrincipal() instanceof AnonymousAuthenticationToken) {
+      ClubJoinDto clubJoinDto = getClubJoinDto(gallery.getClub().getId()); // 클럽 가입 정보 가져옴
       return GalleryResponseDto.of2(gallery, false,clubJoinDto);
     } else {
       Member member = memberRepository.findById(Long.parseLong(authentication.getName())).orElseThrow();
@@ -67,7 +69,7 @@ public class GalleryService {
       GalleryResponseDto responseDto = new GalleryResponseDto();
       responseDto.setErrorMessage(e.getMessage()); // 에러 메시지 설정
       return responseDto;
-  } // if end
+    } // if end
   } // findOne
 
   private ClubJoinDto getClubJoinDto(Long clubId) {

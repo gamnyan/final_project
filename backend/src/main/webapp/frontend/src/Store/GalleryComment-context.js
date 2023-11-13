@@ -84,9 +84,10 @@ export const GalleryCommentContextProvider = (props) => {
     const data = galleryCommentAction.changeGalleryComment(comment, token);
     data.then((result) => {
       if (result !== null) {
+        setIsSuccess(true);
       }
     });
-    setIsSuccess(true);
+    return data;
   }; // updateGalleryCommentHandler
 
   const contextValue = {

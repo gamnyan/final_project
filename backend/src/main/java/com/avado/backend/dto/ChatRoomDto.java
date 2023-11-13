@@ -14,6 +14,9 @@ public class ChatRoomDto {
   private String roomName;
   private Boolean isWrite;
 
+  private ClubJoinDto clubjoin;
+	private String errorMessage;
+
   public static ChatRoomDto of(ChatRoom chatRoom) {
     return ChatRoomDto.builder()
       .id(chatRoom.getId()) 
@@ -21,5 +24,25 @@ public class ChatRoomDto {
       .roomName(chatRoom.getRoomName())
       .build();
   } // ChatRoomDto
+
+  public static ChatRoomDto checkClubJoin(ChatRoom chatRoom, Boolean bool, ClubJoinDto clubJoinDto) {
+    return ChatRoomDto.builder()
+      .id(chatRoom.getId()) 
+      .memberId(chatRoom.getMember().getId())
+      .roomName(chatRoom.getRoomName())
+      .isWrite(bool)
+      .clubjoin(clubJoinDto)
+      .build();
+  } // checkClubJoin
+
+  // 에러 메시지 설정 메서드
+    public void setErrorMessage(String errorMessage) {
+      this.errorMessage = errorMessage;
+    }
+
+    // 에러 메시지 가져오기 메서드
+    public String getErrorMessage() {
+      return errorMessage;
+    }
 
 } // ChatRoomDto
