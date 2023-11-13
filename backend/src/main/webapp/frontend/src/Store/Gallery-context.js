@@ -25,6 +25,8 @@ export const GalleryContextProvider = (props) => {
   const [totalPages, setTotalPages] = useState(0);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isGetUpdateSuccess, setIsGetUpdateSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -48,6 +50,7 @@ export const GalleryContextProvider = (props) => {
     const data = token
       ? galleryAction.getOneGalleryWithImg(clubId, param, token)
       : galleryAction.getOneGalleryWithImg(clubId, param);
+
     data
       .then((result) => {
         if (result !== null) {
@@ -64,6 +67,9 @@ export const GalleryContextProvider = (props) => {
         setErrorMessage(error.message);
       });
     setIsSuccess(true);
+
+   
+
   }; // getGalleryHandler
 
   // 갤러리 생성

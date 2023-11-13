@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 @Builder
 public class ClubPageResponseDto {
+	private Long memberId;
 	private Long clubId;
 	private String clubName;
 	private String clubAddress;
@@ -17,17 +18,32 @@ public class ClubPageResponseDto {
 	private String clubFilename;
 	private String createdAt;
 	private boolean isJoined;
+	private ClubJoinDto clubjoin;
 	
-	
-	public static ClubPageResponseDto of(Club club) {
+	public static ClubPageResponseDto of(Club club,boolean bool, ClubJoinDto clubJoinDto) {
 		return ClubPageResponseDto.builder()
+				.memberId(club.getMember().getId())
 				.clubId(club.getId())
 				.clubName(club.getName())
 				.clubAddress(club.getAddress())
 				.clubCategory(club.getCategory())
 				.clubFilename(club.getFilename())
 				.createdAt(club.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-				//.isJoined(club.getMember().getId())
+				.isJoined(bool)
+				.clubjoin(clubJoinDto)
+				.build();
+	}
+
+	public static ClubPageResponseDto of2(Club club) {
+		return ClubPageResponseDto.builder()
+				.memberId(club.getMember().getId())
+				.clubId(club.getId())
+				.clubName(club.getName())
+				.clubAddress(club.getAddress())
+				.clubCategory(club.getCategory())
+				.clubFilename(club.getFilename())
+				.createdAt(club.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+				//.isJoined(bool)
 				.build();
 	}
 }

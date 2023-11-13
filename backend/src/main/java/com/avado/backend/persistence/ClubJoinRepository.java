@@ -10,4 +10,6 @@ import com.avado.backend.model.ClubJoin;
 public interface ClubJoinRepository extends JpaRepository<ClubJoin,Long>{
     List<ClubJoin> findAllByClub(Club club);
     boolean existsByClubIdAndMemberId(Long clubId, Long memberId);
+    List<ClubJoin> findByMemberId(Long memberId);
+    List<ClubJoin> findClubsByMemberId(Long memberId);
 }

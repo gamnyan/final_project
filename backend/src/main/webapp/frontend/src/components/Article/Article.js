@@ -1,16 +1,19 @@
-import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import ClubItemNavigation from "../Layout/ClubItemNavigation";
-const Article = (props) => {
-  let navigate = useNavigate();
+import {
+  Button,
+  Card,
+  CardContent,
+  Typography,
+} from "@mui/material";
 
-  let id;
+const Article = (props) => {
+  const navigate = useNavigate();
 
   useEffect(() => {
     try {
-      if (props.item.articleId) {
-        id = props.item.articleId.toString();
-      } else {
+      if (!props.item.articleId) {
         alert("클럽에 가입해 주세요.2");
         navigate(`/club/clubpage/1`);
       }
@@ -18,7 +21,7 @@ const Article = (props) => {
       alert("클럽에 가입해 주세요.3");
       navigate(`/club/clubpage/1`);
     }
-  }, [props.item.articleId]);
+  }, [props.item.articleId, navigate]);
 
   const backHandler = (event) => {
     event.preventDefault();
@@ -27,56 +30,68 @@ const Article = (props) => {
 
   const updateHandler = (event) => {
     event.preventDefault();
-    navigate(`/club/updatearticle/${props.item.clubId}/${id}`);
+    navigate(`/club/updatearticle/${props.item.clubId}/${props.item.articleId}`);
   };
 
   const deleteHandler = (event) => {
     event.preventDefault();
     if (window.confirm("삭제하시겠습니까?")) {
-      props.onDelete(id);
+      props.onDelete(props.item.articleId);
     }
   };
 
   return (
     <div>
       <ClubItemNavigation clubId={props.item.clubId} />
-      <header>
-        <h4>{props.item.articleTitle}</h4>
-        <div>
-          <span>이름: {props.item.memberNickname}</span>
-          <br />
-          <span>날짜: {props.item.updatedAt}</span>
-        </div>
-      </header>
-      <div>
-        <div>{props.item.articleContent}</div>
-      </div>
-      {props.item.attachment &&
-        props.item.attachment.map((image, index) => {
-          // storeFilename의 길이가 3글자 이상인 경우에만 이미지를 표시합니다.
-          if (image.storeFilename.length >= 4) {
-            return (
-              <div key={index}>
-                <img
-                  src={`http://localhost:80/club/one/${props.item.clubId}/article/img/${image.storeFilename}`}
-                  alt={`Attachment ${index}`}
-                  style={{ maxWidth: "100%" }}
-                />
-              </div>
-            );
-          } else {
-            return null; // 조건에 맞지 않는 경우 이미지를 표시하지 않습니다.
-          }
-        })}
-      <button onClick={backHandler}>뒤로</button>
-      {props.item.written && (
-        <div>
-          <button onClick={updateHandler}>수정</button>
-          <br />
-          <button onClick={deleteHandler}>삭제</button>
-        </div>
-      )}
+      <Card>
+        <CardContent>
+          <Typography variant="h4" gutterBottom>
+            {props.item.articleTitle}
+          </Typography>
+          <div>
+            <Typography variant="body2">
+              이름: {props.item.memberNickname} <br />
+              날짜: {props.item.updatedAt}
+            </Typography>
+          </div>
+          <div>
+            <div>{props.item.articleContent}</div>
+          </div>
+          {props.item.attachment &&
+            props.item.attachment.map((image, index) => {
+              if (image.storeFilename.length >= 4) {
+                return (
+                  <div key={index}>
+                    <img
+                      src={`http://localhost:80/club/one/${props.item.clubId}/article/img/${image.storeFilename}`}
+                      alt={`Attachment ${index}`}
+                      style={{ width: "100%", height: "auto" }}  // 이미지 크기를 일정하게 조정
+
+                    />
+                  </div>
+                );
+              } else {
+                return null;
+              }
+            })}
+          <Button onClick={backHandler} color="primary">
+            뒤로
+          </Button>
+          {props.item.written && (
+            <div>
+              <Button onClick={updateHandler} color="warning">
+                수정
+              </Button>
+              <br />
+              <Button onClick={deleteHandler} color="error">
+                삭제
+              </Button>
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 };
+
 export default Article;

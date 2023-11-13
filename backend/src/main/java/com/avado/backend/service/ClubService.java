@@ -12,10 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.avado.backend.config.SecurityUtil;
+import com.avado.backend.dto.ClubJoinDto;
 import com.avado.backend.dto.ClubPageResponseDto;
 import com.avado.backend.dto.ClubResponseDto;
 import com.avado.backend.model.Club;
 import com.avado.backend.model.Member;
+import com.avado.backend.persistence.ClubJoinRepository;
 import com.avado.backend.persistence.ClubRepository;
 import com.avado.backend.persistence.MemberRepository;
 
@@ -26,16 +28,88 @@ import lombok.RequiredArgsConstructor;
 public class ClubService {
 	private final ClubRepository clubRepository;
 	private final MemberRepository memberRepository;
+	private final ClubJoinRepository clubJoinRepository;
+	private final ClubJoinService clubJoinService;
 
-	public List<ClubPageResponseDto> allClub(){
+	public List<ClubPageResponseDto> getClubsOfCurrentUser() {
+        Long currentUserId = SecurityUtil.getCurrentMemberId();
+        return clubJoinRepository.findClubsByMemberId(currentUserId)
+                .stream()
+                .map(clubJoin -> ClubPageResponseDto.of2(clubJoin.getClub()))
+                .collect(Collectors.toList());
+    }
+
+	 public List<ClubPageResponseDto> allClub2(){
 		List<Club> clubs = clubRepository.findAll();
-		return clubs.stream().map(ClubPageResponseDto::of).collect(Collectors.toList());
+		return clubs.stream().map(ClubPageResponseDto::of2).collect(Collectors.toList());
 	}
 
-	public Page<ClubPageResponseDto> pageClub(int pageNum){
+	public Page<ClubPageResponseDto> pageClub2(int pageNum){
 		return clubRepository.findAll(PageRequest.of(pageNum - 1, 20))
-		.map(ClubPageResponseDto::of);
+		.map(ClubPageResponseDto::of2);
+	} 
+	
+	public List<ClubPageResponseDto> allClub() {
+		List<Club> clubs = clubRepository.findAll();
+		return clubs.stream()
+				.map(club -> ClubPageResponseDto.of(
+						club,
+						isUserJoined(club.getMember().getId(), club.getId()),
+						getClubJoinDto(club.getMember().getId(), club.getId())
+				))
+				.collect(Collectors.toList());
 	}
+	
+	public Page<ClubPageResponseDto> pageClub(int pageNum, Long memberId) {
+		return clubRepository.findAll(PageRequest.of(pageNum - 1, 20))
+				.map(club -> {
+					boolean isJoined = isUserJoined(memberId, club.getId());
+					ClubJoinDto clubJoinDto = getClubJoinDto(memberId, club.getId());
+					return ClubPageResponseDto.of(club, isJoined, clubJoinDto);
+				});
+	}
+	private boolean isUserJoined(Long memberId, Long clubId) {
+		// 가상의 메서드: 데이터베이스에서 memberId와 clubId를 사용하여 가입 여부 조회
+		// 여기에서는 가입 여부를 확인하는 가상의 메서드로 가정하겠습니다.
+		// 실제로는 데이터베이스 조회 등을 사용하여 구현해야 합니다.
+		// 이 메서드는 가입되어 있다면 true, 아니면 false를 반환
+	
+		// 예시: ClubJoinRepository는 Club과 Member 간의 가입 여부를 관리하는 Repository라고 가정
+		// 해당 Repository에서 existsByClubIdAndMemberId 같은 메서드로 가입 여부를 확인할 수 있습니다.
+		// 실제로는 이 부분을 데이터베이스 및 Repository에 맞게 수정해야 합니다.
+		boolean isJoined = clubJoinRepository.existsByClubIdAndMemberId(clubId, memberId);
+		return isJoined;
+	}
+	private ClubJoinDto getClubJoinDto(Long memberId, Long clubId) {
+		// 여기에서 가입 정보를 가져오는 로직을 구현
+		// memberId와 clubId를 사용하여 데이터베이스 또는 다른 방법으로 가입 정보를 가져옴
+		// 가져온 정보를 사용하여 ClubJoinDto를 생성하여 반환
+	
+		// ClubJoinService의 allJoin 메서드를 사용하여 가입 정보를 가져오기
+		ClubJoinDto clubJoinDto = clubJoinService.allJoin(clubId);
+	
+		// ClubJoinDto 반환
+		return clubJoinDto;
+	}
+	
+	/* private ClubJoinDto getClubJoinDto(Long memberId, Long clubId) {
+		// 여기에서 가입 정보를 가져오는 로직을 구현
+		// memberId와 clubId를 사용하여 데이터베이스 또는 다른 방법으로 가입 정보를 가져옴
+		// 가져온 정보를 사용하여 ClubJoinDto를 생성하여 반환
+	
+		// 가상의 데이터: 여기에서는 일단 가입자 수를 0으로 초기화
+		int joinedNum = 0;
+	
+		// isUserJoined 메서드를 사용하여 가입 여부 확인
+		boolean isJoined = isUserJoined(memberId, clubId);
+	
+		// ClubJoinDto를 생성하여 반환
+		return ClubJoinDto.builder()
+				.joinedNum(joinedNum)
+				.isJoined(isJoined)
+				.build();
+	} */
+
 	
 	@Transactional
 	public void createClub(Club club) {

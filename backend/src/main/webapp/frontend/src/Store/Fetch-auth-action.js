@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const fetchAuth = async (fetchData) => {
+
+const fetchAuth = async fetchData => {
+
   const method = fetchData.method;
   const url = fetchData.url;
   const data = fetchData.data;
@@ -36,7 +38,9 @@ const fetchAuth = async (fetchData) => {
     }
 
     console.log(err);
+
     //alert("failed!");
+
     return null;
   }
 };

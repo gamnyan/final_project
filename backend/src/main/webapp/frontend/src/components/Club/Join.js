@@ -6,7 +6,7 @@ import { Button } from "react-bootstrap";
 import AuthContext from "../../Store/Auth-context";
 import JoinContext from "../../Store/Join-context";
 
-const ClubJoin = React.memo((props) => {
+const Join = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [joins, setJoins] = useState();
 
@@ -17,17 +17,19 @@ const ClubJoin = React.memo((props) => {
   const id = String(props.item);
 
   const getContext = useCallback(() => {
-    setIsLoading(false);
+    console.log('getContext 함수가 호출되었습니다.');
+    setIsLoading(true);
     isLogin
       ? joinCtx.getclubjoin(id, authCtx.token)
       : joinCtx.getclubjoin(id);
   }, [isLogin, id, authCtx.token, joinCtx]);
+  
 
   useEffect(() => {
     getContext();
-  }, [getContext]);
+  }, []);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (joinCtx.isSuccess) {
       setJoins(joinCtx.joins);
       setIsLoading(true);
@@ -39,7 +41,13 @@ const ClubJoin = React.memo((props) => {
       setJoins(joinCtx.joins);
       setIsLoading(true);
     }
-  }, [joinCtx.isChangeSuccess, joinCtx.joins]);
+  }, [joinCtx.isChangeSuccess, joinCtx.joins]); */
+  useEffect(() => {
+    if (joinCtx.isSuccess || joinCtx.isChangeSuccess) {
+      setJoins(joinCtx.joins);
+      setIsLoading(true);
+    }
+  }, [joinCtx.isSuccess, joinCtx.isChangeSuccess, joinCtx.joins]);
 
   const changeClubjoin = () => {
     if (!isLogin) {
@@ -61,13 +69,9 @@ const ClubJoin = React.memo((props) => {
       <span style={{ marginLeft: "5px", marginRight: "10px" }}>
         가입하기 {joins?.joinedNum}
       </span>
-      {isLogin && joins?.joined && (
-        <Button variant="danger" size="sm" onClick={changeClubjoin}>
-          탈퇴
-        </Button>
-      )}
+     
     </div>
   );
-});
+};
 
-export default ClubJoin;
+export default Join;

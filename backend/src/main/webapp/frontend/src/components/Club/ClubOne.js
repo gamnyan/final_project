@@ -38,7 +38,7 @@ const ClubOne = (props) => {
       setClub(clubCtx.club);
       setIsLoading(true);
     }
-  }, [clubCtx, club]);
+  }, [clubCtx.isSuccess, clubCtx.club]);
 
   console.log(club + "clubone");
   let content = <p>Loading</p>;

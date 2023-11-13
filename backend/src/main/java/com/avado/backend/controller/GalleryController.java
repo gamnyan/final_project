@@ -37,6 +37,20 @@ public class GalleryController {
     return ResponseEntity.ok(galleryService.pageGalleryByClub(clubId, page));
   } // pageGallery
 
+  // 내가 가입한 클럽의 갤러리 10개 가져오기
+  @GetMapping("/myclub")
+  public ResponseEntity<List<GalleryResponseDto>> galleryByMyClub(@PathVariable Long clubId, @RequestParam(name = "page") int page) {
+    try {
+        List<GalleryResponseDto> galleryResponseList = galleryService.getGalleryForClub(clubId);
+        return ResponseEntity.ok(galleryResponseList);
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(List.of(GalleryResponseDto.error(e.getMessage())));
+    }
+  }
+
+
+
   // 특정 갤러리 조회
   /* @GetMapping("/feed")
   @ResponseBody

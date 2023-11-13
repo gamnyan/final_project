@@ -2,6 +2,7 @@ package com.avado.backend.controller;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.List;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -49,10 +49,51 @@ public class ClubController {
 	private final ClubJoinService clubJoinService;
 	private final ChatService chatService;
 
-	@GetMapping("/page")
+
+	@GetMapping("/myClubs")
+    public ResponseEntity<List<ClubPageResponseDto>> getMyClubs() {
+        try {
+           Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+				.orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+
+            // 현재 로그인한 멤버가 가입한 클럽 리스트를 가져옵니다.
+            List<ClubPageResponseDto> myClubs = clubService.getClubsOfCurrentUser();
+
+            return ResponseEntity.ok(myClubs);
+        } catch (RuntimeException e) {
+            // 로그인하지 않은 사용자에 대한 처리
+            // 예: 빈 페이지를 반환하거나, 모든 클럽을 보여줄 수 있음
+            return ResponseEntity.ok(clubService.allClub2());
+        }
+    }
+
+	/* @GetMapping("/page")
 	public ResponseEntity<Page<ClubPageResponseDto>> pageClub(@RequestParam(name = "page") int page) {
 		return ResponseEntity.ok(clubService.pageClub(page));
+	} */
+// memberId 얻는 로직과 클럽 페이지를 가져오는 로직을 합친 코드
+@GetMapping("/page")
+public ResponseEntity<Page<ClubPageResponseDto>> pageClub(@RequestParam(name = "page") int page) {
+	try {
+		Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+				.orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+	
+		// 여기서부터는 로그인한 사용자에 대한 처리를 할 수 있음
+		// 예: 가입한 클럽 표시 등
+		// ...
+	
+		// 클럽 페이지를 가져오는 로직
+		Page<ClubPageResponseDto> clubPage = clubService.pageClub(page, member.getId());
+		return ResponseEntity.ok(clubPage);
+	} catch (RuntimeException e) {
+		// 로그인하지 않은 사용자에 대한 처리
+		// 예: 빈 페이지를 반환하거나, 모든 클럽을 보여줄 수 있음
+		return ResponseEntity.ok(clubService.pageClub2(page));
 	}
+	
+}
+
+
 
 	@PostMapping("/create")
 	public ResponseEntity<ClubResponseDto> createClub(@ModelAttribute ClubCreateRequestDto requestDto,

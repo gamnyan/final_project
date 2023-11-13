@@ -19,7 +19,7 @@ const ArticleContext = React.createContext({
   deleteArticle: () => {},
 });
 
-export const ArticleContextProvider = (props) => {
+export const ArticleContextProvider = props => {
   const [article, setArticle] = useState();
   //const [attachment,setAttachment] = useState()
   const [page, setPage] = useState([]);
@@ -27,8 +27,8 @@ export const ArticleContextProvider = (props) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isGetUpdateSuccess, setIsGetUpdateSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  
+  const [errorMessage, setErrorMessage] = useState("");
+
   /* const getPageHandlerV2 = async (pageId) => {
     setIsSuccess(false);
     const data = await articleAction.getPageList(pageId);
@@ -39,13 +39,26 @@ export const ArticleContextProvider = (props) => {
     setIsSuccess(true);
   }; */
   const getPageHandlerV2 = async (clubId, pageId) => {
-    setIsSuccess(false)
-    const data = await articleAction.getPageList(clubId, pageId)
-    const page = data?.data.content
-    const pages = data?.data.totalPages
-    setPage(page)
-    setTotalPages(pages)
-    setIsSuccess(true)
+    setIsSuccess(false);
+    const data = await articleAction.getPageList(clubId, pageId);
+    const page = data?.data.content;
+    const pages = data?.data.totalPages;
+    setPage(page);
+    setTotalPages(pages);
+    setIsSuccess(true);
+  };
+
+  const getMyClubArticleHandler = async clubId => {
+    setIsSuccess(false);
+      const token = localStorage.getItem('token');
+    
+      const data = await articleAction.getMyClubArticle(clubId, token);
+    
+      const page = data?.data.content;
+      const pages = data?.data.totalPages;
+      setPage(page);
+      setTotalPages(pages);
+      setIsSuccess(true);
   }
 
   /* const getArticleHandler2 = (param, token) => {
@@ -66,25 +79,25 @@ export const ArticleContextProvider = (props) => {
   const getArticleHandler2 = (param, token) => {
     setIsSuccess(false);
     setIsError(false); // 에러 상태 초기화
-    setErrorMessage(''); // 에러 메시지 초기화
-    const data = token
-      ? articleAction.getOneArticleWithImg(param, token)
-      : articleAction.getOneArticleWithImg(param);
-    data.then((result) => {
-      if (result !== null) {
-        const article = result.data;
-        //console.log(article);
-        setArticle(article);
-        setIsSuccess(true);
-      } else {
-        // 만약 result가 null이면 에러가 발생한 것입니다.
+    setErrorMessage(""); // 에러 메시지 초기화
+    const data = token ? articleAction.getOneArticleWithImg(param, token) : articleAction.getOneArticleWithImg(param);
+    data
+      .then(result => {
+        if (result !== null) {
+          const article = result.data;
+          //console.log(article);
+          setArticle(article);
+          setIsSuccess(true);
+        } else {
+          // 만약 result가 null이면 에러가 발생한 것입니다.
+          setIsError(true);
+          setErrorMessage("해당 게시글을 읽을 권한이 없습니다.");
+        }
+      })
+      .catch(error => {
         setIsError(true);
-        setErrorMessage("해당 게시글을 읽을 권한이 없습니다.");
-      }
-    }).catch(error => {
-      setIsError(true);
-      setErrorMessage(error.message);
-    });
+        setErrorMessage(error.message);
+      });
   };
 
   const createArticleHandler2 = (article, token, files) => {
@@ -99,13 +112,9 @@ export const ArticleContextProvider = (props) => {
       formData.append("files", files[i]);
     }
 
-    const data = articleAction.makeArticleWithFiles(
-      article.clubId,
-      token,
-      formData
-    );
+    const data = articleAction.makeArticleWithFiles(article.clubId, token, formData);
     console.log(data);
-    data.then((result) => {
+    data.then(result => {
       if (result !== null) {
         console.log(isSuccess);
       }
@@ -116,10 +125,7 @@ export const ArticleContextProvider = (props) => {
 
   const getUpdateArticleHancler2 = async (token, param) => {
     setIsGetUpdateSuccess(false);
-    const updateData = await articleAction.getChangeArticleWithFile(
-      token,
-      param
-    );
+    const updateData = await articleAction.getChangeArticleWithFile(token, param);
     console.log(updateData);
     const article = updateData?.data;
     console.log(article);
@@ -140,13 +146,9 @@ export const ArticleContextProvider = (props) => {
       formData.append("files", files[i]);
     }
 
-    const data = articleAction.changeArticleWithFiles(
-      article.clubId,
-      token,
-      formData
-    );
+    const data = articleAction.changeArticleWithFiles(article.clubId, token, formData);
 
-    data.then((result) => {
+    data.then(result => {
       if (result !== null) {
         console.log(isSuccess);
       }
@@ -158,7 +160,7 @@ export const ArticleContextProvider = (props) => {
   const deleteArticleHandler = (token, param) => {
     setIsSuccess(false);
     const data = articleAction.deleteArticle(token, param);
-    data.then((result) => {
+    data.then(result => {
       if (result !== null) {
       }
     });
@@ -183,11 +185,7 @@ export const ArticleContextProvider = (props) => {
     deleteArticle: deleteArticleHandler,
   };
 
-  return (
-    <ArticleContext.Provider value={contextValue}>
-      {props.children}
-    </ArticleContext.Provider>
-  );
+  return <ArticleContext.Provider value={contextValue}>{props.children}</ArticleContext.Provider>;
 };
 
 export default ArticleContext;

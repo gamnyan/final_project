@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,7 @@ import com.avado.backend.dto.PageResponseDto;
 import com.avado.backend.model.Article;
 import com.avado.backend.model.Attachment;
 import com.avado.backend.model.Attachment.AttachmentType;
+import com.avado.backend.model.ClubJoin;
 import com.avado.backend.model.FileStore;
 import com.avado.backend.service.ArticleService;
 import com.avado.backend.service.AttachmentService;
@@ -51,7 +53,17 @@ public class ArticleController {
 		return ResponseEntity.ok(articleService.pageArticleByClub(clubId, page));
 	}
 
-	
+	@GetMapping("/myclub")
+	public ResponseEntity<List<ArticleResponseDto>> ArticleByMyClub(@PathVariable Long clubId) {
+    try {
+        List<ArticleResponseDto> articleResponseList = articleService.getArticlesForClub(clubId);
+        return ResponseEntity.ok(articleResponseList);
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(List.of(ArticleResponseDto.error(e.getMessage())));
+    }
+	}
+
+
 	/*
 	@GetMapping("/oneone")
 	public ResponseEntity<ArticleResponseDto> getOneArticleWithFiles(@RequestParam(name = "id") Long id) {

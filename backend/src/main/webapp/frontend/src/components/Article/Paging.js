@@ -31,7 +31,7 @@ const Paging = (props) => {
           </Pagination.Item>
         );
       }
-      return pageProp;
+      return pageProp.reverse();
     }
 
     if (currentNum < 5) {

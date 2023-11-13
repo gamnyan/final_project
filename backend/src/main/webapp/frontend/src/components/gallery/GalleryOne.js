@@ -49,7 +49,9 @@ const GalleryOne = (props) => {
       galleryCtx.isError &&
       galleryCtx.errorMessage === "해당 게시글을 읽을 권한이 없습니다."
     ) {
+
       alert("클럽에 가입해 주세요.");
+
       navigate(`/club/clubpage/1`);
     }
   }, [galleryCtx.isError, galleryCtx.errorMessage, navigate]);

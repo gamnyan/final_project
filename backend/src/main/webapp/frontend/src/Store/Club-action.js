@@ -8,11 +8,33 @@ const createTokenHeader = token => {
    };
 };
 
+export const getMyClubPage = (param,token) => {
+   const URL = `/club/myClubs`
+   if (!token) {
+      const response = GET(URL, {});
+      return response;
+   } else {
+      const response = GET(URL, createTokenHeader(token));
+      return response;
+   }
+}
+
 export const getClubPageList = param => {
    const URL = "/club/page?page=" + param;
    const response = GET(URL, {});
    return response;
 };
+
+export const getClubPageListLoggedIn = (param,token) => {
+   const URL = "/club/page?page=" + param;
+   if (!token) {
+      const response = GET(URL, {});
+      return response;
+   } else {
+      const response = GET(URL, createTokenHeader(token));
+      return response;
+   }
+}
 
 export const getOneClubWithImg = (param, token) => {
    const URL = "/club/one/" + param;
