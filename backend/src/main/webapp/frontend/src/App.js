@@ -60,15 +60,6 @@ function App() {
               }
             />
 
-            <Route
-              path="/chat/"
-              element={!authCtx.isLoggedIn ? <Navigate to="/" /> : <ChatPage />}
-            />
-            <Route
-              path="/chat/room/:id"
-              element={!authCtx.isLoggedIn ? <Navigate to="/" /> : <ChatRoom />}
-            />
-
             {/* club */}
             <Route path="/club" element={<ClubLayout />}>
               <Route path="clubpage/:pageId" element={<ClubListPage />} />
