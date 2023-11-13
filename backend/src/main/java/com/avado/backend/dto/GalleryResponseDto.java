@@ -93,6 +93,10 @@ public String getErrorMessage() {
     return errorMessage;
 }
 
-  
+public static GalleryResponseDto error(String errorMessage) {
+  return GalleryResponseDto.builder()
+      .errorMessage(errorMessage)
+      .build();
+}  
   
 } // GalleryDto

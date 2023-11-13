@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+
 // import logo from "./logo.svg";
 // import "./App.css";
 import CreateAccountForm from "./components/Auth/CreateAccountForm";
@@ -42,7 +43,7 @@ function App() {
       <UserProvider>
         <Layout>
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/:clubId/:pageId" element={<HomePage />} />
             <Route
               path="/signup/"
               element={

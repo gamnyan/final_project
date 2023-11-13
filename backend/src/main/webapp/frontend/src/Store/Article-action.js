@@ -14,6 +14,18 @@ const createTokenHeader = (token) => {
   const response = GET(URL, {});
   return response;
 }; */
+
+export const getMyClubArticle =(clubId,token) => {
+  const URL = `/club/one/${clubId}/article/myclub`;
+  if (!token) {
+    const response = GET(URL, {});
+    return response;
+ } else {
+    const response = GET(URL, createTokenHeader(token));
+    return response;
+ }
+}
+
 export const getPageList = (clubId, pageId) => {
   const URL = `/club/one/${clubId}/article/page?page=${pageId}`
   const response = GET(URL, {})

@@ -1,17 +1,15 @@
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button, ListItem, Typography, TextField, Divider, Stack } from "@mui/material";  // Stack 추가
 
 const Comment = (props) => {
   const deleteIdRef = useRef(null);
-  const updateIdRef = useRef(null);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
-  console.log(props.articleId + " articleId");
   const submitDeleteHandler = (event) => {
     event.preventDefault();
     const deleteId = deleteIdRef.current.value;
     props.onDelete(deleteId);
-    console.log(deleteId);
   };
 
   const submitUpdateHandler = (event) => {
@@ -21,42 +19,41 @@ const Comment = (props) => {
   };
 
   return (
-    <li>
-      <h4>{props.memberNickname}</h4>
-      <p>{props.commentText}</p>
-      <p>{props.createdAt}</p>
+    <ListItem sx={{ paddingY: 2, borderBottom: "1px solid #e0e0e0" }}>  {/* 스타일 추가 */}
+      <Typography variant="h6" marginBottom={1}>{props.memberNickname}</Typography>  {/* marginBottom 추가 */}
+      <Typography variant="body1" sx={{ marginBottom: 1 }}>{props.commentText}</Typography>  {/* 스타일 추가 */}
+      <Typography variant="body2">{props.createdAt}</Typography>
       <form onSubmit={submitDeleteHandler}>
-        <input
-          type="hidden"
-          name="commentId"
-          value={props.commentId}
-          ref={deleteIdRef}
-        />
-        {props.written && <button type="submit">삭제</button>}
-        {props.written && (
-          <button type="button" onClick={submitUpdateHandler}>
-            수정
-          </button>
-        )}
+        <Stack direction="row" spacing={1} alignItems="center">  {/* Stack으로 버튼 정렬 및 간격 추가 */}
+          <input
+            type="hidden"
+            name="commentId"
+            value={props.commentId}
+            ref={deleteIdRef}
+          />
+          {props.written && (
+            <>
+              <Button
+                type="submit"
+                variant="contained"  // 버튼 스타일 변경
+                color="error"
+                sx={{ marginRight: 1 }}
+              >
+                삭제
+              </Button>
+              <Button
+                type="button"
+                variant="outlined"  // 버튼 스타일 변경
+                onClick={submitUpdateHandler}
+              >
+                수정
+              </Button>
+            </>
+          )}
+        </Stack>
       </form>
-
-      {/* 추가: 수정 폼 */}
-      {/*  {props.isEditing && (
-                <form onSubmit={submitUpdateHandler}>
-                    <input 
-                        type="hidden"
-                        name="commentId"
-                        value={props.commentId}
-                        ref={updateIdRef}
-                    />
-                    <textarea
-                        name="updatedCommentText"
-                        defaultValue={props.commentText} // 현재 코멘트 내용을 기본값으로 설정
-                    />
-                    <button type="submit">저장</button>
-                </form>
-            )} */}
-    </li>
+    </ListItem>
   );
 };
+
 export default Comment;

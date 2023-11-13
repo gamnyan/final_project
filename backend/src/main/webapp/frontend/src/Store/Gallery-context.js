@@ -25,6 +25,8 @@ export const GalleryContextProvider = (props) => {
   const [totalPages, setTotalPages] = useState(0);
   const [isSuccess, SetIsSuccess] = useState(false);
   const [isGetUpdateSuccess, setIsGetUpdateSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   // 갤러리 리스트 목록
   const getGalleryPageHandler = async (clubId, pageId) => {
@@ -47,9 +49,16 @@ export const GalleryContextProvider = (props) => {
       if (result !== null) {
         const gallery = result.data;
         setGallery(gallery);
+        SetIsSuccess(true);
+      }else{
+        // 만약 result가 null이면 에러가 발생한 것입니다.
+        setIsError(true);
+        setErrorMessage("해당 게시글을 읽을 권한이 없습니다.");
       }
-    });
-    SetIsSuccess(true);
+    }).catch(error => {
+      setIsError(true);
+      setErrorMessage(error.message);
+    })
   }; // getGalleryHandler
 
   // 갤러리 생성

@@ -48,6 +48,19 @@ export const ArticleContextProvider = props => {
     setIsSuccess(true);
   };
 
+  const getMyClubArticleHandler = async clubId => {
+    setIsSuccess(false);
+      const token = localStorage.getItem('token');
+    
+      const data = await articleAction.getMyClubArticle(clubId, token);
+    
+      const page = data?.data.content;
+      const pages = data?.data.totalPages;
+      setPage(page);
+      setTotalPages(pages);
+      setIsSuccess(true);
+  }
+
   /* const getArticleHandler2 = (param, token) => {
     setIsSuccess(false);
     const data = token

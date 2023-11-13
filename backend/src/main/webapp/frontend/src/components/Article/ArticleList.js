@@ -1,5 +1,5 @@
 import BootStrapTable from "react-bootstrap-table-next";
-import { Button } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { useCallback, useContext, useEffect, useState } from "react";
 import AuthContext from "../../Store/Auth-context";
 import { Link, useNavigate } from "react-router-dom";
@@ -27,12 +27,21 @@ const ArticleList = (props) => {
     {
       dataField: "clubId",
       text: "clubId",
+      hidden: true,
+    },
+    {
+      dataField: "clubName",
+      text: "클럽",
+      hidden:true,
+      formatter: (cell, row) => (
+        <strong>{cell}</strong>
+      ),
     },
     {
       dataField: "articleTitle",
       text: "제목",
       headerStyle: () => {
-        return { width: "65%" };
+        return { width: "50%" };
       },
       events: {
         onClick: (e, column, columnIndex, row, rowIndex) => {
@@ -69,8 +78,7 @@ const ArticleList = (props) => {
 
   useEffect(() => {
     if (articleCtx.isSuccess) {
-      setAList(articleCtx.page);
-      //console.log(AList)
+      setAList(articleCtx.page.reverse());
       setMaxNum(articleCtx.totalPages);
     }
   }, [articleCtx]);
@@ -78,8 +86,22 @@ const ArticleList = (props) => {
   return (
     <div>
       <ClubItemNavigation clubId={props.clubId} />
+
+      {/* Display clubName from the first item in AList */}
+      {AList.length > 0 && (
+        <Card className="my-4">
+          <Card.Body>
+            <Card.Title className="text-center">
+              {AList[0].clubName}
+            </Card.Title>
+          </Card.Body>
+        </Card>
+      )}
+
+      {/* Display the table */}
       <BootStrapTable keyField="id" data={AList} columns={columns} />
-      <div>
+
+      <div className="text-center mt-3">
         {isLogin && (
           <Link to={`/club/createarticle/${clubId}`} state={{ clubId: clubId }}>
             <Button>글 작성</Button>
@@ -90,4 +112,5 @@ const ArticleList = (props) => {
     </div>
   );
 };
+
 export default ArticleList;

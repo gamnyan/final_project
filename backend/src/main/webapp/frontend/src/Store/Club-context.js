@@ -7,7 +7,9 @@ const ClubContext = React.createContext({
    isSuccess: false,
    isGetUpdateSuccess: false,
    totalPages: 0,
+   geyMyClubList:()=>{},
    getClubPageList: () => {},
+   getClubPageLoggedList:()=>{},
    getClubWithImg: () => {},
    createClubWithImg: () => {},
    getUpdateClubWithImg: () => {},
@@ -31,6 +33,33 @@ export const ClubContextProvider = props => {
       setTotalPages(pages);
       setIsSuccess(true);
    };
+
+   const getMyClubPageHandler = async pageId => {
+      setIsSuccess(false);
+      const token = localStorage.getItem('token');
+    
+      const data = await clubAction.getMyClubPage(pageId, token);
+    
+      const page = data?.data.content;
+      const pages = data?.data.totalPages;
+      setPage(page);
+      setTotalPages(pages);
+      setIsSuccess(true);
+   }
+
+   const getClubPageLoggedInHandler = async pageId => {
+      setIsSuccess(false);
+      const token = localStorage.getItem('token');
+    
+      const data = await clubAction.getClubPageListLoggedIn(pageId, token);
+    
+      const page = data?.data.content;
+      const pages = data?.data.totalPages;
+      setPage(page);
+      setTotalPages(pages);
+      setIsSuccess(true);
+    };
+    
 
    const getClubHandler = (param, token) => {
       setIsSuccess(false);
@@ -110,7 +139,9 @@ export const ClubContextProvider = props => {
       isSuccess,
       isGetUpdateSuccess,
       totalPages,
+      geyMyClubList: getMyClubPageHandler,
       getClubPageList: getClubPageHandler,
+      getClubPageLoggedList:getClubPageLoggedInHandler,
       getClubWithImg: getClubHandler,
       createClubWithImg: createClubHandler,
       getUpdateClubWithImg: getUpdateClubHandler,
