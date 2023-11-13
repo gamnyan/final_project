@@ -18,12 +18,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
 public class Member {
 
     @Id
@@ -38,6 +40,11 @@ public class Member {
 
     @Column(nullable = false)
     private String nickname;
+    
+    @Column(nullable = true)
+    private String Filename;
+    
+   
 
     @Enumerated(EnumType.STRING)
     private Authority authority;

@@ -18,6 +18,7 @@ public class ClubPageResponseDto {
 	private String createdAt;
 	private boolean isJoined;
 	
+	
 	public static ClubPageResponseDto of(Club club) {
 		return ClubPageResponseDto.builder()
 				.clubId(club.getId())

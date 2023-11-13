@@ -66,6 +66,14 @@ export default function MainProfilePage() {
       <Grid container spacing={1}>
         {/* <Grid xs={12} md={5} lg={4}>
           <Item>나중에 내 프로필 사진이나 등등 넣어둘 곳</Item>
+          이미지를 불러올 때 userCtx.filename을 사용
+          <Item>
+            <img
+              src={`http://localhost:80/member/img/${userCtx.filename}`}
+              alt="ProfileIMG"
+              style={{ width: "100%", height: "auto" }}
+            />
+          </Item>
         </Grid> */}
         <Grid
           container

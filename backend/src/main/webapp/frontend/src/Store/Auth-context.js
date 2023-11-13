@@ -4,6 +4,8 @@ import * as authAction from "./Auth-action";
 let logoutTimer;
 
 const AuthContext = React.createContext({
+  member: undefined,
+  isGetUpdateSuccess: false,
   token: "",
   userObj: { email: "", nickname: "" },
   isLoggedIn: false,
@@ -11,7 +13,7 @@ const AuthContext = React.createContext({
   isChangePasswordSuccess: false,
   isWithdrawSuccess: false,
   isGetSuccess: false,
-  signup: (email, password, nickname) => {},
+  signup: (email, password, nickname, filename) => {},
   sendEmail: email => {},
   checkEmail: email => {},
   login: (email, password) => {},
@@ -20,6 +22,7 @@ const AuthContext = React.createContext({
   changeNickname: nickname => {},
   changePassword: (exPassword, newPassword) => {},
   memberWithdraw: password => {},
+  changePhoto: () => {},
 });
 
 export const AuthContextProvider = props => {
@@ -43,9 +46,9 @@ export const AuthContextProvider = props => {
 
   const userIsLoggedIn = !!token;
 
-  const signupHandler = (email, password, nickname) => {
+  const signupHandler = (email, password, nickname, filename) => {
     setIsSuccess(false);
-    const response = authAction.signupActionHandler(email, password, nickname);
+    const response = authAction.signupActionHandler(email, password, nickname, filename);
     response.then(result => {
       if (result !== null) {
         setIsSuccess(true);
@@ -128,22 +131,11 @@ export const AuthContextProvider = props => {
   };
 
   const changePaswordHandler = (exPassword, newPassword) => {
-    setIsChangePasswordSuccess(false);
+    setIsSuccess(false);
     const data = authAction.changePasswordActionHandler(exPassword, newPassword, token);
     data.then(result => {
       if (result !== null) {
-        setIsChangePasswordSuccess(true);
-        logoutHandler();
-      }
-    });
-  };
-
-  const memberWithdrawHandler = password => {
-    setIsWithdrawSuccess(false);
-    const data = authAction.memberWithdrawActionHandler(password, token);
-    data.then(result => {
-      if (result !== null) {
-        setIsWithdrawSuccess(true);
+        setIsSuccess(true);
         logoutHandler();
       }
     });
@@ -160,8 +152,6 @@ export const AuthContextProvider = props => {
     userObj,
     isLoggedIn: userIsLoggedIn,
     isSuccess,
-    isChangePasswordSuccess,
-    isWithdrawSuccess,
     isGetSuccess,
     signup: signupHandler,
     sendEmail: sendEmailHandler,
@@ -171,7 +161,6 @@ export const AuthContextProvider = props => {
     getUser: getUserHandler,
     changeNickname: changeNicknameHandler,
     changePassword: changePaswordHandler,
-    memberWithdraw: memberWithdrawHandler,
   };
 
   return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>;

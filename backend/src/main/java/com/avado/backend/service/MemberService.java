@@ -51,6 +51,25 @@ public class MemberService {
     }
 
     @Transactional
+    public MemberResponseDto changeMemberPhoto1(String email, String Filename) {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+        member.setFilename(Filename);
+
+        return MemberResponseDto.of(memberRepository.save(member));
+    }
+
+    @Transactional
+    public MemberResponseDto changeMemberPhoto2(String email, String filename) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("해당 이메일의 회원이 없습니다"));
+
+        member.setFilename(filename);
+
+        return MemberResponseDto.of(memberRepository.save(member));
+    }
+
+    @Transactional
     public MemberResponseDto withdrawMember(String email, String password) {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));

@@ -1,4 +1,4 @@
-import { GET, POST } from "./Fetch-auth-action";
+import { GET, POST, PUT } from "./Fetch-auth-action";
 
 /** 토큰 만드는 함수, 내부에서만 사용 */
 const createTokenHeader = token => {
@@ -52,13 +52,13 @@ export const retrieveStoredToken = () => {
  *  통신으로 반환된 response를 반환
  *  반환 타입은 Promise<AxiosResponse<any, any> | null>
  */
-export const signupActionHandler = async (email, password, nickname) => {
+export const signupActionHandler = async (email, password, nickname, filename) => {
   const URL = "/auth/signup";
   // 이메일 중복 체크를 기다림
   const isEmailDuplicate = await checkDuplicateEmail(email);
   // 중복이 아니면 회원가입 요청
   if (!isEmailDuplicate) {
-    const signupObject = { email, password, nickname };
+    const signupObject = { email, password, nickname, filename };
     const response = await POST(URL, signupObject, {});
     return response;
   } else {
@@ -133,5 +133,11 @@ export const memberWithdrawActionHandler = (password, token) => {
   const memberWithdrawObj = { password };
   const header = createTokenHeader(token);
   const response = POST(URL, memberWithdrawObj, header);
+  return response;
+};
+
+export const changePhoto = (token, formData) => {
+  const URL = "/member/changep";
+  const response = PUT(URL, formData, createTokenHeader(token));
   return response;
 };

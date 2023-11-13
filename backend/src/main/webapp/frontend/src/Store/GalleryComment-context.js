@@ -7,8 +7,8 @@ const GalleryCommentContext = React.createContext({
   galleryCommentList: [],
   isSuccess: false,
   isGetUpdateSuccess: false,
-  getOneGalleryComment:() => {},
-  updateGalleryComment:() => {},
+  getOneGalleryComment: () => {},
+  updateGalleryComment: () => {},
   getGalleryComments1: () => {},
   createGalleryComment1: () => {},
   deleteGalleryComment: () => {},
@@ -17,9 +17,8 @@ const GalleryCommentContext = React.createContext({
 export const GalleryCommentContextProvider = (props) => {
   const [galleryCommentList, setGalleryCommentList] = useState([]);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [galleryComment,setGalleryComment] = useState();
+  const [galleryComment, setGalleryComment] = useState();
   const [isGetUpdateSuccess, setIsGetUpdateSuccess] = useState(false);
-
 
   // 갤러리 코멘트 목록
   const getGalleryCommentsHandler = async (param, token) => {
@@ -36,11 +35,11 @@ export const GalleryCommentContextProvider = (props) => {
   const createGalleryCommentHandler = async (comment, token) => {
     setIsSuccess(false);
 
-     const postData = await galleryCommentAction.createGalleryComment(
+    const postData = await galleryCommentAction.createGalleryComment(
       comment,
       token
     );
-     const msg = await postData?.data;
+    const msg = await postData?.data;
 
     const getData = await galleryCommentAction.getGalleryComments(
       comment.galleryId,
@@ -55,11 +54,11 @@ export const GalleryCommentContextProvider = (props) => {
   const deleteGalleryCommentHandler = async (param, id, token) => {
     setIsSuccess(false);
 
-     const deleteData = await galleryCommentAction.deleteGalleryComment(
-       param,
-       token
-     );
-     const msg = deleteData?.data;
+    const deleteData = await galleryCommentAction.deleteGalleryComment(
+      param,
+      token
+    );
+    const msg = deleteData?.data;
 
     const getData = await galleryCommentAction.getGalleryComments(id, token);
     const galleryComments = getData?.data;
@@ -70,23 +69,25 @@ export const GalleryCommentContextProvider = (props) => {
   // 수정할 갤러리 코멘트 겟
   const getOneGalleryCommentHandler = async (param, token) => {
     setIsGetUpdateSuccess(false);
-    const updateData = await galleryCommentAction.getGalleryComment(param,token);
+    const updateData = await galleryCommentAction.getGalleryComment(
+      param,
+      token
+    );
     const galleryComment = updateData?.data;
     setGalleryComment(galleryComment);
     setIsGetUpdateSuccess(true);
-  } // getOneGalleryCommentHandler
+  }; // getOneGalleryCommentHandler
 
   // 갤러리 코멘트 수정
   const updateGalleryCommentHandler = (comment, token) => {
     setIsSuccess(false);
-    const data = galleryCommentAction.changeGalleryComment(comment,token);
-    data.then(result =>{
-      if(result !== null){
-
+    const data = galleryCommentAction.changeGalleryComment(comment, token);
+    data.then((result) => {
+      if (result !== null) {
       }
-    })
+    });
     setIsSuccess(true);
-  } // updateGalleryCommentHandler
+  }; // updateGalleryCommentHandler
 
   const contextValue = {
     galleryComment,
@@ -97,7 +98,7 @@ export const GalleryCommentContextProvider = (props) => {
     createGalleryComment1: createGalleryCommentHandler,
     deleteGalleryComment: deleteGalleryCommentHandler,
     getOneGalleryComment: getOneGalleryCommentHandler,
-    updateGalleryComment: updateGalleryCommentHandler
+    updateGalleryComment: updateGalleryCommentHandler,
   }; // contextValue
 
   return (
