@@ -73,7 +73,11 @@ const ClubList = (props) => {
               {clubList.map((item) => (
                 <Col xs={3} key={item.clubId}>
                   <BootstrapCard className="club-card">
-                    <BootstrapCard.Img variant="top" src={`http://localhost:80/club/img/${item.clubFilename}`} style={{ width: "100%", height: "auto" }} />
+                    <BootstrapCard.Img
+                      variant="top"
+                      src={`http://localhost:80/club/img/${item.clubFilename}`}
+                      style={{ width: "100%", height: "auto" }}
+                    />
                     <BootstrapCard.Body>
                       <p style={{ fontSize: "0.8rem", color: "#6c757d" }}>{item.clubCategory}</p>
                       <h5>{item.clubName}</h5>
