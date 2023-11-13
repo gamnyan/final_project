@@ -1,0 +1,14 @@
+package com.avado.backend.persistence;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+import com.avado.backend.model.Article;
+
+public interface ArticleRepository extends JpaRepository<Article, Long> {
+	Page<Article> findByClubId(Long clubId, Pageable pageable);
+	List<Article> findByClubId(Long clubId);
+}

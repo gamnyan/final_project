@@ -1,0 +1,32 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# .gitattributes 파일 내용
+# 특정 파일 또는 디렉토리에 대한 줄 바꿈 문자 스타일을 지정합니다.
+
+# 특정 파일에 CRLF (Windows 스타일) 줄 바꿈 문자 지정
+*.html text eol=crlf
+
+# 특정 디렉토리 내의 모든 파일에 LF 줄 바꿈 문자 지정
+mydirectory/* text eol=lf
