@@ -82,22 +82,29 @@ const HomeSection1 = (props) => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 2,
+    slidesToShow: 3,
     slidesToScroll: 1,
-    centerMode: true, // 중앙 정렬 활성화
-    centerPadding: "10%", // 중앙 정렬 시 양 옆에 보여지는 슬라이드 크기 조절
+    centerMode: true,
+    centerPadding: "0",
+    afterChange: (index) => {
+      // dots로 이동할 때 클럽 슬라이더의 인덱스가 변경됩니다.
+      // 해당 인덱스를 state에 저장하여 렌더링에 반영합니다.
+      setCurrentSlideIndex(index);
+    },
   };
+
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
   return (
     <Fragment>
-      <Slider {...settings}>
+      <Slider {...settings} slickGoTo={currentSlideIndex}>
         {authCtx.isLoggedIn &&
           clubList
             .filter((item) => item.clubjoin && item.clubjoin.joined)
             .slice(0, 5)
-            .map((item) => (
-              <div key={item.clubId}>
-                <Card style={{ width: "18rem" }}>
+            .map((item, index) => (
+              <div key={item.clubId} className={`slick-slide ${index === currentSlideIndex ? 'center-club' : 'other-club'}`}>
+                <Card style={{ width: "18rem", opacity: index === currentSlideIndex ? 1 : 0.6 }}>
                   <Card.Img variant="top" src={`http://localhost:80/club/img/${item.clubFilename}`} />
                   <Card.Body>
                     <Card.Title>{item.clubName}</Card.Title>
@@ -107,41 +114,34 @@ const HomeSection1 = (props) => {
                     <Button variant="primary" onClick={() => navigate(`/club/${item.clubId}`)}>
                       자세히 보기
                     </Button>
-                    {/* <Button variant="primary" onClick={() => navigate(`/${item.clubId}/1`)}>
-                      선택
-                    </Button> */}
                     <Link to={`/${item.clubId}/1`}>
-  <Button variant="primary">선택</Button>
-</Link>
+                      <Button variant="primary">선택</Button>
+                    </Link>
                   </Card.Body>
                 </Card>
               </div>
             ))}
-       {!authCtx.isLoggedIn &&
-  clubList.map((item) => (
-    <div key={item.clubId}>
-      <Card style={{ width: "18rem" }}>
-        <Card.Img variant="top" src={`http://localhost:80/club/img/${item.clubFilename}`} />
-        <Card.Body>
-          <Card.Title>{item.clubName}</Card.Title>
-          <Card.Text>{item.clubAddress}</Card.Text>
-          <FontAwesomeIcon icon={faHeart} style={{ color: "#000000", cursor: "pointer" }} />
-          {/* Check if item.clubjoin is not null before accessing joined property */}
-          <span>{item.clubjoin && item.clubjoin.joinedNum}</span>
-          <Button variant="primary" onClick={() => navigate(`/club/${item.clubId}`)}>
-            자세히 보기
-          </Button>
-        </Card.Body>
-      </Card>
-    </div>
-  ))
-}
-
+        {!authCtx.isLoggedIn &&
+          clubList.map((item, index) => (
+            <div key={item.clubId} className={`slick-slide ${index === currentSlideIndex ? 'center-club' : 'other-club'}`}>
+              <Card style={{ width: "18rem", opacity: index === currentSlideIndex ? 1 : 0.6 }}>
+                <Card.Img variant="top" src={`http://localhost:80/club/img/${item.clubFilename}`} />
+                <Card.Body>
+                  <Card.Title>{item.clubName}</Card.Title>
+                  <Card.Text>{item.clubAddress}</Card.Text>
+                  <FontAwesomeIcon icon={faHeart} style={{ color: "#000000", cursor: "pointer" }} />
+                  <span>{item.clubjoin && item.clubjoin.joinedNum}</span>
+                  <Button variant="primary" onClick={() => navigate(`/club/${item.clubId}`)}>
+                    자세히 보기
+                  </Button>
+                </Card.Body>
+              </Card>
+            </div>
+          ))
+        }
       </Slider>
-      {/* <ClubPaging currentPage={Number(pageId)} maxPage={maxNum} /> */}
     </Fragment>
   );
-  
   
   
 };
