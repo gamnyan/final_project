@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, ListItem, Typography, TextField, Divider } from "@mui/material";
+import { Button, ListItem, Typography, TextField, Divider, Stack } from "@mui/material";  // Stack 추가
 
 const Comment = (props) => {
   const deleteIdRef = useRef(null);
@@ -19,36 +19,38 @@ const Comment = (props) => {
   };
 
   return (
-    <ListItem>
-      <Typography variant="h6">{props.memberNickname}</Typography>
-      <Typography variant="body1">{props.commentText}</Typography>
+    <ListItem sx={{ paddingY: 2, borderBottom: "1px solid #e0e0e0" }}>  {/* 스타일 추가 */}
+      <Typography variant="h6" marginBottom={1}>{props.memberNickname}</Typography>  {/* marginBottom 추가 */}
+      <Typography variant="body1" sx={{ marginBottom: 1 }}>{props.commentText}</Typography>  {/* 스타일 추가 */}
       <Typography variant="body2">{props.createdAt}</Typography>
       <form onSubmit={submitDeleteHandler}>
-        <input
-          type="hidden"
-          name="commentId"
-          value={props.commentId}
-          ref={deleteIdRef}
-        />
-        {props.written && (
-          <>
-            <Button
-              type="submit"
-              variant="contained"
-              color="error"
-              sx={{ mr: 1 }}
-            >
-              삭제
-            </Button>
-            <Button
-              type="button"
-              onClick={submitUpdateHandler}
-              variant="contained"
-            >
-              수정
-            </Button>
-          </>
-        )}
+        <Stack direction="row" spacing={1} alignItems="center">  {/* Stack으로 버튼 정렬 및 간격 추가 */}
+          <input
+            type="hidden"
+            name="commentId"
+            value={props.commentId}
+            ref={deleteIdRef}
+          />
+          {props.written && (
+            <>
+              <Button
+                type="submit"
+                variant="contained"  // 버튼 스타일 변경
+                color="error"
+                sx={{ marginRight: 1 }}
+              >
+                삭제
+              </Button>
+              <Button
+                type="button"
+                variant="outlined"  // 버튼 스타일 변경
+                onClick={submitUpdateHandler}
+              >
+                수정
+              </Button>
+            </>
+          )}
+        </Stack>
       </form>
     </ListItem>
   );

@@ -107,9 +107,12 @@ const HomeSection1 = (props) => {
                     <Button variant="primary" onClick={() => navigate(`/club/${item.clubId}`)}>
                       자세히 보기
                     </Button>
-                    <Button variant="primary" onClick={() => navigate(`/${item.clubId}/1`)}>
+                    {/* <Button variant="primary" onClick={() => navigate(`/${item.clubId}/1`)}>
                       선택
-                    </Button>
+                    </Button> */}
+                    <Link to={`/${item.clubId}/1`}>
+  <Button variant="primary">선택</Button>
+</Link>
                   </Card.Body>
                 </Card>
               </div>

@@ -74,16 +74,16 @@ const Article = (props) => {
                 return null;
               }
             })}
-          <Button onClick={backHandler} variant="contained" color="primary">
+          <Button onClick={backHandler} color="primary">
             뒤로
           </Button>
           {props.item.written && (
             <div>
-              <Button onClick={updateHandler} variant="contained" color="warning">
+              <Button onClick={updateHandler} color="warning">
                 수정
               </Button>
               <br />
-              <Button onClick={deleteHandler} variant="contained" color="error">
+              <Button onClick={deleteHandler} color="error">
                 삭제
               </Button>
             </div>

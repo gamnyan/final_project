@@ -78,7 +78,7 @@ const ArticleList = (props) => {
 
   useEffect(() => {
     if (articleCtx.isSuccess) {
-      setAList(articleCtx.page);
+      setAList(articleCtx.page.reverse());
       setMaxNum(articleCtx.totalPages);
     }
   }, [articleCtx]);
@@ -92,7 +92,7 @@ const ArticleList = (props) => {
         <Card className="my-4">
           <Card.Body>
             <Card.Title className="text-center">
-              게시판 대문 - {AList[0].clubName}
+              {AList[0].clubName}
             </Card.Title>
           </Card.Body>
         </Card>
