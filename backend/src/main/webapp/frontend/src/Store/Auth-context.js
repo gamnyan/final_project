@@ -27,6 +27,10 @@ const AuthContext = React.createContext({
 
 export const AuthContextProvider = props => {
   const tokenData = authAction.retrieveStoredToken();
+  // eslint-disable-next-line no-unused-vars
+  const [isGetUpdateSuccess, setIsGetUpdateSuccess] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [member, setMember] = useState();
 
   let initialToken;
   if (tokenData) {
@@ -131,11 +135,38 @@ export const AuthContextProvider = props => {
   };
 
   const changePaswordHandler = (exPassword, newPassword) => {
-    setIsSuccess(false);
+    setIsChangePasswordSuccess(false);
     const data = authAction.changePasswordActionHandler(exPassword, newPassword, token);
     data.then(result => {
       if (result !== null) {
-        setIsSuccess(true);
+        setIsChangePasswordSuccess(true);
+        logoutHandler();
+      }
+    });
+  };
+
+  const changeMemPhotoHandler = (token, file) => {
+    setIsSuccess(false);
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const data = authAction.changePhoto(token, formData);
+
+    data.then(result => {
+      if (result !== null) {
+        console.log(isSuccess);
+      }
+    });
+    setIsSuccess(true);
+  };
+
+  const memberWithdrawHandler = password => {
+    setIsWithdrawSuccess(false);
+    const data = authAction.memberWithdrawActionHandler(password, token);
+    data.then(result => {
+      if (result !== null) {
+        setIsWithdrawSuccess(true);
         logoutHandler();
       }
     });
@@ -148,10 +179,14 @@ export const AuthContextProvider = props => {
   }, [tokenData, logoutHandler]);
 
   const contextValue = {
+    member,
+    isGetUpdateSuccess,
     token,
     userObj,
     isLoggedIn: userIsLoggedIn,
     isSuccess,
+    isChangePasswordSuccess,
+    isWithdrawSuccess,
     isGetSuccess,
     signup: signupHandler,
     sendEmail: sendEmailHandler,
@@ -161,6 +196,8 @@ export const AuthContextProvider = props => {
     getUser: getUserHandler,
     changeNickname: changeNicknameHandler,
     changePassword: changePaswordHandler,
+    changePhoto: changeMemPhotoHandler,
+    memberWithdraw: memberWithdrawHandler,
   };
 
   return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>;

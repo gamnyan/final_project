@@ -1,4 +1,4 @@
-import BootstrapCard from "react-bootstrap/Card"; 
+import BootstrapCard from "react-bootstrap/Card";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import React, { Fragment, useCallback, useContext, useEffect, useState } from "react";
 import AuthContext from "../../Store/Auth-context";
@@ -10,11 +10,10 @@ import ClubPaing from "./ClubPaging";
 import SideNavigation from "../Layout/SideNavigation";
 import ClubJoin from "./Join";
 
-
 const ClubList = props => {
   let navigate = useNavigate();
   const pageId = String(props.item);
-  
+
   const authCtx = useContext(AuthContext);
   const clubCtx = useContext(ClubContxt);
 
@@ -50,13 +49,19 @@ const ClubList = props => {
               {AList.map(item => (
                 <Col xs={3} key={item.clubId}>
                   <BootstrapCard className="club-card">
-                    <BootstrapCard.Img variant="top" src={`http://localhost:80/club/img/${item.clubFilename}`} style={{ width: "100%", height: "auto" }} />
+                    <BootstrapCard.Img
+                      variant="top"
+                      src={`http://localhost:80/club/img/${item.clubFilename}`}
+                      style={{ width: "100%", height: "auto" }}
+                    />
                     <BootstrapCard.Body>
-                      <p style={{ fontSize: "0.8rem", color: "#6c757d" }}>{item.clubCategory}</p> {/* 추가: 작은 글자로 카테고리 표시 */}
+                      <p style={{ fontSize: "0.8rem", color: "#6c757d" }}>{item.clubCategory}</p>{" "}
+                      {/* 추가: 작은 글자로 카테고리 표시 */}
                       <h5>{item.clubName}</h5>
                       <BootstrapCard.Text>{item.clubAddress}</BootstrapCard.Text>
-                      <Button variant="primary" onClick={() => navigate(`/club/${item.clubId}`)}>자세히 보기</Button>
-                    
+                      <Button variant="primary" onClick={() => navigate(`/club/${item.clubId}`)}>
+                        자세히 보기
+                      </Button>
                     </BootstrapCard.Body>
                   </BootstrapCard>
                 </Col>
@@ -64,7 +69,7 @@ const ClubList = props => {
             </Row>
             <div className="my-3">
               {isLogin && (
-                <Link to="/createclub">
+                <Link to="/club/createclub">
                   <Button variant="success">클럽 만들기</Button>
                 </Link>
               )}
