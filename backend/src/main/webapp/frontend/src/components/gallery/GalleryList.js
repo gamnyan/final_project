@@ -1,16 +1,33 @@
 import { Fragment, useCallback, useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import BootStrapTable from "react-bootstrap-table-next";
-import { Button } from "react-bootstrap";
+import { Button, Card, Col, Collapse, Container, Row } from "react-bootstrap";
 import ClubItemNavigation from "../Layout/ClubItemNavigation";
 import AuthContext from "../../Store/Auth-context";
-import GalleryContext from "../../Store/Gallery-context";
+import GalleryContext, {
+  GalleryContextProvider,
+} from "../../Store/Gallery-context";
 import Paging from "./Paging";
+
+import "../../css/gallery.css";
+import Gallery from "./Gallery";
+import GalleryOne from "./GalleryOne";
 
 const GalleryList = (props) => {
   let navigate = useNavigate();
   const pageId = String(props.item);
   const clubId = props.clubId;
+
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const handleCloseModal = () => {
+    setSelectedItem(null);
+    setShowModal(false);
+  }; // handleCloaseModal
+  const handleItemClick = (gallery) => {
+    setSelectedItem(gallery);
+    setShowModal(true);
+  }; // handleItemClick
 
   const columns = [
     {
@@ -61,15 +78,62 @@ const GalleryList = (props) => {
     }
   }, [galleryCtx]);
 
+  const handleImgClick = (id) => {
+    navigate(`/club/${clubId}/gallery/${id}`);
+  };
   return (
     <Fragment>
       <ClubItemNavigation clubId={props.clubId} />
       <br />
-      <BootStrapTable keyField="id" data={GalleryList} columns={columns} />
-      {/* {GalleryList.map((gallery) => {
-        return <div>{gallery.content}</div>;
-      })} */}
-      <h3>fwefew</h3>
+      {/* <BootStrapTable keyField="id" data={GalleryList} columns={columns} /> */}
+      <Container id="gallery-area" className="d-flex justify-content-center">
+        <Row className="gallery-row">
+          {GalleryList.map((gallery, i) => {
+            console.log(gallery);
+            let imgSrc = "";
+            if (gallery.attachment.length !== 0) {
+              imgSrc = `http://localhost:80/club/one/${clubId}/gallery/img/${gallery.attachment[0].storeFilename}`;
+            } else {
+              imgSrc = "";
+            }
+            return (
+              <Fragment key={i}>
+                <Col sm={6} md={4} lg={3}>
+                  <Card style={{ maxWidth: "345px", margin: "15px" }}>
+                    <Card.Body>
+                      <Card.Title>{gallery.nickName}</Card.Title>
+                      <Card.Subtitle className="mb-2 text-muted">
+                        {gallery.createdAt}
+                      </Card.Subtitle>
+                      <div
+                        style={{ minHeight: "300px", maxHeight: "300px" }}
+                        onClick={() => handleItemClick(gallery)}
+                      >
+                        <Card.Img
+                          variant="top"
+                          src={imgSrc}
+                          syle={{
+                            width: "100%",
+                            height: "auto",
+                          }}
+                        />
+                      </div>
+                      <Card.Text>{gallery.content}</Card.Text>
+                      <Button
+                        /* onClick={handleExpandClick} */
+                        onClick={() => handleItemClick(gallery)}
+                        aria-label="show more"
+                      >
+                        Show More
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Fragment>
+            );
+          })}
+        </Row>
+      </Container>
       <div>
         {isLogin && (
           <Link to={`/club/createGallery/${clubId}`} state={{ clubId: clubId }}>
@@ -78,6 +142,13 @@ const GalleryList = (props) => {
         )}
       </div>
       <Paging currentPage={Number(pageId)} maxPage={maxNum} clubId={clubId} />
+
+      {/* modal */}
+      {showModal && selectedItem && (
+        <GalleryContextProvider>
+          <GalleryOne item={selectedItem} onCloseModal={handleCloseModal} />
+        </GalleryContextProvider>
+      )}
     </Fragment>
   );
 }; // GalleryList

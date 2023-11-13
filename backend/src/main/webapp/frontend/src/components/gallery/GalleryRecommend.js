@@ -12,6 +12,7 @@ const GalleryRecommend = (props) => {
 
   let isLogin = authCtx.isLoggedIn;
   const id = String(props.item);
+  console.log(props);
 
   const getContext = useCallback(() => {
     setIsLoading(false);
@@ -63,7 +64,7 @@ const GalleryRecommend = (props) => {
           }}
           onClick={changeGalleryRecommend}
         />
-        <h4>좋아요 {galleryRecommends.galleryRecommendNum}</h4>
+        <span> {galleryRecommends.galleryRecommendNum}</span>
       </div>
     );
   }

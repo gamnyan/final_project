@@ -78,7 +78,9 @@ const ArticleList = (props) => {
 
   useEffect(() => {
     if (articleCtx.isSuccess) {
+
       setAList(articleCtx.page.reverse());
+
       setMaxNum(articleCtx.totalPages);
     }
   }, [articleCtx]);

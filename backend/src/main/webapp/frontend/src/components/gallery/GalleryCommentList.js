@@ -10,12 +10,11 @@ import GalleryCommentContext from "../../Store/GalleryComment-context";
 import GalleryComment from "./GalleryComment";
 
 const GalleryCommentList = (props) => {
+  const [updateGalleryComment, setUpdateGalleryComment] = useState({
+    comment: "",
+  });
 
-  const [updateGalleryComment,setUpdateGalleryComment] = useState({
-    comment:""
-  })
-
-  const [galleryComments, setGalleryComments] = useState();
+  const [galleryComments, setGalleryComments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const galleryCommentRef = useRef(null);
   const authCtx = useContext(AuthContext);
@@ -27,16 +26,16 @@ const GalleryCommentList = (props) => {
   const galleryId = String(props.item);
 
   const getContext = useCallback(() => {
-    setIsLoading(false);
+    //setIsLoading(false);
     isLogin
       ? galleryCommentCtx.getGalleryComments1(galleryId, authCtx.token)
       : galleryCommentCtx.getGalleryComments1(galleryId);
     console.log("get galleryComment");
-  }, [isLogin]);
+  }, [isSuccess]);
 
   useEffect(() => {
     getContext();
-  },[getContext]);
+  }, [getContext]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -68,6 +67,38 @@ const GalleryCommentList = (props) => {
     galleryCommentCtx.deleteGalleryComment(id, galleryId, token);
   }; // fn end deleteGalleryComment
 
+  const commentUpdateHandler = async (updateComment, id) => {
+    //event.preventDefault();
+    const updateGalleryComment = {
+      id: id,
+      comment: updateComment,
+    };
+    const response = galleryCommentCtx.updateGalleryComment(
+      updateGalleryComment,
+      authCtx.token
+    );
+    console.log(response);
+    // const updatedComments = galleryComments.map((item) => {
+    //   if (item.id === id) {
+    //     // 원하는 ID를 찾아 해당 댓글을 수정합니다.
+    //     return { ...item, comment: updateGalleryComment.comment };
+    //   }
+    //   return item; // 다른 댓글은 변경되지 않습니다.
+    // });
+    // setGalleryComments((prevGalleryComments) => [...updatedComments]);
+
+    try {
+      if (response) {
+        console.log("댓글이 성공적으로 수정되었습니다.");
+        setGalleryComments(...galleryComments, updateGalleryComment);
+        console.log(galleryComments);
+        //window.location.reload();
+      }
+    } catch (error) {
+      console.error("댓글 수정 중 오류 발생:", error);
+    }
+  };
+
   let media = <h3>is Loading...</h3>;
 
   if (isLoading && galleryComments) {
@@ -87,6 +118,7 @@ const GalleryCommentList = (props) => {
                 createdAt={comment.createdAt.toString()}
                 isWrite={comment.isWrite}
                 onDelete={deleteGalleryComment}
+                onUpdate={commentUpdateHandler}
               />
             );
           })}
@@ -103,6 +135,7 @@ const GalleryCommentList = (props) => {
         <form onSubmit={createGalleryComment}>
           <label htmlFor="inputName">{authCtx.userObj.nickname}</label>
           <textarea
+            style={{ width: "100%" }}
             name="galleryComment"
             cols={100}
             row={3}

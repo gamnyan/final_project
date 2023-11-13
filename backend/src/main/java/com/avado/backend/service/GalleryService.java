@@ -76,8 +76,10 @@ public class GalleryService {
     try{
     Gallery gallery = galleryRepository.findById(id).orElseThrow(() -> new RuntimeException("갤러리가 없습니다."));
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
     if (authentication == null || authentication.getPrincipal() instanceof AnonymousAuthenticationToken) {
       ClubJoinDto clubJoinDto = getClubJoinDto(gallery.getClub().getId());
+
       return GalleryResponseDto.of2(gallery, false,clubJoinDto);
     } else {
       Member member = memberRepository.findById(Long.parseLong(authentication.getName())).orElseThrow();
@@ -95,7 +97,7 @@ public class GalleryService {
       GalleryResponseDto responseDto = new GalleryResponseDto();
       responseDto.setErrorMessage(e.getMessage()); // 에러 메시지 설정
       return responseDto;
-  } // if end
+    } // if end
   } // findOne
 
   private ClubJoinDto getClubJoinDto(Long clubId) {

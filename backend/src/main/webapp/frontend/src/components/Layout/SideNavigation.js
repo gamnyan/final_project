@@ -35,6 +35,7 @@ const SideNavigation = ({ onCategoryChange, onAddressChange }) => {
   };
 
   return (
+
     <Fragment>
       <Navbar style={{ marginTop: "100px" }}>
         <SideUl style={{ padding: "70px 0", paddingLeft: "30px" }}>
@@ -91,6 +92,7 @@ const SideNavigation = ({ onCategoryChange, onAddressChange }) => {
         </SideUl>
       </Navbar>
     </Fragment>
+
   );
 };
 

@@ -1,4 +1,6 @@
+
 import React, { Fragment, useCallback, useContext, useEffect, useState } from "react";
+
 import AuthContext from "../../Store/Auth-context";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
@@ -70,7 +72,9 @@ const ClubList = (props) => {
           </Col>
           <Col xs={10}>
             <Row className="card-container">
-              {clubList.map((item) => (
+
+              {AList.map((item) => (
+
                 <Col xs={3} key={item.clubId}>
                   <BootstrapCard className="club-card">
                     <BootstrapCard.Img
@@ -79,6 +83,7 @@ const ClubList = (props) => {
                       style={{ width: "100%", height: "auto" }}
                     />
                     <BootstrapCard.Body>
+
                       <p style={{ fontSize: "0.8rem", color: "#6c757d" }}>{item.clubCategory}</p>
                       <h5>{item.clubName}</h5>
                       <BootstrapCard.Text>{item.clubAddress}</BootstrapCard.Text>
@@ -93,6 +98,7 @@ const ClubList = (props) => {
                         /* onClick={() => changeClubjoin(item.clubId)} */
                       />{item.clubjoin && <span>{item.clubjoin.joinedNum}</span>}
                       <Button variant="primary" onClick={() => navigate(`/club/${item.clubId}`)}>자세히 보기</Button>
+
                     </BootstrapCard.Body>
                   </BootstrapCard>
                 </Col>

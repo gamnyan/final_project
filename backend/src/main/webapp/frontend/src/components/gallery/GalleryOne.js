@@ -13,14 +13,18 @@ const GalleryOne = (props) => {
   const galleryCtx = useContext(GalleryContext);
 
   let isLogin = authCtx.isLoggedIn;
-  const id = String(props.item);
+  const id = String(props.item.id);
 
   // deleteHandle
   const deleteHandler = (id) => {
     galleryCtx.deleteGallery(authCtx.token, id);
     alert("삭제되었습니다.");
-    navigate(`/club/${props.clubId}/gallery/page/1`);
+    //navigate(`/club/${props.item.clubId}/gallery/page/1`);
+    window.location.reload();
   }; // fn end deleteHandle
+  const closeModalHandler = () => {
+    props.onCloseModal();
+  };
 
   const getContext = useCallback(() => {
     setIsLoading(false);
@@ -45,15 +49,25 @@ const GalleryOne = (props) => {
       galleryCtx.isError &&
       galleryCtx.errorMessage === "해당 게시글을 읽을 권한이 없습니다."
     ) {
-      alert("클럽에 가입해 주세요1");
+
+      alert("클럽에 가입해 주세요.");
+
       navigate(`/club/clubpage/1`);
     }
   }, [galleryCtx.isError, galleryCtx.errorMessage, navigate]);
 
   let content = <p>Loading</p>;
 
+  console.log(gallery);
+
   if (isLoading && gallery) {
-    content = <Gallery item={gallery} onDelete={deleteHandler} />;
+    content = (
+      <Gallery
+        item={gallery}
+        onDelete={deleteHandler}
+        onCloseModal={closeModalHandler}
+      />
+    );
   } // if end
   return <div>{content}</div>;
 }; // GalleryOne

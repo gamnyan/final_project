@@ -21,6 +21,7 @@ export const getOneGalleryWithImg = (param, token) => {
   const URL = `/club/one/${param}/gallery/feed?id=${param}`;
   if (!token) {
     const response = GET(URL, {});
+    console.log(response);
     return response;
   } else {
     const response = GET(URL, createTokenHeader(token));

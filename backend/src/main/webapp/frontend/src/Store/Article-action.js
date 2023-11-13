@@ -27,10 +27,10 @@ export const getMyClubArticle =(clubId,token) => {
 }
 
 export const getPageList = (clubId, pageId) => {
-  const URL = `/club/one/${clubId}/article/page?page=${pageId}`
-  const response = GET(URL, {})
-  return response
-}
+  const URL = `/club/one/${clubId}/article/page?page=${pageId}`;
+  const response = GET(URL, {});
+  return response;
+};
 
 export const getOneArticleWithImg = (param, token) => {
   //const URL = "/club/one/1/article/oneone?id=" + param

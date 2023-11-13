@@ -23,47 +23,58 @@ export const GalleryContextProvider = (props) => {
   const [gallery, setGallery] = useState();
   const [page, setPage] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
-  const [isSuccess, SetIsSuccess] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [isGetUpdateSuccess, setIsGetUpdateSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   // 갤러리 리스트 목록
   const getGalleryPageHandler = async (clubId, pageId) => {
-    SetIsSuccess(false);
+    setIsSuccess(false);
     const data = await galleryAction.getGalleryPageList(clubId, pageId);
     const page = data?.data.content;
     const pages = data?.data.totalPages;
     setPage(page);
     setTotalPages(pages);
-    SetIsSuccess(true);
+    setIsSuccess(true);
   }; // getGalleryPageHandler
 
   // 특정 갤러리 조회
   const getGalleryHandler = (clubId, param, token) => {
-    SetIsSuccess(false);
+    setIsSuccess(false);
+    setIsError(false); // 에러 상태 초기화
+    setErrorMessage(""); // 에러 메시지 초기화
     const data = token
       ? galleryAction.getOneGalleryWithImg(clubId, param, token)
       : galleryAction.getOneGalleryWithImg(clubId, param);
-    data.then((result) => {
-      if (result !== null) {
-        const gallery = result.data;
-        setGallery(gallery);
-        SetIsSuccess(true);
-      }else{
-        // 만약 result가 null이면 에러가 발생한 것입니다.
+
+    data
+      .then((result) => {
+        if (result !== null) {
+          const gallery = result.data;
+          setGallery(gallery);
+          setIsSuccess(true);
+        } else {
+          setIsError(true);
+          setErrorMessage("해당 게시글을 읽을 권한이 없습니다.");
+        }
+      })
+      .catch((error) => {
         setIsError(true);
-        setErrorMessage("해당 게시글을 읽을 권한이 없습니다.");
-      }
-    }).catch(error => {
-      setIsError(true);
-      setErrorMessage(error.message);
-    })
+        setErrorMessage(error.message);
+      });
+    setIsSuccess(true);
+
+   
+
   }; // getGalleryHandler
 
   // 갤러리 생성
   const createGalleryHandler = (gallery, token, files) => {
-    SetIsSuccess(false);
+    setIsSuccess(false);
     const formData = new FormData();
     formData.append("clubId", gallery.clubId);
     formData.append("content", gallery.content);
@@ -85,7 +96,7 @@ export const GalleryContextProvider = (props) => {
         console.log(isSuccess);
       } // if end
     });
-    SetIsSuccess(true);
+    setIsSuccess(true);
   }; // createGalleryHandler
 
   // 갤러리 수정(불러오기)
@@ -108,7 +119,7 @@ export const GalleryContextProvider = (props) => {
 
   // 갤러리 수정
   const updateGalleryHandler = (gallery, token, files) => {
-    SetIsSuccess(false);
+    setIsSuccess(false);
 
     const formData = new FormData();
     formData.append("content", gallery.content);
@@ -130,19 +141,19 @@ export const GalleryContextProvider = (props) => {
         console.log(isSuccess);
       }
     });
-    SetIsSuccess(true);
+    setIsSuccess(true);
   }; // updateGalleryHandler
 
   // 갤러리 삭제
   const deleteGalleryHandler = (token, param) => {
-    SetIsSuccess(false);
+    setIsSuccess(false);
 
     const data = galleryAction.deleteGallery(token, param);
     data.then((result) => {
       if (result !== null) {
       } // if end
     });
-    SetIsSuccess(true);
+    setIsSuccess(true);
   }; // deleteGalleryHandler
 
   const contextValue = {

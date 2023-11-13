@@ -1,0 +1,36 @@
+@import "./style.scss";
+
+#gallery-area {
+  margin: 50px 0;
+  .gallery-row {
+    margin: 0 auto;
+  } // .gallery-row
+  .cardAction {
+    /*     padding: 10px 20px; */
+    /*     display: flex;
+    justify-content: space-between; */
+  }
+} // gallery-area
+
+#galleryItem-area {
+  z-index: 10;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(#000, 0.7);
+  .galleryItem {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+
+    .createdAt {
+      font-size: 14px;
+      font-weight: normal;
+    }
+  } // .galleryItem
+} // #galleryItem-area

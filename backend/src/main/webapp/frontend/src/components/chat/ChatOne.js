@@ -16,6 +16,8 @@ import { Col, Container } from "react-bootstrap";
 import axios from "axios";
 import ClubItemNavigation from "../Layout/ClubItemNavigation";
 
+import "../../css/chat.css";
+
 const ChatOne = (props) => {
   let navigate = useNavigate();
   const [chatRoom, setChatRoom] = useState({});
@@ -45,6 +47,11 @@ const ChatOne = (props) => {
       ? chatCtx.getChatMessages(roomId, authCtx.token)
       : chatCtx.getChatMessages(roomId); */
 
+    if (!isLogin) {
+      alert("로그인이 필요한 서비스 입니다..");
+      navigate(`/login`);
+    }
+
     if (isLogin) {
       axios
         .get(`/chat/room/${roomId}`, {
@@ -53,6 +60,10 @@ const ChatOne = (props) => {
           },
         })
         .then((res) => {
+          if (!res.data.id) {
+            alert("클럽에 가입해 주세요");
+            navigate("/club/clubpage/1");
+          }
           setChatRoom(res.data);
         }); // axios.get end
       axios
@@ -158,28 +169,35 @@ const ChatOne = (props) => {
 
   let content = <p>Loading</p>;
 
-  console.log(chatRoom);
-
   return (
     <Fragment>
       <Col xs={12}>
         <ClubItemNavigation clubId={props.clubId} />
         <h2>{chatRoom && chatRoom.roomName}</h2>
         <div className="content">
-          <div className="">
-            {messages &&
-              messages.map((message, index) => (
-                <div key={index}>
-                  {message.enter && (
-                    <div>{message.enter}님이 입장하셨습니다!</div>
-                  )}
-                  <div>
-                    {message.writer}님의 메세지: {message.message} /{" "}
-                    {message.date}
+          <Container>
+            <div className="message-container">
+              {messages &&
+                messages.map((message, index) => (
+                  <div
+                    key={index}
+                    className={
+                      message.enter ? "enter-message" : "regular-message"
+                    }
+                  >
+                    {message.enter && (
+                      <div className="enter-message">
+                        {message.enter}님이 입장하셨습니다!
+                      </div>
+                    )}
+                    <div>
+                      <span className="message-sender">{message.writer}:</span>{" "}
+                      {message.message} / {message.date}
+                    </div>
                   </div>
-                </div>
-              ))}
-          </div>
+                ))}
+            </div>
+          </Container>
         </div>
 
         <div className="input">

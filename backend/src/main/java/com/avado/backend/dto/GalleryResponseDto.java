@@ -49,7 +49,7 @@ public class GalleryResponseDto {
     return rtn;
   } // of
 
-  public static GalleryResponseDto of2(Gallery gallery, Boolean isWrite,ClubJoinDto clubJoinDto) {
+  public static GalleryResponseDto of2(Gallery gallery, Boolean isWrite, ClubJoinDto clubJoinDto) {
     GalleryResponseDto rtn = GalleryResponseDto.builder()
       .id(gallery.getId())
       .memberId(gallery.getMember().getId())
@@ -72,6 +72,11 @@ public class GalleryResponseDto {
   } // of2
 
   public static GalleryResponseDto load(Gallery gallery) {
+    List<AttachmentDto> attachmentDtos = new ArrayList<>();
+    for (Attachment a : gallery.getAttachedFiles()) {
+      attachmentDtos.add(AttachmentDto.convertToDto(a));
+    } // for end
+
     return GalleryResponseDto.builder()
       .id(gallery.getId())
       .memberId(gallery.getMember().getId())
@@ -80,6 +85,7 @@ public class GalleryResponseDto {
       .content(gallery.getContent())
       .viewCount(gallery.getViewCount())
       .createdAt(gallery.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+      .attachment(attachmentDtos)
       .build();
   } // load
 

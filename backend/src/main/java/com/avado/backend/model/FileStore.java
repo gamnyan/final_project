@@ -16,9 +16,9 @@ import com.avado.backend.model.Attachment.AttachmentType;
 
 @Component
 public class FileStore {
-	@Value("C:\\Temp\\img/")
+	@Value("/Users/diaz/java/Temp/img/")
 	private String fileDirPath;
-	String uploadDir = "C:\\Temp\\img/";
+	String uploadDir = "/Users/diaz/java/Temp/img/";
 	
 	public List<Attachment> storeFiles(List<MultipartFile> multipartFiles,AttachmentType attachmentType) throws IOException{
 		List<Attachment> attachments = new ArrayList<>();
