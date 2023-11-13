@@ -57,7 +57,7 @@ const HomeSection3 = (props) => {
 
   useEffect(() => {
     if (galleryCtx.isSuccess) {
-      setGalleryList(galleryCtx.page);
+      setGalleryList(galleryCtx.page.reverse());
       setMaxNum(galleryCtx.totalPages);
     }
   }, [galleryCtx]);
@@ -70,14 +70,14 @@ const HomeSection3 = (props) => {
         return <div>{gallery.content}</div>;
       })} */}
       
-      <div>
+      {/* <div>
         {isLogin && (
           <Link to={`/club/createGallery/${clubId}`} state={{ clubId: clubId }}>
             <Button>갤러리 게시</Button>
           </Link>
         )}
-      </div>
-      <Paging currentPage={Number(pageId)} maxPage={maxNum} clubId={clubId} />
+      </div> */}
+      {/* <Paging currentPage={Number(pageId)} maxPage={maxNum} clubId={clubId} /> */}
     </Fragment>
   );
   

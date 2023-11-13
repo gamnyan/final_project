@@ -77,7 +77,7 @@ const HomeSection2 = (props) => {
 
   useEffect(() => {
     if (articleCtx.isSuccess) {
-      setAList(articleCtx.page.slice(0, 10));
+      setAList(articleCtx.page.slice(0, 10).reverse());
       setMaxNum(articleCtx.totalPages);
     }
   }, [articleCtx]);
@@ -101,14 +101,14 @@ const HomeSection2 = (props) => {
       {/* Display the table */}
       <BootStrapTable keyField="id" data={AList} columns={columns} />
 
-      <div className="text-center mt-3">
+      {/* <div className="text-center mt-3">
         {isLogin && (
           <Link to={`/club/createarticle/${clubId}`} state={{ clubId: clubId }}>
             <Button>글 작성</Button>
           </Link>
         )}
-      </div>
-      <Paging currentPage={Number(pageId)} maxPage={maxNum} clubId={clubId} />
+      </div> */}
+      {/* <Paging currentPage={Number(pageId)} maxPage={maxNum} clubId={clubId} /> */}
     </div>
   );
 };
