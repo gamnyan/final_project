@@ -1,0 +1,36 @@
+#gallery-area {
+  margin: 50px 0;
+}
+#gallery-area .gallery-row {
+  margin: 0 auto;
+  display: block;
+  width: 100%;
+  /* justify-content: space-between; */
+}
+#gallery-area .cardAction {
+  /*     padding: 10px 20px; */
+  /*     display: flex;
+  justify-content: space-between; */
+}
+
+#galleryItem-area {
+  z-index: 101;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+}
+#galleryItem-area .galleryItem {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+}
+#galleryItem-area .galleryItem .createdAt {
+  font-size: 14px;
+  font-weight: normal;
+}/*# sourceMappingURL=gallery.css.map */
