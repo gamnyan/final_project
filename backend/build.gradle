@@ -88,42 +88,40 @@ sourceSets{
     }
 }
 
-
 // 안켜지면 아래코드 전부 주석처리 후 터미널에서 ./gradlew build 실행 후 시작
-/* processResources{
+processResources{
   dependsOn "copyReactBuildFiles"
-} */
+}
 
-// task installReact(type:Exec){
-//     //workingDir "$reactDir"
-//     workingDir "/Users/tj/.eclipse/workspace/final_project/backend/src/main/webapp/frontend"
-//     inputs.dir "$reactDir"
-//     group = BasePlugin.BUILD_GROUP
+task installReact(type:Exec){
+    workingDir "$reactDir"
+    inputs.dir "$reactDir"
+    group = BasePlugin.BUILD_GROUP
     
-//     if(System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')){
-//         //commandLine "cmd", "/c", "npm", "audit", "fix"
-//         commandLine "cmd", "/c", 'npm.cmd', 'install', '--force'
-//     }else{
-//         //commandLine "npm", "audit", "fix"
-//         commandLine "cmd", "/c", 'npm.cmd', 'install', '--force'
-//     }
-// }
+    if(System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')){
+        commandLine "npm.cmd", "audit", "fix"
+        commandLine 'npm.cmd', 'install', '--force'
+    }else{
+        commandLine "npm", "audit", "fix"
+        commandLine 'npm', 'install', '--force'
+    }
+}
 
-// task buildReact(type:Exec){
-//   dependsOn "installReact"
-//   workingDir "$reactDir"
-//   inputs.dir "$reactDir"
-//   group = BasePlugin.BUILD_GROUP
+task buildReact(type:Exec){
+  dependsOn "installReact"
+  workingDir "$reactDir"
+  inputs.dir "$reactDir"
+  group = BasePlugin.BUILD_GROUP
   
-//   if(System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')){
-//     commandLine "npm.cmd", "run-script", "build"
-//   }else{
-//     commandLine "npm", "run-script", "build"
-//   }
-// }
+  if(System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')){
+    commandLine "npm.cmd", "run-script", "build"
+  }else{
+    commandLine "npm", "run-script", "build"
+  }
+}
 
-// task copyReactBuildFiles(type:Copy){
-//   dependsOn "buildReact"
-//   from "$reactDir/build"
-//   into "$projectDir/src/main/resources/static"
-// }
+task copyReactBuildFiles(type:Copy){
+  dependsOn "buildReact"
+  from "$reactDir/build"
+  into "$projectDir/src/main/resources/static"
+}

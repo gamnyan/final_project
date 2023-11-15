@@ -43,18 +43,24 @@ public class WebSecurityConfig {
                                 .exceptionHandling(handling -> handling
                                                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                                                 .accessDeniedHandler(jwtAccessDeniedHandler))
-                    .authorizeHttpRequests(requests -> requests
-                                .requestMatchers("/ws/chat/**").permitAll()
-                .requestMatchers("/chat/**").permitAll()
+                                .authorizeHttpRequests(requests -> requests
+                                                .requestMatchers("/ws/chat/**").permitAll()
+                                                .requestMatchers("/chat/**").permitAll()
                                                 .requestMatchers("/auth/**", "/article/**", "/recommend/**",
-                                                                "/comment/**", "/img/**", "/club/**", "/clubjoin/**", "/gallery/comment/**", "/galleryRecommend/**")
+                                                                "/comment/**", "/img/**", "/club/**", "/clubjoin/**",
+                                                                "/gallery/comment/**", "/galleryRecommend/**")
                                                 .permitAll()
                                                 .requestMatchers("/article/img/**").permitAll()
-                                                .requestMatchers("/member/**", "/member/withdraw").permitAll() // 엔드포인트 추가 구글 때문에
+                                                .requestMatchers("/member/**", "/member/withdraw").permitAll() // 엔드포인트
+                                                                                                               // 추가 구글
+                                                                                                               // 때문에
                                                 .requestMatchers(
                                                                 "/member/check-email")
                                                 .permitAll()
                                                 .requestMatchers("/gallery/**").permitAll()
+                                                .requestMatchers("/", "/index.html", "/static/**", "/manifest.json",
+                                                                "/favicon.ico")
+                                                .permitAll()
                                                 .anyRequest().authenticated())
                                 .apply(new JwtSecurityConfig(tokenProvider));
                 log.info("jwt: "); // .oauth2Login()
