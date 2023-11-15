@@ -29,37 +29,40 @@ public class GalleryController {
 
   public final GalleryService galleryService;
   private final AttachmentService attachmentService;
-  
+
   // 갤러리 목록
   @GetMapping("/page")
   @ResponseBody
-  public ResponseEntity<Page<GalleryResponseDto>> getGalleryListByClub(@PathVariable("clubId") Long clubId, @RequestParam(name = "page") int page) {
+  public ResponseEntity<Page<GalleryResponseDto>> getGalleryListByClub(@PathVariable("clubId") Long clubId,
+      @RequestParam(name = "page") int page) {
     return ResponseEntity.ok(galleryService.pageGalleryByClub(clubId, page));
   } // pageGallery
 
   // 특정 갤러리 조회
-  /* @GetMapping("/feed")
-  @ResponseBody
-  public ResponseEntity<GalleryResponseDto> getGallery(@RequestParam("id") Long galleryid) {
-    return ResponseEntity.ok(galleryService.findOne(galleryid));
-  }  */// getGellery
+  /*
+   * @GetMapping("/feed")
+   * 
+   * @ResponseBody
+   * public ResponseEntity<GalleryResponseDto> getGallery(@RequestParam("id") Long
+   * galleryid) {
+   * return ResponseEntity.ok(galleryService.findOne(galleryid));
+   * }
+   */// getGellery
 
   @GetMapping("/feed")
   @ResponseBody
   public ResponseEntity<GalleryResponseDto> getGallery(@RequestParam("id") Long galleryid) {
     try {
-        GalleryResponseDto responseDto = galleryService.findOne(galleryid);
-        if (responseDto.getErrorMessage() != null) {
-            return ResponseEntity.ok().body(responseDto); // 200 OK로 설정
-        }
-        return ResponseEntity.ok(responseDto);
+      GalleryResponseDto responseDto = galleryService.findOne(galleryid);
+      if (responseDto.getErrorMessage() != null) {
+        return ResponseEntity.ok().body(responseDto); // 200 OK로 설정
+      }
+      return ResponseEntity.ok(responseDto);
     } catch (Exception e) {
-        e.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+      e.printStackTrace();
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
-}
-
-
+  }
 
   // 이미지 로딩
   @GetMapping("/img/{storeFilename}")
@@ -78,9 +81,9 @@ public class GalleryController {
   @PostMapping("/uploadimg")
   @ResponseBody
   public ResponseEntity<GalleryResponseDto> createGalleryHasImg(
-    @PathVariable Long clubId,
-    @ModelAttribute GalleryRequestDto galleryRequestDto, 
-    @RequestPart(name = "files", required = false) List<MultipartFile> files) {
+      @PathVariable Long clubId,
+      @ModelAttribute GalleryRequestDto galleryRequestDto,
+      @RequestPart(name = "files", required = false) List<MultipartFile> files) {
     try {
       // 갤러리 생성
       System.out.println(files);
@@ -88,14 +91,15 @@ public class GalleryController {
       gallery.setContent(galleryRequestDto.getContent());
       galleryService.createGallery(gallery, clubId);
       // 파일 저장
-      // /Users/diaz/java/Temp/img/
-      // C:\\Temp\\img
-      String uploadDir = "/Users/diaz/java/Temp/img/";
+      List<String> macAndWin = new ArrayList<>();
+      macAndWin.add("/Users/diaz/java/Temp/img/");
+      macAndWin.add("C:/Temp/img/");
+      String uploadDir = macAndWin.get(1);
       if (files != null && !files.isEmpty()) {
-              System.out.println(files);
+        System.out.println(files);
 
-              for (MultipartFile file : files) {
-                System.out.println(file);
+        for (MultipartFile file : files) {
+          System.out.println(file);
 
           String originalFilename = file.getOriginalFilename();
           String storeFilename = gallery.getId() + "_" + originalFilename;
@@ -114,17 +118,18 @@ public class GalleryController {
       } // if end
       return ResponseEntity.ok(GalleryResponseDto.of(gallery, true));
     } catch (IOException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-		}
+      e.printStackTrace();
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    }
   } // createGalleryHasImg
-  
+
   // @GetMapping("/change")
   // @ResponseBody
-  // public ResponseEntity<GalleryResponseDto> changeGallery(@PathVariable("galleryid") Long id) {
-  //   return ResponseEntity.ok(galleryService.findOne(id));
+  // public ResponseEntity<GalleryResponseDto>
+  // changeGallery(@PathVariable("galleryid") Long id) {
+  // return ResponseEntity.ok(galleryService.findOne(id));
   // } // changeGallery
-  
+
   @GetMapping("/changef")
   @ResponseBody
   public ResponseEntity<GalleryResponseDto> changeGalleryHasImg(@RequestParam(name = "id") Long id) {
@@ -141,15 +146,16 @@ public class GalleryController {
   @PutMapping("/change")
   @ResponseBody
   public ResponseEntity<GalleryResponseDto> changeGallery(
-    @ModelAttribute GalleryRequestDto galleryRequestDto, 
+      @ModelAttribute GalleryRequestDto galleryRequestDto,
       @RequestPart(name = "files", required = false) List<MultipartFile> files) {
     try {
       Gallery gallery = galleryService.changeGalleryF(galleryRequestDto.getId(), galleryRequestDto.getContent());
 
       // 파일 저장
-      // /Users/diaz/java/Temp/img/
-      // C:\\Temp\\img
-      String uploadDir = "/Users/diaz/java/Temp/img/";
+      List<String> macAndWin = new ArrayList<>();
+      macAndWin.add("/Users/diaz/java/Temp/img/");
+      macAndWin.add("C:/Temp/img/");
+      String uploadDir = macAndWin.get(1);
       if (files != null && !files.isEmpty() && !files.get(0).isEmpty()) {
         attachmentService.deleteAttachmentsByGalleryId(galleryRequestDto.getId());
         for (MultipartFile file : files) {

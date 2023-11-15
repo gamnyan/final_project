@@ -49,51 +49,51 @@ public class ClubController {
 	private final ClubJoinService clubJoinService;
 	private final ChatService chatService;
 
-
 	@GetMapping("/myClubs")
-    public ResponseEntity<List<ClubPageResponseDto>> getMyClubs() {
-        try {
-           Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
-				.orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+	public ResponseEntity<List<ClubPageResponseDto>> getMyClubs() {
+		try {
+			// Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+			// .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
 
-            // 현재 로그인한 멤버가 가입한 클럽 리스트를 가져옵니다.
-            List<ClubPageResponseDto> myClubs = clubService.getClubsOfCurrentUser();
+			// 현재 로그인한 멤버가 가입한 클럽 리스트를 가져옵니다.
+			List<ClubPageResponseDto> myClubs = clubService.getClubsOfCurrentUser();
 
-            return ResponseEntity.ok(myClubs);
-        } catch (RuntimeException e) {
-            // 로그인하지 않은 사용자에 대한 처리
-            // 예: 빈 페이지를 반환하거나, 모든 클럽을 보여줄 수 있음
-            return ResponseEntity.ok(clubService.allClub2());
-        }
-    }
-
-	/* @GetMapping("/page")
-	public ResponseEntity<Page<ClubPageResponseDto>> pageClub(@RequestParam(name = "page") int page) {
-		return ResponseEntity.ok(clubService.pageClub(page));
-	} */
-// memberId 얻는 로직과 클럽 페이지를 가져오는 로직을 합친 코드
-@GetMapping("/page")
-public ResponseEntity<Page<ClubPageResponseDto>> pageClub(@RequestParam(name = "page") int page) {
-	try {
-		Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
-				.orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
-	
-		// 여기서부터는 로그인한 사용자에 대한 처리를 할 수 있음
-		// 예: 가입한 클럽 표시 등
-		// ...
-	
-		// 클럽 페이지를 가져오는 로직
-		Page<ClubPageResponseDto> clubPage = clubService.pageClub(page, member.getId());
-		return ResponseEntity.ok(clubPage);
-	} catch (RuntimeException e) {
-		// 로그인하지 않은 사용자에 대한 처리
-		// 예: 빈 페이지를 반환하거나, 모든 클럽을 보여줄 수 있음
-		return ResponseEntity.ok(clubService.pageClub2(page));
+			return ResponseEntity.ok(myClubs);
+		} catch (RuntimeException e) {
+			// 로그인하지 않은 사용자에 대한 처리
+			// 예: 빈 페이지를 반환하거나, 모든 클럽을 보여줄 수 있음
+			return ResponseEntity.ok(clubService.allClub2());
+		}
 	}
-	
-}
 
+	/*
+	 * @GetMapping("/page")
+	 * public ResponseEntity<Page<ClubPageResponseDto>> pageClub(@RequestParam(name
+	 * = "page") int page) {
+	 * return ResponseEntity.ok(clubService.pageClub(page));
+	 * }
+	 */
+	// memberId 얻는 로직과 클럽 페이지를 가져오는 로직을 합친 코드
+	@GetMapping("/page")
+	public ResponseEntity<Page<ClubPageResponseDto>> pageClub(@RequestParam(name = "page") int page) {
+		try {
+			Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+					.orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
 
+			// 여기서부터는 로그인한 사용자에 대한 처리를 할 수 있음
+			// 예: 가입한 클럽 표시 등
+			// ...
+
+			// 클럽 페이지를 가져오는 로직
+			Page<ClubPageResponseDto> clubPage = clubService.pageClub(page, member.getId());
+			return ResponseEntity.ok(clubPage);
+		} catch (RuntimeException e) {
+			// 로그인하지 않은 사용자에 대한 처리
+			// 예: 빈 페이지를 반환하거나, 모든 클럽을 보여줄 수 있음
+			return ResponseEntity.ok(clubService.pageClub2(page));
+		}
+
+	}
 
 	@PostMapping("/create")
 	public ResponseEntity<ClubResponseDto> createClub(@ModelAttribute ClubCreateRequestDto requestDto,

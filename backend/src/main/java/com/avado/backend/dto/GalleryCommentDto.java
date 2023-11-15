@@ -1,11 +1,10 @@
 package com.avado.backend.dto;
 
-
 import java.time.format.DateTimeFormatter;
 
-import com.avado.backend.model.Gallery;
+// import com.avado.backend.model.Gallery;
 import com.avado.backend.model.GalleryComment;
-import com.avado.backend.model.Member;
+// import com.avado.backend.model.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,17 +25,17 @@ public class GalleryCommentDto {
 
   public static GalleryCommentDto of(GalleryComment galleryComment, Boolean isWrite) {
     return GalleryCommentDto.builder()
-    .id(galleryComment.getId())
-    .galleryId(galleryComment.getGallery().getId())
-    .memberNickname(galleryComment.getMember().getNickname())
-    .comment(galleryComment.getComment())
-    .createdAt(galleryComment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-    .isWrite(isWrite)
-    .build();
+        .id(galleryComment.getId())
+        .galleryId(galleryComment.getGallery().getId())
+        .memberNickname(galleryComment.getMember().getNickname())
+        .comment(galleryComment.getComment())
+        .createdAt(galleryComment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+        .isWrite(isWrite)
+        .build();
   } // of
 
   // public static GalleryCommentDto load(GalleryComment galleryComment) {
-  //   return GalleryCommentDto.builder()
+  // return GalleryCommentDto.builder()
 
   // } // load
 } // GalleryCommentDto

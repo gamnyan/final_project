@@ -73,7 +73,6 @@ public class Article {
     @JoinColumn(name = "club_id")
     private Club club;
 
-
     public static Article changeArticle(Article article, String title, String content/* , String filename */) {
         article.title = title;
         article.content = content;
@@ -81,8 +80,5 @@ public class Article {
 
         return article;
     }
-   
-
-   
 
 }
