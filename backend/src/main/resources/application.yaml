@@ -1,16 +1,17 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost:9092/~/java/h2/data/avadodb
+    # url: jdbc:h2:tcp://localhost:9092/~/java/h2/data/avadodb # macAndWin[0]
+    url: jdbc:h2:tcp://localhost/C:/Java/H2/data/avadodb # macAndWin[1]
     username: avado
     password: avado
     driver-class-name: org.h2.Driver
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     properties:
       hibernate:
-        ddl-auto: create-drop
+        ddl-auto: validate
       properties:
         hibernate:
           "[format_sql]": true
@@ -61,4 +62,7 @@ server:
   port: 80
 
 file:
-  dir: /Users/diaz/java/Temp
+  dir: C:/Temp # macAndWin[1]
+  # dir: /Users/diaz/java/Temp # macAndWin[0]
+
+  # upload-dir: /Users/diaz/java/Temp/img/

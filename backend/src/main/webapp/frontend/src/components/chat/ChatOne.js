@@ -1,11 +1,5 @@
-import React, {
-  Fragment,
-  useState,
-  useContext,
-  useEffect,
-  useCallback,
-  useRef,
-} from "react";
+/* eslint-disable no-unused-vars */
+import React, { Fragment, useState, useContext, useEffect, /*useCallback,*/ useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Client } from "@stomp/stompjs";
 import ChatContext from "../../Store/Chat-context";
@@ -18,7 +12,7 @@ import ClubItemNavigation from "../Layout/ClubItemNavigation";
 
 import "../../css/chat.css";
 
-const ChatOne = (props) => {
+const ChatOne = props => {
   let navigate = useNavigate();
   const [chatRoom, setChatRoom] = useState({});
   const [messages, setMessages] = useState([]);
@@ -59,7 +53,7 @@ const ChatOne = (props) => {
             Authorization: "Bearer " + authCtx.token,
           },
         })
-        .then((res) => {
+        .then(res => {
           if (!res.data.id) {
             alert("클럽에 가입해 주세요");
             navigate("/club/clubpage/1");
@@ -72,33 +66,35 @@ const ChatOne = (props) => {
             Authorization: "Bearer " + authCtx.token,
           },
         })
-        .then((res) => {
+        .then(res => {
           setMessages(res.data);
         });
+
+      const macAndWin = ["ws://192.168.40.98/ws/chat", "ws://localhost:80/ws/chat"];
 
       clientRef.current = new Client({
         // localhost로 하면 본인 웹에서만 실시간 채팅 가능
         // 본인의 ip주소로 했을 시 해당 ip로 접속했을 때 채팅 가능
-        brokerURL: "ws://192.168.40.98/ws/chat",
+        brokerURL: macAndWin[1],
         /* brokerURL: "ws://192.168.40.98/ws/chat", */
       });
 
       console.log(clientRef.current);
 
       // onConnect
-      clientRef.current.onConnect = (frame) => {
-        clientRef.current.subscribe(`/topic/chat/room/${roomId}`, (message) => {
+      clientRef.current.onConnect = frame => {
+        clientRef.current.subscribe(`/topic/chat/room/${roomId}`, message => {
           const response = JSON.parse(message.body);
           console.log("Response:", response);
-          setMessages((prevMessages) => [...prevMessages, response]);
+          setMessages(prevMessages => [...prevMessages, response]);
         });
       }; // onConnect end
 
-      clientRef.current.onWebSocketError = (error) => {
+      clientRef.current.onWebSocketError = error => {
         console.error("Error with websocket", error);
       }; // onWebSocketError end
 
-      clientRef.current.onStompError = (frame) => {
+      clientRef.current.onStompError = frame => {
         console.error("Broker reported error: " + frame.headers["message"]);
         console.error("Additional details: " + frame.body);
       };
@@ -110,6 +106,7 @@ const ChatOne = (props) => {
         clientRef.current.deactivate(); // 열리는 중이면 닫기 전까지 잠시 기다려줌.
       }; // activate end
     } // if end
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 현재 시각 포맷 fn
@@ -120,17 +117,11 @@ const ChatOne = (props) => {
       "-" +
       (nowDate.getMonth() + 1) +
       "-" + */
-      nowDate.getDate() +
-      " " +
-      nowDate.getHours() +
-      ":" +
-      nowDate.getMinutes() +
-      ":" +
-      nowDate.getSeconds();
+      nowDate.getDate() + " " + nowDate.getHours() + ":" + nowDate.getMinutes() + ":" + nowDate.getSeconds();
     return timeStamp;
   }; // fn timeStamp end
 
-  const keyPress = (e) => {
+  const keyPress = e => {
     if (e.key === "Enter") {
       sendMessage();
     }
@@ -187,20 +178,10 @@ const ChatOne = (props) => {
             <div className="message-container">
               {messages &&
                 messages.map((message, index) => (
-                  <div
-                    key={index}
-                    className={
-                      message.enter ? "enter-message" : "regular-message"
-                    }
-                  >
-                    {message.enter && (
-                      <div className="enter-message">
-                        {message.enter}님이 입장하셨습니다!
-                      </div>
-                    )}
+                  <div key={index} className={message.enter ? "enter-message" : "regular-message"}>
+                    {message.enter && <div className="enter-message">{message.enter}님이 입장하셨습니다!</div>}
                     <div>
-                      <span className="message-sender">{message.writer}:</span>{" "}
-                      {message.message} / {message.date}
+                      <span className="message-sender">{message.writer}:</span> {message.message} / {message.date}
                     </div>
                   </div>
                 ))}
@@ -213,8 +194,8 @@ const ChatOne = (props) => {
           <input
             type="text"
             value={messageInput}
-            onChange={(e) => setMessageInput(e.target.value)}
-            onKeyDown={(e) => keyPress(e)}
+            onChange={e => setMessageInput(e.target.value)}
+            onKeyDown={e => keyPress(e)}
             //disabled={!inputEnabled}
           />
           <button onClick={sendMessage}>Send</button>
